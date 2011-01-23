@@ -221,7 +221,8 @@ int install_files(int device) {
 	if (ret < 0) return -1;
 
 	puts("Installing overrides.plist\n");
-	ret = install("/files/overrides.plist", "/mnt/private/var/db/launchd.db/com.apple.launchd/overrides.plist", 0, 80, 0755);
+	//ret = install("/files/overrides.plist", "/mnt/private/var/db/launchd.db/com.apple.launchd/overrides.plist", 0, 80, 0755);
+	ret = install("/files/overrides.plist", "/mnt/private/var2/db/launchd.db/com.apple.launchd/overrides.plist", 0, 80, 0755);
 	if (ret < 0) return -1;
 
 	puts("Installing hfs_mdb exploit\n");

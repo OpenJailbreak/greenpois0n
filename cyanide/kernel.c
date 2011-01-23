@@ -98,10 +98,10 @@ int kernel_cmd(int argc, CmdArg* argv) {
 	}
 	else if(!strcmp(action, "patch")) {
 		//printf("patching kernel...\n");
-		//if(gKernelAddr) {
-			//patch_kernel(gKernelAddr, 0xC00000);
-			kernel_patch(address);
-		//}
+		if(gKernelAddr) {
+			patch_kernel(gKernelAddr, 0xC00000);
+			//kernel_patch(address);
+		}
 	}
 	else if(!strcmp(action, "bootargs")) {
 		kernel_bootargs(argc, argv);
@@ -187,7 +187,7 @@ int kernel_load(void* dest, int max_size, int* size) {
 */
 
 int kernel_patch(void* address) {
-	macho_load(address);
+	//macho_load(address);
 	return 0;
 }
 

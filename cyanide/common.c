@@ -38,6 +38,8 @@ void* gBootBaseaddr = NULL;
 
 int cout_count = 0;
 
+
+
 void* find_printf() {
 	int i = 0;
 	int j = 0;
@@ -47,10 +49,12 @@ void* find_printf() {
 	default_block_write();
 	for(i = 0; i < 0x100; i += 4) {
 		unsigned int value = *(stack - i);
-		if((value & TARGET_BASEADDR) == TARGET_BASEADDR) {
+		if((value & 0xFFF00000) == TARGET_BASEADDR) {
 			for(j = 0; j < 0x100; j++) {
 				unsigned short* instruction = (unsigned short*)(value + j);
 				if(*instruction == 0xB40F) {
+					void(*debug)(const char* fmt, ...) = (void*) value + (j+1);
+					debug("stack[%d] = 0x%08x, value[%d] = 0x%04x\n", i, value, j, *instruction);
 					return (void*) value + (j+1);
 				}
 			}
