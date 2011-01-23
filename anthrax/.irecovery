@@ -1,0 +1,6 @@
+_HiStOrY_V2_
+setenv\040boot-args\0402
+saveenv
+setenv\040auto-boot\040false
+saveenv
+reboot

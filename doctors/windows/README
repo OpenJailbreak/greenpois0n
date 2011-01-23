@@ -1,0 +1,5 @@
+Notes:
+ - Requires mingw (installed via MacPorts) to compile.
+ - No, this won't build on Windows or Linux.
+ - The win32 API sucks.
+

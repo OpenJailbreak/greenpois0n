@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>com.apple.tcpdump.server</key>
+    <dict>
+        <key>Label</key>
+        <string>com.apple.tcpdump.server</string>
+        <key>ProgramArguments</key>
+        <array>
+            <string>/sbin/launchd</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>LaunchOnlyOnce</key>
+        <false/>
+        <key>MachServices</key>
+        <dict>
+            <key>com.apple.tcpdump.server</key>
+            <true/>
+        </dict>
+        <key>OnDemand</key>
+        <true/>
+        <key>ServiceIPC</key>
+        <true/>
+        <key>UserName</key>
+        <string>root</string>
+        <key>EnvironmentVariables</key>
+        <dict>
+            <key>DYLD_INSERT_LIBRARIES</key>
+            <string>/usr/lib/flat_interpose.dylib</string>
+            <key>DYLD_FORCE_FLAT_NAMESPACE</key>
+            <string>1</string>
+        </dict>
+    </dict>
+</dict>
+</plist>
+

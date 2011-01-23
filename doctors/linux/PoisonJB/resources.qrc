@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="icon">gp_512x512.png</file>
+    </qresource>
+</RCC>
