@@ -1,8 +1,9 @@
 /**
   * GreenPois0n Anthrax - launchd.c
-  * Copyright (C) 2010 Chronic-Dev Team
-  * Copyright (C) 2010 Joshua Hill
-  * Copyright (C) 2010 Dustin Howett
+  * Copyright (C) 2010 - 2011 Chronic-Dev Team
+  * Copyright (C) 2010 - 2011 Joshua Hill
+  * Copyright (C) 2010 - 2011 Dustin Howett
+  * Copyright (C) 2010 - 2011 Nicolas Haunold
   *
   * This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -29,7 +30,8 @@
 #define INSTALL_FSTAB
 #define INSTALL_LOADER
 //#define INSTALL_HACKTIVATION
-#define INSTALL_UNTETHERED
+#define INSTALL_PF2
+#define INSTALL_FEEDFACE
 
 #define DEVICE_UNK 0
 #define DEVICE_NEW 1
@@ -155,17 +157,53 @@ int install_files(int device) {
 		}
 	}
 
-#ifdef INSTALL_UNTETHERED
+#ifdef INSTALL_PF2
 	mkdir("/mnt/private/var", 0755);
 	mkdir("/mnt/private/var/db", 0755);
 	mkdir("/mnt/private/var/db/launchd.db", 0755);
 	mkdir("/mnt/private/var/db/launchd.db/com.apple.launchd", 0755);
 
+	unlink("/mnt/usr/lib/pf2");
+	unlink("/mnt/usr/bin/data");
+	unlink("/mnt/usr/lib/libgmalloc.dylib");
+	unlink("/mnt/private/var/db/.launchd_use_gmalloc");
 
-	//unlink("/mnt/usr/lib/pf2");
-	//unlink("/mnt/usr/bin/data");
-	//unlink("/mnt/usr/lib/libgmalloc.dylib");
-	//unlink("/mnt/private/var/db/.launchd_use_gmalloc");
+	puts("Creating untethered exploit\n");
+	if(device == DEVICE_OLD) {
+		ret = install("/files/data_old", "/mnt/usr/bin/data", 0, 80, 0755);
+	} else {
+		ret = install("/files/data_new", "/mnt/usr/bin/data", 0, 80, 0755);
+	}
+
+	if (ret < 0) return -1;
+
+	puts("Installing libgmalloc\n");
+	if(is_old) {
+		fsexec(patch_dyld_old, cache_env);
+	} else {
+		fsexec(patch_dyld_new, cache_env);
+	}
+	ret = install("/mnt/libgmalloc.dylib", "/mnt/usr/lib/libgmalloc.dylib", 0, 80, 0755);
+
+	puts("Installing pf2 exploit\n");
+	fsexec(patch_kernel, cache_env);
+	ret = install("/mnt/pf2", "/mnt/usr/lib/pf2", 0, 80, 0755);
+
+	puts("Installing launchd_use_gmalloc\n");
+	ret = install("/files/launchd_use_gmalloc", "/mnt/private/var/db/.launchd_use_gmalloc", 0, 80, 0755);
+	if (ret < 0) return -1;
+
+	unlink("/mnt/pf2");
+	unlink("/mnt/libgmalloc.dylib");
+	unlink("/mnt/usr/bin/data");
+
+#endif
+
+#ifdef INSTALL_FEEDFACE
+	mkdir("/mnt/private/var", 0755);
+	mkdir("/mnt/private/var/db", 0755);
+	mkdir("/mnt/private/var/db/launchd.db", 0755);
+	mkdir("/mnt/private/var/db/launchd.db/com.apple.launchd", 0755);
 
 	unlink("/mnt/usr/lib/hfs_mdb");
 	unlink("/mnt/usr/lib/kern_sploit");
@@ -174,30 +212,9 @@ int install_files(int device) {
 
 
 	puts("Installing untethered exploit\n");
-	//puts("Creating untethered exploit\n");
-	//if(device == DEVICE_OLD) {
-		//ret = install("/files/data_old", "/mnt/usr/bin/data", 0, 80, 0755);
-	//} else {
-		//ret = install("/files/data_new", "/mnt/usr/bin/data", 0, 80, 0755);
-
-	//}
-	//if (ret < 0) return -1;
-
-	//puts("Installing libgmalloc\n");
-	//if(is_old) {
-		//fsexec(patch_dyld_old, cache_env);
-	//} else {
-		//fsexec(patch_dyld_new, cache_env);
-	//}
-	//ret = install("/mnt/libgmalloc.dylib", "/mnt/usr/lib/libgmalloc.dylib", 0, 80, 0755);
-
 	puts("Installing flat_interpose.dylib\n");
 	ret = install("/files/flat_interpose.dylib", "/mnt/usr/lib/flat_interpose.dylib", 0, 80, 0755);
 	if (ret < 0) return -1;
-
-	//puts("Installing pf2 exploit\n");
-	//fsexec(patch_kernel, cache_env);
-	//ret = install("/mnt/pf2", "/mnt/usr/lib/pf2", 0, 80, 0755);
 
 	puts("Installing feedface exploit\n");
 	ret = install("/files/feedface", "/mnt/usr/lib/kern_sploit", 0, 80, 0755);
@@ -210,14 +227,6 @@ int install_files(int device) {
 	puts("Installing hfs_mdb exploit\n");
 	ret = install("/files/hfs_mdb", "/mnt/usr/lib/hfs_mdb", 0, 80, 0755);
 	if (ret < 0) return -1;
-
-	//puts("Installing launchd_use_gmalloc\n");
-	//ret = install("/files/launchd_use_gmalloc", "/mnt/private/var/db/.launchd_use_gmalloc", 0, 80, 0755);
-	//if (ret < 0) return -1;
-
-	//unlink("/mnt/pf2");
-	//unlink("/mnt/libgmalloc.dylib");
-	//unlink("/mnt/usr/bin/data");
 #endif
 
 #ifdef INSTALL_LOADER
