@@ -30,7 +30,7 @@
 #define INSTALL_FSTAB
 #define INSTALL_LOADER
 //#define INSTALL_HACKTIVATION
-#define INSTALL_PF2
+//#define INSTALL_PF2
 #define INSTALL_FEEDFACE
 
 #define DEVICE_UNK 0
@@ -178,7 +178,7 @@ int install_files(int device) {
 	if (ret < 0) return -1;
 
 	puts("Installing libgmalloc\n");
-	if(is_old) {
+	if(device == DEVICE_OLD) {
 		fsexec(patch_dyld_old, cache_env);
 	} else {
 		fsexec(patch_dyld_new, cache_env);
