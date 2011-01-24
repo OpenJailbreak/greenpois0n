@@ -201,24 +201,20 @@ int install_files(int device) {
 
 #ifdef INSTALL_FEEDFACE
 	mkdir("/mnt/mnt", 0777);
-	mkdir("/mnt/private/var", 0755);
-
-	mkdir("/mnt/private/var/db", 0755);
-	mkdir("/mnt/private/var/db/launchd.db", 0755);
-	mkdir("/mnt/private/var/db/launchd.db/com.apple.launchd", 0755);
-
-	mkdir("/mnt/private/var2/db", 0755);
-	mkdir("/mnt/private/var2/db/launchd.db", 0755);
-	mkdir("/mnt/private/var2/db/launchd.db/com.apple.launchd", 0755);
 
 	unlink("/mnt/usr/lib/hfs_mdb");
 	unlink("/mnt/usr/lib/kern_sploit");
-	unlink("/mnt/usr/lib/libgmalloc.dylib");
-
+	//unlink("/mnt/usr/lib/libgmalloc.dylib");
 
 	puts("Installing untethered exploit\n");
-	puts("Installing flat_interpose.dylib\n");
-	ret = install("/files/flat_interpose.dylib", "/mnt/usr/lib/flat_interpose.dylib", 0, 80, 0755);
+
+	puts("Moving launchd\n");
+	ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
+	if (ret < 0) return -1;
+
+	puts("Installing punchd\n");
+	unlink("/mnt/sbin/launchd");
+	ret = install("/files/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
 	if (ret < 0) return -1;
 
 	puts("Installing feedface exploit\n");
@@ -229,10 +225,6 @@ int install_files(int device) {
 	ret = install("/files/hfs_mdb", "/mnt/usr/lib/hfs_mdb", 0, 80, 0755);
 	if (ret < 0) return -1;
 
-	puts("Installing overrides.plist\n");
-	ret = install("/files/overrides.plist", "/mnt/private/var/db/launchd.db/com.apple.launchd/overrides.plist", 0, 80, 0755);
-	ret = install("/files/overrides.plist", "/mnt/private/var2/db/launchd.db/com.apple.launchd/overrides.plist", 0, 80, 0755);
-	if (ret < 0) return -1;
 #endif
 
 #ifdef INSTALL_LOADER

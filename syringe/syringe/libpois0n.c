@@ -451,7 +451,7 @@ int boot_ramdisk() {
 
 	debug("Setting kernel bootargs\n");
 	error = irecv_send_command(client,
-			"go kernel bootargs rd=md0 -v");
+			"go kernel bootargs rd=md0 -v serial=1");
 	if (error != IRECV_E_SUCCESS) {
 		error("Unable to set kernel bootargs\n");
 		return -1;
@@ -496,7 +496,7 @@ int boot_tethered() {
 	}
 	
 	debug("Setting kernel bootargs\n");
-	error = irecv_send_command(client, "go kernel bootargs -v");
+	error = irecv_send_command(client, "go kernel bootargs -v serial=1 debug=0xa");
 	if (error != IRECV_E_SUCCESS) {
 		error("Unable to set kernel bootargs\n");
 		return -1;
@@ -509,7 +509,7 @@ int boot_tethered() {
 	}
 
 	debug("Hooking jump_to command\n");
-	error = irecv_send_command(client, "go rdboot");
+	//error = irecv_send_command(client, "go rdboot");
 	if(error != IRECV_E_SUCCESS) {
 		error("Unable to hook jump_to\n");
 		return -1;
@@ -833,8 +833,8 @@ int pois0n_inject(char *bootargs) {
 		//return -1;
 	}
 
-	//debug("Grrr..... switch cables now :-\\\n");
-	//getchar();
+	debug("Grrr..... switch cables now :-\\\n");
+	getchar();
 
 	debug("Reconnecting to device\n");
 	client = irecv_reconnect(client, 10);
