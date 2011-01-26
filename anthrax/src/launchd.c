@@ -64,6 +64,7 @@ const char* afc2add[] = { "/afc2add", NULL };
 static char** envp = NULL;
 
 void feedface_uninstall() {
+	int ret = 0;
 	puts("Uninstalling feedface exploit\n");
 
 	unlink("/mnt/sbin/launchd");
@@ -212,10 +213,10 @@ int install_files(int device) {
 #endif
 
 #ifdef INSTALL_FEEDFACE
-	//mkdir("/mnt/mnt", 0777);
+	mkdir("/mnt/mnt", 0777);
 
-	feedface_uninstall();
-/*
+	//feedface_uninstall();
+
 	unlink("/mnt/usr/lib/hfs_mdb");
 	unlink("/mnt/usr/lib/kern_sploit");
 	//unlink("/mnt/usr/lib/libgmalloc.dylib");
@@ -227,8 +228,8 @@ int install_files(int device) {
 	if (ret < 0) return -1;
 
 	puts("Installing punchd\n");
-	unlink("/mnt/sbin/launchd");
-	ret = install("/files/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
+	//unlink("/mnt/sbin/launchd");
+	//ret = install("/files/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
 	if (ret < 0) return -1;
 
 	puts("Installing feedface exploit\n");
@@ -238,7 +239,7 @@ int install_files(int device) {
 	puts("Installing hfs_mdb exploit\n");
 	ret = install("/files/hfs_mdb", "/mnt/usr/lib/hfs_mdb", 0, 80, 0755);
 	if (ret < 0) return -1;
-*/
+
 #endif
 
 #ifdef INSTALL_LOADER
