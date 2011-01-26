@@ -509,7 +509,7 @@ int boot_tethered() {
 	}
 
 	debug("Hooking jump_to command\n");
-	//error = irecv_send_command(client, "go rdboot");
+	error = irecv_send_command(client, "go rdboot");
 	if(error != IRECV_E_SUCCESS) {
 		error("Unable to hook jump_to\n");
 		return -1;
