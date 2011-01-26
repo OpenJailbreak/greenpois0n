@@ -3,6 +3,7 @@
   * Copyright (C) 2010 Chronic-Dev Team
   * Copyright (C) 2010 Joshua Hill
   * Copyright (C) 2010 Justin Williams
+  * Copyright (C) 2011 Nicolas Haunold
   *
   * This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -57,5 +58,8 @@ int wait4(pid_t pid, int *stat_loc, int options, struct rusage *rusage);
 int execve(const char *path, char *const argv[], char *const envp[]);
 int chroot(const char *dirname);
 int vfork(void);
+int _sysctl(int *name, int namelen, void *oldp, size_t *oldlenp, void *newp, size_t newlen);
+
+#define sysctl _sysctl
 
 #endif

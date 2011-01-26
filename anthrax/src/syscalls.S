@@ -3,6 +3,7 @@
   * Copyright (C) 2010 Chronic-Dev Team
   * Copyright (C) 2010 Joshua Hill
   * Copyright (C) 2010 Justin Williams
+  * Copyright (C) 2011 Nicolas Haunold
   *
   * This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -54,7 +55,7 @@
 .globl _access
 .globl _wait4
 .globl _execve
-
+.globl __sysctl
 
 /* void exit(int status) */
 _exit:
@@ -234,3 +235,10 @@ _execve:
     mov    r12, #0x3B
     swi    #0x80
     bx     lr
+
+/* int _sysctl(int *name, u_int namelen, void *oldp, size_t *oldlenp, void *newp, size_t newlen) */
+__sysctl:
+    mov	   r12, #0xCA
+    swi	   #0x80
+    bx	   lr
+

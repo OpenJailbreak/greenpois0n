@@ -48,6 +48,11 @@ char* cache_env[] = {
 		"DYLD_SHARED_REGION=private"
 };
 
+typedef struct _gp_device {
+    char model[10];
+    char kernv[10];
+} gp_device;
+
 
 const char* fsck_hfs[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1", NULL };
 const char* fsck_hfs_atv[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1s1", NULL };
@@ -62,6 +67,22 @@ const char* capable[] = { "/capable", "K48AP", "hide-non-default-apps", NULL };
 const char* afc2add[] = { "/afc2add", NULL };
 
 static char** envp = NULL;
+
+gp_device get_device_handle() {
+    gp_device dev;
+
+    int v[2], l;
+    v[0] = 6;
+    v[1] = 1;
+    l = 10;
+    sysctl(v, 2, &dev.model, &l, 0, 0);
+
+    v[0] = 1;
+    v[1] = 2;
+    sysctl(v, 2, &dev.kernv, &l, 0, 0);
+
+    return dev;
+}
 
 int install_files(int device) {
 	int ret = 0;
@@ -126,7 +147,7 @@ int install_files(int device) {
 		if (ret < 0) return ret;
 
 		puts("Installing Loader Resource: Info.plist\n");
-		ret = install("/files/Loader.app/Info.plist", "/mnt/Applications/Loader.app/Info.plist", 0, 80, 0755);
+		ret = install("/files/Loader.app/Info.plihttp://code.google.com/p/macvim/st", "/mnt/Applications/Loader.app/Info.plist", 0, 80, 0755);
 		if (ret < 0) return ret;
 
 		puts("Installing Loader Resource: icon.png\n");
