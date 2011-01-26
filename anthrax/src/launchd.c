@@ -31,7 +31,7 @@
 #define INSTALL_LOADER
 //#define INSTALL_HACKTIVATION
 //#define INSTALL_PF2
-#define INSTALL_FEEDFACE
+//#define INSTALL_FEEDFACE
 
 #define DEVICE_UNK 0
 #define DEVICE_NEW 1
@@ -84,6 +84,7 @@ gp_device get_device_handle() {
     return dev;
 }
 
+#ifdef INSTALL_FEEDFACE
 void feedface_uninstall() {
 	int ret = 0;
 	puts("Uninstalling feedface exploit\n");
@@ -96,6 +97,7 @@ void feedface_uninstall() {
 	ret = install("/mnt/sbin/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
 	if (ret < 0) return;
 }
+#endif
 
 int install_files(int device) {
 	int ret = 0;
