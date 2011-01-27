@@ -56,12 +56,47 @@ const char* fsck_hfs_user_atv[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1s2", 
 
 static char** envp = NULL;
 
+void parse_module_response(int err) {
+    if(err < 0) {
+	puts(" failed.\n");
+    } else {
+	puts(" done.\n");
+    }
+}
 
 int install_files(int device) {
 	int ret = 0;
 	mkdir("/mnt/private", 0755);
 
-	fstab_install();
+	puts("Installing fstab... ");
+	parse_module_response(fstab_install());
+
+	puts("Installing AFC2... ");
+	parse_module_response(afc2_install());
+
+	if(access("/mnt/Applications/MobilePhone.app/", 0) == 0) {
+	    puts("Hacktivating... ");
+	    parse_module_response(hacktivation_install());
+	}
+
+	if(device != DEVICE_ATV) {
+	    puts("Installing Loader... ");
+	    parse_module_response(loader_install());
+
+	    /**
+	      *	  TODO: this should be iPad-only.
+	      **/
+	    puts("Removing icon lock... ");
+	    parse_module_response(capable_install());
+
+	    puts("Refreshing icon cache... ");
+	    parse_module_response(sachet_install());
+	}
+
+	/**
+	  *   TODO: Load untether exploits
+	  **/
+
 
 	return 0;
 }
