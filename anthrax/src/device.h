@@ -30,7 +30,7 @@ typedef struct _gp_device {
     } cpusubtype;
 } gp_device;
 
-gp_device gp_get_device_info();
+int gp_get_device_info(gp_device* dev);
 
 #endif
 

@@ -20,18 +20,16 @@
 #include "device.h"
 #include "utils.h"
 
-gp_device gp_get_device_info() {
-    gp_device dev;
-
+int gp_get_device_info(gp_device* dev) {
     int v[2], l, x, y;
     v[0] = 6;
     v[1] = 2;
     l = 10;
-    sysctl(v, 2, &dev.model, &l, 0, 0);
+    sysctl(v, 2, &dev->model, &l, 0, 0);
 
     v[0] = 1;
     v[1] = 65;
-    sysctl(v, 2, &dev.kernv, &l, 0, 0);
+    sysctl(v, 2, &dev->kernv, &l, 0, 0);
 
     v[0] = 6;
     v[1] = 15;
@@ -44,6 +42,6 @@ gp_device gp_get_device_info() {
 	dev.cpusubtype = GP_DEVICE_ARMV7;
     }
 
-    return dev;
+    return 0;
 }
 
