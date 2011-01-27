@@ -25,28 +25,27 @@
 #include "utils.h"
 #include "syscalls.h"
 #include "hfs_mount.h"
+#include "device.h"
 
-#define INSTALL_AFC2
-#define INSTALL_FSTAB
-#define INSTALL_LOADER
-//#define INSTALL_HACKTIVATION
-//#define INSTALL_PF2
-#define INSTALL_FEEDFACE
+
+/**
+  * Modules
+ **/
+
+#include <modules/afc2.h>
+#include <modules/capable.h>
+#include <modules/feedface.h>
+#include <modules/fstab.h>
+#include <modules/hacktivation.h>
+#include <modules/loader.h>
+#include <modules/pf2.h>
+#include <modules/sachet.h>
+
 
 #define DEVICE_UNK 0
 #define DEVICE_NEW 1
 #define DEVICE_OLD 2
 #define DEVICE_ATV 3
-
-/*
- * Stuff for 4.1 untethered
- */
-
-char* cache_env[] = {
-		"DYLD_SHARED_CACHE_DONT_VALIDATE=1",
-		"DYLD_SHARED_CACHE_DIR=/System/Library/Caches/com.apple.dyld",
-		"DYLD_SHARED_REGION=private"
-};
 
 
 const char* fsck_hfs[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1", NULL };
@@ -54,224 +53,15 @@ const char* fsck_hfs_atv[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1s1", NULL 
 const char* fsck_hfs_user[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s2s1", NULL };
 const char* fsck_hfs_user_old[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s2", NULL };
 const char* fsck_hfs_user_atv[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1s2", NULL };
-//const char* patch_dyld_new[] = { "/usr/bin/data", "-C", "/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv7", NULL };
-//const char* patch_dyld_old[] = { "/usr/bin/data", "-C", "/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv6", NULL };
-//const char* patch_kernel[] = { "/usr/bin/data", "-K", NULL };
-const char* sachet[] = { "/sachet", "/Applications/Loader.app", NULL };
-const char* capable[] = { "/capable", "K48AP", "hide-non-default-apps", NULL };
-const char* afc2add[] = { "/afc2add", NULL };
 
 static char** envp = NULL;
 
-typedef struct _gp_device {
-    char model[10];
-    char kernv[10];
-} gp_device;
-
-gp_device get_device_handle() {
-    gp_device dev;
-
-    int v[2], l;
-    v[0] = 6;
-    v[1] = 1;
-    l = 10;
-    sysctl(v, 2, &dev.model, &l, 0, 0);
-
-    v[0] = 1;
-    v[1] = 2;
-    sysctl(v, 2, &dev.kernv, &l, 0, 0);
-
-    return dev;
-}
-
-void feedface_uninstall() {
-	int ret = 0;
-	puts("Uninstalling feedface exploit\n");
-
-	unlink("/mnt/sbin/launchd");
-	unlink("/mnt/usr/lib/hfs_mdb");
-	unlink("/mnt/usr/lib/kern_sploit");
-
-	puts("Moving launchd back\n");
-	ret = install("/mnt/sbin/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
-	if (ret < 0) return;
-}
 
 int install_files(int device) {
 	int ret = 0;
 	mkdir("/mnt/private", 0755);
 
-#ifdef INSTALL_FSTAB
-	puts("Installing fstab\n");
-	mkdir("/mnt/private/etc", 0755);
-	if(device == DEVICE_NEW) {
-		ret = cp("/files/fstab_new", "/mnt/private/etc/fstab");
-	}
-	else if (device == DEVICE_OLD) {
-		ret = cp("/files/fstab_old", "/mnt/private/etc/fstab");
-	}
-	else if(device == DEVICE_ATV) {
-		ret = cp("/files/fstab_atv", "/mnt/private/etc/fstab");
-	}
-	if (ret < 0) return -1;
-#endif
-
-#ifdef INSTALL_AFC2
-	puts("Installing AFC2...\n");
-	ret = install("/files/afc2add", "/mnt/afc2add", 0, 80, 0755);
-	if (ret < 0) return -1;
-	fsexec(afc2add, cache_env);
-	unlink("/mnt/afc2add");
-#endif
-
-#ifdef INSTALL_HACKTIVATION
-	if(!is_old) {
-		puts("Installing hacktivate.dylib...\n");
-		ret = install("/files/hacktivate.dylib", "/mnt/usr/lib/hacktivate.dylib", 0, 80, 0755);
-		if (ret < 0) return ret;
-
-		puts("Installing patched com.apple.mobile.lockdown.plist...\n");
-		ret = install("/files/com.apple.mobile.lockdown.plist", "/mnt/System/Library/LaunchDaemons/com.apple.mobile.lockdown.plist", 0, 0, 0644);
-		if (ret < 0) return ret;
-	}
-#endif
-
-#ifdef INSTALL_LOADER
-	if(device == DEVICE_ATV) {
-		puts("Sorry, no loader for this device yet");
-
-	} else {
-		mkdir("/mnt/Applications/Loader.app", 0755);
-
-		puts("Installing Bootstrap\n");
-		ret = install("/files/Loader.app/Bootstrap", "/mnt/Applications/Loader.app/Bootstrap", 0, 80, 0755);
-		if (ret < 0) return ret;
-
-		puts("Installing Loader binary\n");
-		ret = install("/files/Loader.app/Loader", "/mnt/Applications/Loader.app/Loader", 0, 80, 06755);
-		if (ret < 0) return ret;
-
-		puts("Installing Loader Resource: cydia.png\n");
-		ret = install("/files/Loader.app/cydia.png", "/mnt/Applications/Loader.app/cydia.png", 0, 80, 0755);
-		if (ret < 0) return ret;
-
-		puts("Installing Loader Resource: cydia@2x.png\n");
-		ret = install("/files/Loader.app/cydia@2x.png", "/mnt/Applications/Loader.app/cydia@2x.png", 0, 80, 0755);
-		if (ret < 0) return ret;
-
-		puts("Installing Loader Resource: Info.plist\n");
-		ret = install("/files/Loader.app/Info.plist", "/mnt/Applications/Loader.app/Info.plist", 0, 80, 0755);
-		if (ret < 0) return ret;
-
-		puts("Installing Loader Resource: icon.png\n");
-		ret = install("/files/Loader.app/icon.png", "/mnt/Applications/Loader.app/icon.png", 0, 80, 0755);
-		if (ret < 0) return ret;
-
-		puts("Installing Loader Resource: icon@2x.png\n");
-		ret = install("/files/Loader.app/icon@2x.png", "/mnt/Applications/Loader.app/icon@2x.png", 0, 80, 0755);
-		if (ret < 0) return ret;
-
-		puts("Installing Loader Resource: icon-ipad.png\n");
-		ret = install("/files/Loader.app/icon-ipad.png", "/mnt/Applications/Loader.app/icon-ipad.png", 0, 80, 0755);
-		if (ret < 0) return ret;
-
-		puts("Installing Loader Resource: PkgInfo\n");
-		ret = install("/files/Loader.app/PkgInfo", "/mnt/Applications/Loader.app/PkgInfo", 0, 80, 0755);
-		if (ret < 0) return ret;
-	}
-#endif
-
-	if(device == DEVICE_NEW) {
-		if(access("/mnt/System/Library/CoreServices/SpringBoard.app/K48AP.plist", 0) == 0) {
-			puts("Patching K48AP.plist\n");
-			ret = install("/files/capable", "/mnt/capable", 0, 80, 0755);
-			if (ret < 0) return -1;
-			fsexec(capable, cache_env);
-			unlink("/mnt/capable");
-		}
-	}
-
-#ifdef INSTALL_PF2
-	mkdir("/mnt/private/var", 0755);
-	mkdir("/mnt/private/var/db", 0755);
-	mkdir("/mnt/private/var/db/launchd.db", 0755);
-	mkdir("/mnt/private/var/db/launchd.db/com.apple.launchd", 0755);
-
-	unlink("/mnt/usr/lib/pf2");
-	unlink("/mnt/usr/bin/data");
-	unlink("/mnt/usr/lib/libgmalloc.dylib");
-	unlink("/mnt/private/var/db/.launchd_use_gmalloc");
-
-	puts("Creating untethered exploit\n");
-	if(device == DEVICE_OLD) {
-		ret = install("/files/data_old", "/mnt/usr/bin/data", 0, 80, 0755);
-	} else {
-		ret = install("/files/data_new", "/mnt/usr/bin/data", 0, 80, 0755);
-	}
-
-	if (ret < 0) return -1;
-
-	puts("Installing libgmalloc\n");
-	if(device == DEVICE_OLD) {
-		fsexec(patch_dyld_old, cache_env);
-	} else {
-		fsexec(patch_dyld_new, cache_env);
-	}
-	ret = install("/mnt/libgmalloc.dylib", "/mnt/usr/lib/libgmalloc.dylib", 0, 80, 0755);
-
-	puts("Installing pf2 exploit\n");
-	fsexec(patch_kernel, cache_env);
-	ret = install("/mnt/pf2", "/mnt/usr/lib/pf2", 0, 80, 0755);
-
-	puts("Installing launchd_use_gmalloc\n");
-	ret = install("/files/launchd_use_gmalloc", "/mnt/private/var/db/.launchd_use_gmalloc", 0, 80, 0755);
-	if (ret < 0) return -1;
-
-	unlink("/mnt/pf2");
-	unlink("/mnt/libgmalloc.dylib");
-	unlink("/mnt/usr/bin/data");
-
-#endif
-
-#ifdef INSTALL_FEEDFACE
-	mkdir("/mnt/mnt", 0777);
-
-	//feedface_uninstall();
-
-	unlink("/mnt/usr/lib/hfs_mdb");
-	unlink("/mnt/usr/lib/kern_sploit");
-	//unlink("/mnt/usr/lib/libgmalloc.dylib");
-
-	puts("Installing untethered exploit\n");
-
-	puts("Moving launchd\n");
-	ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
-	if (ret < 0) return -1;
-
-	puts("Installing punchd\n");
-	//unlink("/mnt/sbin/launchd");
-	//ret = install("/files/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
-	if (ret < 0) return -1;
-
-	puts("Installing feedface exploit\n");
-	ret = install("/files/feedface", "/mnt/usr/lib/kern_sploit", 0, 80, 0755);
-	if (ret < 0) return -1;
-
-	puts("Installing hfs_mdb exploit\n");
-	ret = install("/files/hfs_mdb", "/mnt/usr/lib/hfs_mdb", 0, 80, 0755);
-	if (ret < 0) return -1;
-
-#endif
-
-#ifdef INSTALL_LOADER
-	if(device != DEVICE_ATV) {
-		puts("Installing sachet\n");
-		ret = install("/files/sachet", "/mnt/sachet", 0, 80, 0755);
-		if (ret < 0) return -1;
-		fsexec(sachet, cache_env);
-		unlink("/mnt/sachet");
-	}
-#endif
+	fstab_install();
 
 	return 0;
 }

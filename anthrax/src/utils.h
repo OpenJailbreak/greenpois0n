@@ -45,6 +45,12 @@ static inline void flipEndian(unsigned char* x, int length) {
 	}
 }
 
+static char* cache_env[] = {
+		"DYLD_SHARED_CACHE_DONT_VALIDATE=1",
+		"DYLD_SHARED_CACHE_DIR=/System/Library/Caches/com.apple.dyld",
+		"DYLD_SHARED_REGION=private"
+};
+
 void _putc(const char c);
 void _puts(const char* s);
 int _strlen(const char* s);
