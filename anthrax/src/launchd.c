@@ -68,20 +68,18 @@ typedef struct _gp_device {
     char kernv[10];
 } gp_device;
 
-gp_device get_device_handle() {
-    gp_device dev;
-
+int get_device_handle(gp_device* dev) {
     int v[2], l;
     v[0] = 6;
     v[1] = 1;
     l = 10;
-    sysctl(v, 2, &dev.model, &l, 0, 0);
+    sysctl(v, 2, &dev->model, &l, 0, 0);
 
     v[0] = 1;
     v[1] = 2;
-    sysctl(v, 2, &dev.kernv, &l, 0, 0);
+    sysctl(v, 2, &dev->kernv, &l, 0, 0);
 
-    return dev;
+    return 0;
 }
 
 #ifdef INSTALL_FEEDFACE
@@ -294,6 +292,12 @@ int main(int argc, char* argv[], char* env[]) {
 	}
 	puts("\n\n\n\n\n");
 	puts("Pois0nDisk - by Chronic-Dev Team\n");
+
+	gp_device dev;
+	puts("Checking device information\n");
+	get_device_handle(&dev);
+	puts("Model = ");puts(dev.model);puts("\n");
+	puts("Kernel = ");puts(dev.kernv);puts("\n");
 
 	puts("Mounting filesystem...\n");
 	if (hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_RDONLY) != 0) {
