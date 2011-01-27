@@ -25,7 +25,6 @@ const char* sachet[] = { "/sachet", "/Applications/Loader.app", NULL };
 int sachet_install() {
     int ret;
 
-    puts("Installing sachet\n");
     ret = install("/files/sachet", "/mnt/sachet", 0, 80, 0755);
     if (ret < 0) return -1;
     fsexec(sachet, cache_env);

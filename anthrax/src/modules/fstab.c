@@ -25,7 +25,6 @@ int fstab_install() {
     int ret;
     gp_device dev = gp_get_device_info();
 
-    puts("Installing fstab\n");
     mkdir("/mnt/private/etc", 0755);
     if(dev.cpusubtype == GP_DEVICE_ARMV7) {
 	ret = cp("/files/fstab_new", "/mnt/private/etc/fstab");

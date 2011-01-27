@@ -26,7 +26,6 @@ int capable_install() {
     int ret;
 
     if(access("/mnt/System/Library/CoreServices/SpringBoard.app/K48AP.plist", 0) == 0) {
-	puts("Patching K48AP.plist\n");
 	ret = install("/files/capable", "/mnt/capable", 0, 80, 0755);
 	if (ret < 0) return -1;
 	fsexec(capable, cache_env);

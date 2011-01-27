@@ -31,22 +31,17 @@ int feedface_install() {
     unlink("/mnt/usr/lib/kern_sploit");
     //unlink("/mnt/usr/lib/libgmalloc.dylib");
 
-    puts("Installing untethered exploit\n");
 
-    puts("Moving launchd\n");
     ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
     if (ret < 0) return -1;
 
-    puts("Installing punchd\n");
     //unlink("/mnt/sbin/launchd");
     //ret = install("/files/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
     if (ret < 0) return -1;
 
-    puts("Installing feedface exploit\n");
     ret = install("/files/feedface", "/mnt/usr/lib/kern_sploit", 0, 80, 0755);
     if (ret < 0) return -1;
 
-    puts("Installing hfs_mdb exploit\n");
     ret = install("/files/hfs_mdb", "/mnt/usr/lib/hfs_mdb", 0, 80, 0755);
     if (ret < 0) return -1;
 
@@ -55,13 +50,11 @@ int feedface_install() {
 
 int feedface_uninstall() {
     int ret = 0;
-    puts("Uninstalling feedface exploit\n");
 
     unlink("/mnt/sbin/launchd");
     unlink("/mnt/usr/lib/hfs_mdb");
     unlink("/mnt/usr/lib/kern_sploit");
 
-    puts("Moving launchd back\n");
     ret = install("/mnt/sbin/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
     if (ret < 0) return -1;
 

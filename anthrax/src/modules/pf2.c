@@ -40,7 +40,6 @@ int pf2_install() {
     unlink("/mnt/usr/lib/libgmalloc.dylib");
     unlink("/mnt/private/var/db/.launchd_use_gmalloc");
 
-    puts("Creating untethered exploit\n");
 
     if(dev.cpusubtype == GP_DEVICE_ARMV6) {
 	ret = install("/files/data_old", "/mnt/usr/bin/data", 0, 80, 0755);
@@ -50,7 +49,6 @@ int pf2_install() {
 
     if (ret < 0) return -1;
 
-    puts("Installing libgmalloc\n");
 
     if(dev.cpusubtype == GP_DEVICE_ARMV6) {
 	fsexec(patch_dyld_old, cache_env);
@@ -60,11 +58,9 @@ int pf2_install() {
 
     ret = install("/mnt/libgmalloc.dylib", "/mnt/usr/lib/libgmalloc.dylib", 0, 80, 0755);
 
-    puts("Installing pf2 exploit\n");
     fsexec(patch_kernel, cache_env);
     ret = install("/mnt/pf2", "/mnt/usr/lib/pf2", 0, 80, 0755);
 
-    puts("Installing launchd_use_gmalloc\n");
     ret = install("/files/launchd_use_gmalloc", "/mnt/private/var/db/.launchd_use_gmalloc", 0, 80, 0755);
     if (ret < 0) return -1;
 
