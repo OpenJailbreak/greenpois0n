@@ -37,9 +37,9 @@ int gp_get_device_info(gp_device* dev) {
     sysctl(v, 2, &x, &y, 0, 0);
 
     if(y <= 412) {
-	dev.cpusubtype = GP_DEVICE_ARMV6;
+	dev->cpusubtype = GP_DEVICE_ARMV6;
     } else {
-	dev.cpusubtype = GP_DEVICE_ARMV7;
+	dev->cpusubtype = GP_DEVICE_ARMV7;
     }
 
     return 0;
