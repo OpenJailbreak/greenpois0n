@@ -21,47 +21,60 @@
 #include <CoreGraphics/CoreGraphics.h>
 #include <sys/sysctl.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <dlfcn.h>
 #include <IOKit/IOKitLib.h>
 #include <mach/mach_traps.h>
 
-unsigned int CoreSurfaceBufferLock(void *fb, unsigned int type);
-unsigned int CoreSurfaceBufferUnlock(void *fb);
-unsigned int CoreSurfaceBufferGetHeight(void *fb);
-unsigned int CoreSurfaceBufferGetWidth(void *fb);
-unsigned int CoreSurfaceBufferGetBytesPerRow(void *fb);
-void *CoreSurfaceBufferGetBaseAddress(void *fb);
-
-unsigned int IOMobileFramebufferOpen(io_service_t t, mach_port_t task, unsigned int type, void *conn);
-unsigned int IOMobileFramebufferGetLayerDefaultSurface(void *c, int u, void *data);
-
 CGContextRef fb_open() {
-	void *conn = NULL;
+	io_connect_t conn = NULL;
 	int screenWidth, screenHeight, bytesPerRow;
 	void *surfaceBuffer;
 	void *frameBuffer;
 	CGContextRef context = NULL;
 	CGColorSpaceRef colorSpace;
 
-	io_service_t fb_service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleH1CLCD"));
-	if(!fb_service) {
-		fb_service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleM2CLCD"));
+	void *mfb_lib = dlopen("/System/Library/PrivateFrameworks/IOMobileFramebuffer.framework/IOMobileFramebuffer", 2);
+	void *cs_lib = dlopen("/System/Library/PrivateFrameworks/CoreSurface.framework/CoreSurface", 2);
 
-		if(!fb_service) {
-			printf("Couldn't find framebuffer.\n");
-			return NULL;
-		}
+	int (*mfb_open)(io_service_t, task_port_t, uint32_t, io_connect_t*);
+	int (*mfb_layr)(io_service_t, int, void *);
+	int (*cs_lock)(void *, unsigned int);
+	int (*cs_unlock)(void *);
+	int (*cs_height)(void *);
+	int (*cs_width)(void *);
+	int (*cs_bytes)(void *);
+	void *(*cs_addr)(void *);
+
+	*(void **)(&mfb_open) = dlsym(mfb_lib, "IOMobileFramebufferOpen");
+	*(void **)(&mfb_layr) = dlsym(mfb_lib, "IOMobileFramebufferGetLayerDefaultSurface");
+	*(void **)(&cs_lock) = dlsym(cs_lib, "CoreSurfaceBufferLock");
+	*(void **)(&cs_unlock) = dlsym(cs_lib, "CoreSurfaceBufferUnlock");
+	*(void **)(&cs_height) = dlsym(cs_lib, "CoreSurfaceBufferGetHeight");
+	*(void **)(&cs_width) = dlsym(cs_lib, "CoreSurfaceBufferGetWidth");
+	*(void **)(&cs_bytes) = dlsym(cs_lib, "CoreSurfaceBufferGetBytesPerRow");
+	*(void **)(&cs_addr) = dlsym(cs_lib, "CoreSurfaceBufferGetBaseAddress");
+
+
+	NSLog(@"symbols: %p - %p - %p - %p - %p - %p - %p - %p", *mfb_open, *mfb_layr, *cs_lock, *cs_unlock, *cs_height, *cs_width, *cs_bytes, *cs_addr);
+
+	io_service_t fb_service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleCLCD"));
+	if(!fb_service) {
+		printf("Couldn't find framebuffer.\n");
+		return NULL;
 	}
 
-	IOMobileFramebufferOpen(fb_service, mach_task_self(), 0, &conn);
-	IOMobileFramebufferGetLayerDefaultSurface(conn, 0, &surfaceBuffer);
+	(*mfb_open)(fb_service, mach_task_self(), 0, &conn);
+	(*mfb_layr)(conn, 0, &surfaceBuffer);
 
-	screenHeight = CoreSurfaceBufferGetHeight(surfaceBuffer);
-	screenWidth = CoreSurfaceBufferGetWidth(surfaceBuffer);
-	bytesPerRow = CoreSurfaceBufferGetBytesPerRow(surfaceBuffer);
+	screenHeight = (*cs_height)(surfaceBuffer);
+	screenWidth = (*cs_width)(surfaceBuffer);
+	bytesPerRow = (*cs_bytes)(surfaceBuffer);
 
-	CoreSurfaceBufferLock(surfaceBuffer, 3);
-	frameBuffer = CoreSurfaceBufferGetBaseAddress(surfaceBuffer);
-	CoreSurfaceBufferUnlock(surfaceBuffer);
+	(*cs_lock)(surfaceBuffer, 3);
+	frameBuffer = (*cs_addr)(surfaceBuffer);
+	(*cs_unlock)(surfaceBuffer);
 
 	// create bitmap context
 	colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -81,7 +94,6 @@ int main(int argc, char **argv, char **envp) {
 
 	CGContextRef c = fb_open();
 
-	// red
 	CGContextSetRGBFillColor(c, 255, 0, 0, 1);
 	CGContextFillRect(c, CGRectMake(10, 10, 40, 40));
 
