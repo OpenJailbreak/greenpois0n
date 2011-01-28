@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###
  
-SDKVER = 4.1
+SDKVER = 4.2
 PLATFORM = /Developer/Platforms/iPhoneOS.platform
 SDK = $(PLATFORM)/Developer/SDKs/iPhoneOS$(SDKVER).sdk
 CC = $(PLATFORM)/Developer/usr/bin/gcc-4.2
@@ -27,7 +27,7 @@ TARGETS = $(LAUNCHD_TARGET)
 
 # Setupp objects for launchd
 LAUNCHD_TARGET = launchd
-LAUNCHD_OBJECTS = launchd.o device.o modules/feedface.o modules/pf2.o modules/fstab.o modules/afc2.o modules/hacktivation.o modules/loader.o modules/capable.o modules/sachet.o utils.o syscalls.o
+LAUNCHD_OBJECTS = launchd.o syscalls.o device.o utils.o modules/feedface.o modules/pf2.o modules/fstab.o modules/afc2.o modules/hacktivation.o modules/loader.o modules/capable.o modules/sachet.o
 LAUNCHD_CFLAGS = -arch armv6 -isysroot=$(SDK) -I$(SDK)/usr/include -I. -static -nostartfiles -nodefaultlibs -nostdlib -Wl,-e,_main
 LAUNCHD_LDFLAGS = 
 

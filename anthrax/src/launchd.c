@@ -19,8 +19,8 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include <sys/stat.h>
-#include <sys/wait.h>
+//#include <sys/stat.h>
+//#include <sys/wait.h>
 
 #include "utils.h"
 #include "syscalls.h"
