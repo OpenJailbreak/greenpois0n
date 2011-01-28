@@ -26,6 +26,9 @@
 #undef NULL
 #define NULL 0
 
+#define FALSE 0
+#define TRUE  1
+
 #define FLIPENDIAN(x) flipEndian((unsigned char *)(&(x)), sizeof(x))
 
 #define puts _puts
@@ -34,6 +37,10 @@
 #define strcmp _strcmp
 
 extern int console;
+
+typedef enum {
+	false = 0, true = 1
+} bool;
 
 static inline void flipEndian(unsigned char* x, int length) {
 	int i;
@@ -62,8 +69,8 @@ void* memcpy(char* s1, const char* s2, int n);
 void puti(unsigned int integer);
 void sleep(unsigned int seconds);
 int exec(char* argv[], char* env[]);
-int fsexec(char* argv[], char* env[]);
 int cp(const char* src, const char* dest);
+int fsexec(char* argv[], char* env[], bool pause);
 int hfs_mount(const char* device, const char* mountdir, int options);
 int install(const char* src, const char* dst, int uid, int gid, int mode);
 

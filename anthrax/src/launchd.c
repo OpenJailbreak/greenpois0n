@@ -153,9 +153,9 @@ int main(int argc, char* argv[], char* env[]) {
 
 	puts("Checking root filesystem...\n");
 	if(device == DEVICE_ATV) {
-		ret = fsexec(fsck_hfs_atv, env);
+		ret = fsexec(fsck_hfs_atv, env, true);
 	} else {
-		ret = fsexec(fsck_hfs, env);
+		ret = fsexec(fsck_hfs, env, true);
 	}
 	if (ret != 0) {
 		puts("Unable to check root filesystem!\n");
@@ -167,10 +167,10 @@ int main(int argc, char* argv[], char* env[]) {
 
 	puts("Checking user filesystem...\n");
 	if(device == DEVICE_ATV) {
-		fsexec(fsck_hfs_user_atv, env);
+		fsexec(fsck_hfs_user_atv, env, true);
 	} else {
-		fsexec(fsck_hfs_user, env);
-		fsexec(fsck_hfs_user_old, env);
+		fsexec(fsck_hfs_user, env, true);
+		fsexec(fsck_hfs_user_old, env, true);
 	}
 	puts("User filesystem checked\n");
 

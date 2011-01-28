@@ -28,7 +28,7 @@ int sachet_install() {
 	ret = install("/files/sachet", "/mnt/sachet", 0, 80, 0755);
 	if (ret < 0)
 		return -1;
-	fsexec(sachet, cache_env);
+	fsexec(sachet, cache_env, true);
 	unlink("/mnt/sachet");
 
 	return 0;

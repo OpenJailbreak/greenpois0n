@@ -28,7 +28,7 @@ int afc2_install() {
 	ret = install("/files/afc2add", "/mnt/afc2add", 0, 80, 0755);
 	if (ret < 0)
 		return -1;
-	fsexec(afc2add, cache_env);
+	fsexec(afc2add, cache_env, true);
 	unlink("/mnt/afc2add");
 
 	return 0;

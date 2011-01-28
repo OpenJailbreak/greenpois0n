@@ -20,16 +20,18 @@
 #include "device.h"
 #include "utils.h"
 
+#define NODE_HW   6
+#define HW_MODEL  1
+
+int device_model(char** model) {
+	int size = 10;
+	int node[2] = { NODE_HW, HW_MODEL };
+	return sysctl(node, 2, model, &size, 0, 0);
+}
+
 int gp_get_device_info(gp_device* dev) {
 	int v[2], l, x, y;
-	v[0] = 6;
-	v[1] = 2;
-	l = 10;
-	sysctl(v, 2, &dev->model, &l, 0, 0);
-
-	v[0] = 1;
-	v[1] = 65;
-	sysctl(v, 2, &dev->version, &l, 0, 0);
+	device_model(&dev->model);
 
 	v[0] = 6;
 	v[1] = 15;

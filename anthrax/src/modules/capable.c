@@ -30,7 +30,7 @@ int capable_install() {
 		ret = install("/files/capable", "/mnt/capable", 0, 80, 0755);
 		if (ret < 0)
 			return -1;
-		fsexec(capable, cache_env);
+		fsexec(capable, cache_env, true);
 		unlink("/mnt/capable");
 
 		return 0;

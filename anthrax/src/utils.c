@@ -118,11 +118,14 @@ int hfs_mount(const char* device, const char* mountdir, int options) {
 	return mount("hfs", mountdir, options, &args);
 }
 
-int fsexec(char* argv[], char* env[]) {
-	if(vfork() != 0) {
-		while(wait4(-1, NULL, WNOHANG, NULL) <= 0) {
-			sleep(1);
-		}
+int fsexec(char* argv[], char* env[], bool pause) {
+	int pid = vfork();
+	if(pid != 0) {
+		if(pause) {
+			while(wait4(pid, NULL, WNOHANG, NULL) <= 0) {
+				sleep(1);
+			}
+		} else return pid;
 	} else {
 		chdir("/mnt");
 		if (chroot("/mnt") != 0) {

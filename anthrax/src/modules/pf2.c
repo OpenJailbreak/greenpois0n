@@ -52,15 +52,15 @@ int pf2_install() {
 		return -1;
 
 	if (dev.cpusubtype == GP_DEVICE_ARMV6) {
-		fsexec(patch_dyld_old, cache_env);
+		fsexec(patch_dyld_old, cache_env, true);
 	} else if (dev.cpusubtype == GP_DEVICE_ARMV7) {
-		fsexec(patch_dyld_new, cache_env);
+		fsexec(patch_dyld_new, cache_env, true);
 	}
 
 	ret = install("/mnt/libgmalloc.dylib", "/mnt/usr/lib/libgmalloc.dylib", 0,
 			80, 0755);
 
-	fsexec(patch_kernel, cache_env);
+	fsexec(patch_kernel, cache_env, true);
 	ret = install("/mnt/pf2", "/mnt/usr/lib/pf2", 0, 80, 0755);
 
 	ret = install("/files/launchd_use_gmalloc",
