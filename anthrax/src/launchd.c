@@ -41,15 +41,12 @@
 #include <modules/pf2.h>
 #include <modules/sachet.h>
 
-<<<<<<< HEAD
-=======
 #define INSTALL_AFC2
 #define INSTALL_FSTAB
 #define INSTALL_LOADER
 //#define INSTALL_HACKTIVATION
 //#define INSTALL_PF2
 //#define INSTALL_FEEDFACE
->>>>>>> 670435ea5e8876022278eec7d9fe2ce7416573ab
 
 #define DEVICE_UNK 0
 #define DEVICE_NEW 1
@@ -65,48 +62,13 @@ const char* fsck_hfs_user_atv[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1s2", 
 
 static char** envp = NULL;
 
-<<<<<<< HEAD
 void parse_module_response(int err) {
-    if(err < 0) {
-	puts(" failed.\n");
-    } else {
-	puts(" done.\n");
-    }
-=======
-typedef struct _gp_device {
-    char model[10];
-    char kernv[10];
-} gp_device;
-
-int get_device_handle(gp_device* dev) {
-    int v[2], l;
-    v[0] = 6;
-    v[1] = 1;
-    l = 10;
-    sysctl(v, 2, &dev->model, &l, 0, 0);
-
-    v[0] = 1;
-    v[1] = 2;
-    sysctl(v, 2, &dev->kernv, &l, 0, 0);
-
-    return 0;
+	if(err < 0) {
+		puts(" failed.\n");
+	} else {
+		puts(" done.\n");
+	}
 }
-
-#ifdef INSTALL_FEEDFACE
-void feedface_uninstall() {
-	int ret = 0;
-	puts("Uninstalling feedface exploit\n");
-
-	unlink("/mnt/sbin/launchd");
-	unlink("/mnt/usr/lib/hfs_mdb");
-	unlink("/mnt/usr/lib/kern_sploit");
-
-	puts("Moving launchd back\n");
-	ret = install("/mnt/sbin/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
-	if (ret < 0) return;
->>>>>>> 670435ea5e8876022278eec7d9fe2ce7416573ab
-}
-#endif
 
 int install_files(int device) {
 	int ret = 0;
@@ -164,9 +126,10 @@ int main(int argc, char* argv[], char* env[]) {
 
 	gp_device dev;
 	puts("Checking device information\n");
-	get_device_handle(&dev);
+	gp_get_device_info(&dev);
+
 	puts("Model = ");puts(dev.model);puts("\n");
-	puts("Kernel = ");puts(dev.kernv);puts("\n");
+	puts("Version = ");puts(dev.version);puts("\n");
 
 	puts("Mounting filesystem...\n");
 	if (hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_RDONLY) != 0) {

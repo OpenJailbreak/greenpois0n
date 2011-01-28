@@ -31,6 +31,7 @@
 #define puts _puts
 #define putc _putc
 #define strlen _strlen
+#define strcmp _strcmp
 
 extern int console;
 
@@ -54,6 +55,7 @@ static char* cache_env[] = {
 void _putc(const char c);
 void _puts(const char* s);
 int _strlen(const char* s);
+int _strcmp(const char* s1, const char* s2);
 void* memset(char* b, int c, int len);
 void* memcpy(char* s1, const char* s2, int n);
 

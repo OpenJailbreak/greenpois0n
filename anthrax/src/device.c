@@ -29,7 +29,7 @@ int gp_get_device_info(gp_device* dev) {
 
 	v[0] = 1;
 	v[1] = 65;
-	sysctl(v, 2, &dev->kernv, &l, 0, 0);
+	sysctl(v, 2, &dev->version, &l, 0, 0);
 
 	v[0] = 6;
 	v[1] = 15;

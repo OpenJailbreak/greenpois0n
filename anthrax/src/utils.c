@@ -152,6 +152,15 @@ int _strlen(const char* s) {
 	return -1;
 }
 
+int _strcmp(const char* s1, const char* s2) {
+	int i = 0;
+	int len = strlen(s1);
+	for(i = 0; i < len; i++) {
+		if(s1[i] != s2[i]) return -1;
+	}
+	return 0;
+}
+
 void* memcpy(char* s1, const char* s2, int n) {
 	int i = 0;
 	for(i = 0; i < n; i++) {
