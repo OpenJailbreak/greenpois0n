@@ -1,6 +1,7 @@
 /**
- * GreenPois0n Anthrax - fstab.c
+ * GreenPois0n Anthrax - sysctl.h
  * Copyright (C) 2011 Chronic-Dev Team
+ * Copyright (C) 2011 Joshua Hill
  * Copyright (C) 2011 Nicolas Haunold
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,34 +18,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "fstab.h"
-#include "utils.h"
-#include "device.h"
+#ifndef SYSCTL_H
+#define SYSCTL_H
 
-int fstab_install() {
-	int ret = 0;
-	device_info_t dev;
+// sysctl node types
+#define NODE_KERN       1
+#define NODE_HW         6
 
-	ret = device_info(&dev);
-	if(ret < 0) return -1;
+// sysctl kern node types
+#define KERN_OSVERSION  65
 
-	mkdir("/mnt/private/etc", 0755);
-	if (dev.cpusubtype == GP_DEVICE_ARMV7) {
-		ret = cp("/files/fstab_new", "/mnt/private/etc/fstab");
-	} else if (dev.cpusubtype == GP_DEVICE_ARMV7) {
-		ret = cp("/files/fstab_old", "/mnt/private/etc/fstab");
-	}
-	/*
-	 TODO: strstr(dev.model, "AppleTV")
-	 else if(device == DEVICE_ATV) {
-	 ret = cp("/files/fstab_atv", "/mnt/private/etc/fstab");
-	 }*/
-	if (ret < 0)
-		return -1;
-	return 0;
-}
+// sysctl hw node types
+#define HW_MODEL        1
+#define HW_CPUSUBTYPE   15
 
-int fstab_uninstall() {
-	return -1;
-}
-
+#endif

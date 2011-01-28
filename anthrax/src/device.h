@@ -20,6 +20,9 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
+#include "utils.h"
+//#include "firmware.h"
+
 #define MODEL_IPHONE2G      "M68AP"
 #define MODEL_IPHONE3G      "N82AP"
 #define MODEL_IPHONE3GS     "N88AP"
@@ -30,6 +33,8 @@
 #define MODEL_IPOD4G        "N81AP"
 #define MODEL_IPAD1G        "K48AP"
 #define MODEL_APPLETV2      "K68AP"
+
+#define BUILD_8C148
 
 #define DEVICE_UNKNOWN      -1
 #define DEVICE_IPHONE2G      0
@@ -43,15 +48,19 @@
 #define DEVICE_IPOD4G        8
 #define DEVICE_APPLETV2      9
 
-typedef struct _gp_device {
-	int device;
+typedef struct {
+	int index;
 	char model[10];
 	char version[10];
+	//firmware_info_t* firmware;
 	enum {
 		GP_DEVICE_ARMV6, GP_DEVICE_ARMV7
 	} cpusubtype;
-} gp_device;
+} device_info_t;
 
-int gp_get_device_info(gp_device* dev);
+int device_model(char** model);
+int device_version(char** version);
+int device_cpusubtype(int* subtype);
+int device_info(device_info_t* info);
 
 #endif

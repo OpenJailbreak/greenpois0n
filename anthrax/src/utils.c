@@ -155,6 +155,17 @@ int _strlen(const char* s) {
 	return -1;
 }
 
+char* _strncat(char *s1, const char *s2, int n)  {
+	int i = 0;
+	int len = strlen(s1);
+	for(i = 0; s2[i] != '\0'; i++) {
+		if(len + i >= n) break;
+		s1[len + i] = s2[i];
+	}
+	s1[len + i] = '\0';
+	return s1;
+}
+
 int _strcmp(const char* s1, const char* s2) {
 	int i = 0;
 	int len = strlen(s1);

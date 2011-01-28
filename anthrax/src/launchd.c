@@ -40,6 +40,7 @@
 #include <modules/loader.h>
 #include <modules/pf2.h>
 #include <modules/sachet.h>
+#include <modules/immutable.h>
 
 #define INSTALL_AFC2
 #define INSTALL_FSTAB
@@ -72,7 +73,19 @@ void parse_module_response(int err) {
 
 int install_files(int device) {
 	int ret = 0;
+	device_info_t dev;
+
 	mkdir("/mnt/private", 0755);
+
+	puts("Checking device information... ");
+	parse_module_response(immutable_install());
+
+	ret = device_info(&dev);
+	if(ret < 0) return -1;
+
+	puts("Model = ");puts(dev.model);puts("\n");
+	puts("Version = ");puts(dev.version);puts("\n");
+	puts("Subtype = ");dev.cpusubtype == GP_DEVICE_ARMV6 ? puts("ARMv6\n") : puts("ARMv7\n");
 
 	puts("Installing fstab... ");
 	parse_module_response(fstab_install());
@@ -123,13 +136,6 @@ int main(int argc, char* argv[], char* env[]) {
 	}
 	puts("\n\n\n\n\n");
 	puts("Pois0nDisk - by Chronic-Dev Team\n");
-
-	gp_device dev;
-	puts("Checking device information\n");
-	gp_get_device_info(&dev);
-
-	puts("Model = ");puts(dev.model);puts("\n");
-	puts("Version = ");puts(dev.version);puts("\n");
 
 	puts("Mounting filesystem...\n");
 	if (hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_RDONLY) != 0) {

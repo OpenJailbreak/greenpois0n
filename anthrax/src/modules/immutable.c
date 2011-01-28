@@ -1,6 +1,7 @@
 /**
- * GreenPois0n Anthrax - fstab.c
+ * GreenPois0n Anthrax - immutable.c
  * Copyright (C) 2011 Chronic-Dev Team
+ * Copyright (C) 2011 Joshua Hill
  * Copyright (C) 2011 Nicolas Haunold
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,34 +18,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "fstab.h"
 #include "utils.h"
-#include "device.h"
+#include "immutable.h"
 
-int fstab_install() {
+const char* immutable[] = { "/immutable", NULL };
+
+int immutable_install() {
 	int ret = 0;
-	device_info_t dev;
 
-	ret = device_info(&dev);
+	ret = install("/files/immutable", "/mnt/immutable", 0, 80, 0755);
+	if (ret < 0) return -1;
+
+	ret = fsexec(immutable, cache_env, true);
 	if(ret < 0) return -1;
 
-	mkdir("/mnt/private/etc", 0755);
-	if (dev.cpusubtype == GP_DEVICE_ARMV7) {
-		ret = cp("/files/fstab_new", "/mnt/private/etc/fstab");
-	} else if (dev.cpusubtype == GP_DEVICE_ARMV7) {
-		ret = cp("/files/fstab_old", "/mnt/private/etc/fstab");
-	}
-	/*
-	 TODO: strstr(dev.model, "AppleTV")
-	 else if(device == DEVICE_ATV) {
-	 ret = cp("/files/fstab_atv", "/mnt/private/etc/fstab");
-	 }*/
-	if (ret < 0)
-		return -1;
+	unlink("/mnt/immutable");
 	return 0;
 }
 
-int fstab_uninstall() {
-	return -1;
+int immutable_uninstall() {
+	unlink("/mnt/immutable");
+	return 0;
 }
 

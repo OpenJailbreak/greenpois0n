@@ -29,8 +29,9 @@ const char* patch_kernel[] = { "/usr/bin/data", "-K", NULL };
 
 int pf2_install() {
 	int ret;
-	gp_device dev;
-	gp_get_device_info(&dev);
+	device_info_t dev;
+	ret = device_info(&dev);
+	if(ret < 0) return -1;
 
 	mkdir("/mnt/private/var", 0755);
 	mkdir("/mnt/private/var/db", 0755);

@@ -1,6 +1,7 @@
 /**
- * GreenPois0n Anthrax - device.c
+ * GreenPois0n Anthrax - firmware.c
  * Copyright (C) 2011 Chronic-Dev Team
+ * Copyright (C) 2011 Joshua Hill
  * Copyright (C) 2011 Nicolas Haunold
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,48 +20,21 @@
 
 #include "utils.h"
 #include "sysctl.h"
-#include "device.h"
-//#include "firmware.h"
+#include "firmware.h"
 
-int device_model(char** model) {
-	int size = 10;
-	int node[2] = { NODE_HW, HW_MODEL };
-	return sysctl(node, 2, model, &size, 0, 0);
-}
+const static firmware_info_t firmwares[] = {
+		{ "Unknown", "Unknown" },
+		{ "8C148",   "4.2.1"   },
+		{  NULL,      NULL     }
+};
 
-int device_version(char** version) {
+int firmware_version(char** version) {
 	int size = 10;
 	int node[2] = { NODE_KERN, KERN_OSVERSION };
 	return sysctl(node, 2, version, &size, 0, 0);
 }
 
-int device_cpusubtype(int* subtype) {
-	int size = sizeof(int);
-	int node[2] = { NODE_HW, HW_CPUSUBTYPE };
-	return sysctl(node, 2, subtype, &size, 0, 0);
-}
-
-int device_info(device_info_t* info) {
-	int i = 0;
-	int ret = 0;
-	int subtype = 0;
-	char version[10];
-
-	ret = device_model(&info->model);
-	if(ret < 0) return -1;
-
-	ret = device_version(&info->version);
-	if(ret < 0) return -1;
-
-	ret = device_cpusubtype(&subtype);
-	if(ret < 0) return -1;
-
-	if (subtype <= 412) {
-		info->cpusubtype = GP_DEVICE_ARMV6;
-	} else {
-		info->cpusubtype = GP_DEVICE_ARMV7;
-	}
-
-	return 0;
+int firmware_info(firmware_info_t* info) {
+	return -1;
 }
 
