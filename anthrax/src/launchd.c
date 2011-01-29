@@ -19,28 +19,26 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-//#include <sys/stat.h>
-//#include <sys/wait.h>
-
 #include "utils.h"
+#include "device.h"
+#include "firmware.h"
 #include "syscalls.h"
 #include "hfs_mount.h"
-#include "device.h"
 
 
 /**
   * Modules
  **/
-
-#include <modules/afc2.h>
-#include <modules/capable.h>
-#include <modules/feedface.h>
-#include <modules/fstab.h>
-#include <modules/hacktivation.h>
-#include <modules/loader.h>
-#include <modules/pf2.h>
-#include <modules/sachet.h>
-#include <modules/immutable.h>
+#include "modules/afc2.h"
+#include "modules/capable.h"
+#include "modules/feedface.h"
+#include "modules/fstab.h"
+#include "modules/hacktivation.h"
+#include "modules/loader.h"
+#include "modules/pf2.h"
+#include "modules/sachet.h"
+#include "modules/immutable.h"
+#include "modules/animate.h"
 
 #define INSTALL_AFC2
 #define INSTALL_FSTAB
@@ -60,6 +58,9 @@ const char* fsck_hfs_atv[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1s1", NULL 
 const char* fsck_hfs_user[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s2s1", NULL };
 const char* fsck_hfs_user_old[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s2", NULL };
 const char* fsck_hfs_user_atv[] = { "/sbin/fsck_hfs", "-fy", "/dev/rdisk0s1s2", NULL };
+
+static char* fsck[] = { "/sbin/fsck_hfs", "-fy", NULL, NULL };
+static char* fsck_user[] = { "/sbin/fsck_hfs", "-fy", NULL, NULL };
 
 static char** envp = NULL;
 
@@ -114,22 +115,22 @@ int install_files(int device) {
 	}
 
 	// 4.2.1 Untethered Exploit
-	if(!strcmp(info->version), FW_BUILD_421) {
-		install_feedface();
+	if(!strcmp(info.version, FW_BUILD_421)) {
+		puts("Installing untethered exploit... ");
+		parse_module_response(feedface_install());
 	}
-
 
 	return 0;
 }
 
 int main(int argc, char* argv[], char* env[]) {
 	int ret = 0;
-	int device = 0;
+	int dev = 0;
+	char model[10];
 	struct stat status;
 
 	console = open("/dev/console", O_WRONLY);
 	dup2(console, 1);
-	dup2(console, 2);
 	envp = env;
 
 	puts("Searching for disk...\n");
@@ -139,6 +140,24 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("\n\n\n\n\n");
 	puts("Pois0nDisk - by Chronic-Dev Team\n");
 
+	/*
+	puts("Checking device model...\n");
+	ret = device_model(&model);
+	if(ret < 0) return -1;
+	if(!strcmp(model, DEVICE_APPLETV2)) {
+		fsck[2] = "/dev/rdisk0s1s1";
+		fsck_user[2] = "/dev/rdisk0s1s2";
+	}
+	else if(!strcmp(model, DEVICE_IPOD2G)) {
+		fsck[2] = "/dev/rdisk0s1";
+		fsck_user[2] = "/dev/rdisk0s2";
+	}
+	else {
+		fsck[2] = "/dev/rdisk0s1";
+		fsck_user[2] = "/dev/rdisk0s2s1";
+	}
+	*/
+
 	puts("Mounting filesystem...\n");
 	if (hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_RDONLY) != 0) {
 		if (hfs_mount("/dev/disk0s1s1", "/mnt", MNT_ROOTFS | MNT_RDONLY) != 0) {
@@ -146,7 +165,7 @@ int main(int argc, char* argv[], char* env[]) {
 			return -1;
 
 		} else {
-			device = DEVICE_ATV;
+			dev = DEVICE_ATV;
 		}
 	}
 	puts("Filesystem mounted\n");
@@ -160,7 +179,7 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("Devices mounted\n");
 
 	puts("Checking root filesystem...\n");
-	if(device == DEVICE_ATV) {
+	if(dev == DEVICE_ATV) {
 		ret = fsexec(fsck_hfs_atv, env, true);
 	} else {
 		ret = fsexec(fsck_hfs, env, true);
@@ -174,7 +193,7 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("Root filesystem checked\n");
 
 	puts("Checking user filesystem...\n");
-	if(device == DEVICE_ATV) {
+	if(dev == DEVICE_ATV) {
 		fsexec(fsck_hfs_user_atv, env, true);
 	} else {
 		fsexec(fsck_hfs_user, env, true);
@@ -183,7 +202,7 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("User filesystem checked\n");
 
 	puts("Updating filesystem...\n");
-	if(device == DEVICE_ATV) {
+	if(dev == DEVICE_ATV) {
 		ret = hfs_mount("/dev/disk0s1s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
 	} else {
 		ret = hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
@@ -199,7 +218,7 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("Mounting user filesystem...\n");
 	mkdir("/mnt/private/var2", 0755);
 
-	if(device == DEVICE_ATV) {
+	if(dev == DEVICE_ATV) {
 		if (hfs_mount("/dev/disk0s1s2", "/mnt/private/var2", 0) != 0) {
 			puts("Unable to mount user filesystem!\n");
 			return -1;
@@ -212,17 +231,17 @@ int main(int argc, char* argv[], char* env[]) {
 				return -1;
 
 			} else {
-				device = DEVICE_OLD;
+				dev = DEVICE_OLD;
 			}
 
 		} else {
-			device = DEVICE_NEW;
+			dev = DEVICE_NEW;
 		}
 	}
 	puts("User filesystem mounted\n");
 
 	puts("Installing files...\n");
-	if (install_files(device) != 0) {
+	if (install_files(dev) != 0) {
 		puts("Failed to install files!\n");
 		unmount("/mnt/private/var2", 0);
 		rmdir("/mnt/private/var2");

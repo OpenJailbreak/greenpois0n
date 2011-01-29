@@ -80,7 +80,6 @@ int cp(const char *src, const char *dest) {
 	struct stat status;
 
 	while (stat(src, &status) != 0) {
-		puts("Unable to find source file\n");
 		return -1;
 	}
 
@@ -166,6 +165,17 @@ char* _strncat(char *s1, const char *s2, int n)  {
 	return s1;
 }
 
+
+char* _strncpy(char* s1, const char* s2, int n) {
+	int i = 0;
+	for(i = 0; s2[i] != '\0'; i++) {
+		if(i >= n) break;
+		s1[i] = s2[i];
+	}
+	s1[i] = '\0';
+	return s1;
+}
+
 int _strcmp(const char* s1, const char* s2) {
 	int i = 0;
 	int len = strlen(s1);
@@ -188,4 +198,11 @@ void* memset(char *b, int c, int len) {
 	for(i = 0; i < len; i++) {
 		b[i] = c;
 	}
+}
+
+int file_exists(const char* path) {
+	struct stat st;
+	int ret = stat(path, &st);
+	if(ret != 0) return -1;
+	return 0;
 }

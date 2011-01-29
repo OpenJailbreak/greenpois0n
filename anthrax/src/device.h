@@ -34,22 +34,20 @@
 #define MODEL_IPAD1G        "K48AP"
 #define MODEL_APPLETV2      "K68AP"
 
-#define BUILD_8C148
-
-#define DEVICE_UNKNOWN      -1
-#define DEVICE_IPHONE2G      0
-#define DEVICE_IPOD1G        1
-#define DEVICE_IPHONE3G      2
-#define DEVICE_IPOD2G        3
-#define DEVICE_IPHONE3GS     4
-#define DEVICE_IPOD3G        5
-#define DEVICE_IPAD1G        6
-#define DEVICE_IPHONE4       7
-#define DEVICE_IPOD4G        8
-#define DEVICE_APPLETV2      9
+#define DEVICE_IPHONE2G     "iPhone1,1"
+#define DEVICE_IPHONE3G     "iPhone1,2"
+#define DEVICE_IPHONE3GS    "iPhone2,1"
+#define DEVICE_IPHONE4      "iPhone3,1"
+#define DEVICE_IPOD1G       "iPod1,1"
+#define DEVICE_IPOD2G       "iPod2,1"
+#define DEVICE_IPOD3G       "iPod3,1"
+#define DEVICE_IPOD4G       "iPod4,1"
+#define DEVICE_IPAD1G       "iPad1,1"
+#define DEVICE_APPLETV2     "AppleTV2,1"
 
 typedef struct {
 	int index;
+	char type[10];
 	char model[10];
 	char version[10];
 	//firmware_info_t* firmware;

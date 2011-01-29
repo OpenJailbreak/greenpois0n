@@ -34,8 +34,9 @@
 #define puts _puts
 #define putc _putc
 #define strlen _strlen
-#define strcat _strcat
 #define strcmp _strcmp
+#define strncat _strncat
+#define strncpy _strncpy
 
 extern int console;
 
@@ -46,7 +47,6 @@ typedef enum {
 static inline void flipEndian(unsigned char* x, int length) {
 	int i;
 	unsigned char tmp;
-
 	for(i = 0; i < (length / 2); i++) {
 		tmp = x[i];
 		x[i] = x[length - i - 1];
@@ -65,6 +65,7 @@ void _puts(const char* s);
 int _strlen(const char* s);
 int _strcmp(const char* s1, const char* s2);
 char* _strncat(char* s1, const char* s2, int n);
+char* _strncpy(char* s1, const char* s2, int n);
 void* memset(char* b, int c, int len);
 void* memcpy(char* s1, const char* s2, int n);
 
@@ -75,5 +76,6 @@ int cp(const char* src, const char* dest);
 int fsexec(char* argv[], char* env[], bool pause);
 int hfs_mount(const char* device, const char* mountdir, int options);
 int install(const char* src, const char* dst, int uid, int gid, int mode);
+int file_exists(const char* path);
 
 #endif

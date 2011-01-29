@@ -24,7 +24,6 @@
 static int animate_pid = 0;
 const char* animate[] = { "/usr/bin/animate", NULL };
 
-
 int animate_start() {
 	int ret = 0;
 
