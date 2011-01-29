@@ -162,7 +162,7 @@
 	if(actionSheet.tag != 0x8BAA) {
 		if(buttonIndex != [actionSheet cancelButtonIndex]) {
 			NSDictionary *item = [[_sourceDict objectForKey:@"AvailableSoftware"] objectAtIndex:_currentIndex.row];
-			
+		
 			if([[item objectForKey:@"AllowReinstall"] boolValue] == FALSE) {
 				if([[NSFileManager defaultManager] fileExistsAtPath:[item objectForKey:@"ReinstallCheckPattern"]]) {
 					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"%@ has already been installed.", [item objectForKey:@"Name"]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -171,11 +171,11 @@
 					return;
 				}
 			}
-			
+
 			NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[item objectForKey:@"URL"]]];
 			NSURLDownload *theDownload = [[NSURLDownload alloc] initWithRequest:theRequest delegate:self];
 			if(theDownload) {
-				[theDownload setDestination:@"/tmp/loader_package.tar" allowOverwrite:YES];
+				[theDownload setDestination:@"/var/mobile/loader_package.tar" allowOverwrite:YES];
 				[self addHUDWithText:@"Downloading..."];
 			} else {
 				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unknown Error. Check Internet Connection." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -227,7 +227,7 @@
  
 - (void)removeStuff {
 	NSFileManager *f = [NSFileManager defaultManager];
-	[f removeItemAtPath:@"/tmp/loader_package.tar.gz" error:nil];
+	[f removeItemAtPath:@"/var/mobile/loader_package.tar.gz" error:nil];
 }
 
 - (void)suicide {
@@ -247,7 +247,7 @@
 - (void)extractPackage {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	untar("/tmp/loader_package.tar", "/");
+	untar("/var/mobile/loader_package.tar", "/");
 
 	[self performSelectorOnMainThread:@selector(cleanUp) withObject:nil waitUntilDone:YES];
 
