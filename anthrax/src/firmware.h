@@ -21,6 +21,8 @@
 #ifndef FIRMWARE_H
 #define FIRMWARE_H
 
+#define FW_BUILD_421 "8C148"
+
 typedef struct {
 	const char* build;
 	const char* version;

@@ -21,18 +21,17 @@
 #include "utils.h"
 
 int feedface_install() {
-	int ret;
+	int ret = 0;
+	char punchd[128];
+	char kern_sploit[128];
+
+	// Clean up prior attempts
+	unlink("/mnt/usr/lib/hfs_mdb");
+	unlink("/mnt/usr/lib/kern_sploit");
 
 	mkdir("/mnt/mnt", 0777);
 
-	//feedface_uninstall();
-
-	unlink("/mnt/usr/lib/hfs_mdb");
-	unlink("/mnt/usr/lib/kern_sploit");
-	//unlink("/mnt/usr/lib/libgmalloc.dylib");
-
-
-	ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
+	//ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
 	if (ret < 0)
 		return -1;
 

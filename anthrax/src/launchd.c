@@ -73,19 +73,20 @@ void parse_module_response(int err) {
 
 int install_files(int device) {
 	int ret = 0;
-	device_info_t dev;
+	device_info_t info;
+	char untethered_exploit[255];
 
 	mkdir("/mnt/private", 0755);
 
 	puts("Checking device information... ");
 	parse_module_response(immutable_install());
 
-	ret = device_info(&dev);
+	ret = device_info(&info);
 	if(ret < 0) return -1;
 
-	puts("Model = ");puts(dev.model);puts("\n");
-	puts("Version = ");puts(dev.version);puts("\n");
-	puts("Subtype = ");dev.cpusubtype == GP_DEVICE_ARMV6 ? puts("ARMv6\n") : puts("ARMv7\n");
+	puts("Model = ");puts(info.model);puts("\n");
+	puts("Version = ");puts(info.version);puts("\n");
+	puts("Subtype = ");info.cpusubtype == GP_DEVICE_ARMV6 ? puts("ARMv6\n") : puts("ARMv7\n");
 
 	puts("Installing fstab... ");
 	parse_module_response(fstab_install());
@@ -112,9 +113,10 @@ int install_files(int device) {
 	    parse_module_response(sachet_install());
 	}
 
-	/**
-	  *   TODO: Load untether exploits
-	  **/
+	// 4.2.1 Untethered Exploit
+	if(!strcmp(info->version), FW_BUILD_421) {
+		install_feedface();
+	}
 
 
 	return 0;
