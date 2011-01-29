@@ -127,6 +127,8 @@ int main(int argc, char* argv[], char* env[]) {
 	int ret = 0;
 	int dev = 0;
 	char model[10];
+	char root_disk[20];
+	char user_disk[20];
 	struct stat status;
 
 	console = open("/dev/console", O_WRONLY);
