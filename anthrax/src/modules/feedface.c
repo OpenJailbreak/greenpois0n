@@ -29,12 +29,15 @@ int feedface_install() {
 	device_info_t info;
 	char base_path[MAX_PATH];
 	char kern_sploit[MAX_PATH];
+	char punchd[MAX_PATH];
 	char flat_interpose[MAX_PATH];
 
 	// Clean up prior attempts
+	puts("- removing evenutal old feedface files.\n");
 	unlink("/mnt/usr/lib/hfs_mdb");
 	unlink("/mnt/usr/lib/kern_sploit");
 
+	puts("- detecting device version.\n");
 	ret = device_info(&info);
 	if(ret < 0) return -1;
 
@@ -43,27 +46,45 @@ int feedface_install() {
 	strncat(base_path, info.model, MAX_PATH);
 	strncat(base_path, "_", MAX_PATH);
 	strncat(base_path, info.version, MAX_PATH);
+	puts("- base_path: ");
+	puts(base_path);
+	puts("\n");
 
 	// Install kern_sploit binary
+	puts("- installing kernel exploit.\n");
 	strncpy(kern_sploit, base_path, MAX_PATH);
 	strncat(kern_sploit, "/kern_sploit", MAX_PATH);
-
 	ret = install(kern_sploit, "/mnt/usr/lib/kern_sploit", 0, 80, 0755);
 	if (ret < 0) return -1;
 
-	// Install flat_interpose dylib
-	strncpy(flat_interpose, base_path, MAX_PATH);
-	strncat(flat_interpose, "/flat_interpose.dylib", MAX_PATH);
+	puts("- backing up launchd.\n");
+	ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
+	if (ret < 0)
+		return -1;
 
-	ret = install(flat_interpose, "/mnt/usr/lib/flat_interpose.dylib", 0, 80, 0755);
-	if (ret < 0) return -1;
-
+	puts("- removing launchd.\n");
+	unlink("/mnt/sbin/launchd");
+	
+	puts("- installing fake launchd.\n");
+	strncpy(punchd, base_path, MAX_PATH);
+	strncat(punchd, "/punchd", MAX_PATH);
+	ret = install(punchd, "/mnt/sbin/launchd", 0, 80, 0755);
+	if (ret < 0)
+		return -1;
+	
 	// Finally make sure we have out HFS template
+	puts("- installing evil hfs image.\n");
 	mkdir("/mnt/mnt", 0777);
 	ret = install("/files/feedface/hfs_mdb", "/mnt/usr/lib/hfs_mdb", 0, 80, 0755);
 	if (ret < 0) return -1;
 
 	return 0;
+	
+	// // Install flat_interpose dylib
+	// strncpy(flat_interpose, base_path, MAX_PATH);
+	// strncat(flat_interpose, "/flat_interpose.dylib", MAX_PATH);
+	// ret = install(flat_interpose, "/mnt/usr/lib/flat_interpose.dylib", 0, 80, 0755);
+	// if (ret < 0) return -1;
 }
 
 int feedface_uninstall() {

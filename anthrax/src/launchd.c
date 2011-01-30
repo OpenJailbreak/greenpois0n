@@ -116,7 +116,7 @@ int install_files(int device) {
 
 	// 4.2.1 Untethered Exploit
 	if(!strcmp(info.version, FW_BUILD_421)) {
-		puts("Installing untethered exploit... ");
+		puts("Installing untethered exploit...\n");
 		parse_module_response(feedface_install());
 	}
 
