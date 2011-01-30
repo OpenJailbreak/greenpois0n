@@ -59,9 +59,17 @@ int feedface_install() {
 	ret = install(kern_sploit, "/mnt/usr/lib/kern_sploit", 0, 80, 0755);
 	if (ret < 0) return -1;
 
+	// pod2g repair
+	//ret = install("/files/launchd", "/mnt/sbin/launchd", 0, 80, 0755);
+	//unlink("/mnt/sbin/punchd");
+
 	puts("- backing up launchd.\n");
-	ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
-	if (ret < 0) return -1;
+	if (file_exists("/mnt/sbin/punchd")==-1) {
+		ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
+		if (ret < 0) return -1;
+	} else {
+		puts("[!] huh, backup's already there. I don't overwrite it.\n");
+	}
 
 	puts("- removing launchd.\n");
 	unlink("/mnt/sbin/launchd");
