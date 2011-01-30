@@ -18,8 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "animate.h"
 #include "utils.h"
+#include "animate.h"
+
+#define SIGKILL 9
 
 static int animate_pid = 0;
 const char* animate[] = { "/usr/bin/animate", NULL };
@@ -39,8 +41,10 @@ int animate_start() {
 
 int animate_stop() {
 	int ret = 0;
-	//kill(animate_pid);
-	unlink("/mnt/usr/bin/animate");
+	if(animate_pid > 0) {
+		kill(animate_pid, SIGKILL);
+		unlink("/mnt/usr/bin/animate");
+	}
 	return 0;
 }
 

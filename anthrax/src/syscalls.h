@@ -37,6 +37,7 @@ int fork(void);
 void sync(void);
 int chdir(const char *path);
 //int chmod(const char *path, int mode);
+int kill(int pid, int sig);
 int chown(const char *path, int owner, int group);
 int read(int fd, void* buf, unsigned int count);
 int write(int fd, const void *buf, unsigned int count);

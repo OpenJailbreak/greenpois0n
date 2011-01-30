@@ -123,6 +123,12 @@ _sync:
     swi    #0x80
     bx     lr
 
+/* int kill(pid_t pid, int sig) */
+_kill:
+    mov    r12, #0x25
+    swi    #0x80
+    bx     lr
+
 /* int mlock(const void *addr, size_t len) */
 _mlock:
     mov    r12, #0xCB
@@ -174,12 +180,6 @@ _pread:
 /* ssize_t pwrite(int fildes, const void *buf, size_t nbyte, off_t offset) */
 _pwrite:
     mov    r12, #0x9A
-    swi    #0x80
-    bx     lr
-
-/* int kill(pid_t pid, int sig) */
-_kill:
-    mov    r12, #0x25
     swi    #0x80
     bx     lr
     
