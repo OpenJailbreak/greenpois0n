@@ -147,16 +147,22 @@ int main(int argc, char* argv[], char* env[]) {
 	ret = device_model(&model);
 	if(ret < 0) return -1;
 	if(!strcmp(model, DEVICE_APPLETV2)) {
-		fsck[2] = "/dev/rdisk0s1s1";
-		fsck_user[2] = "/dev/rdisk0s1s2";
+		strncpy(root_disk, "/dev/rdisk0s1s1");
+		strncpy(user_disk, "/dev/rdisk0s1s2");
+		//fsck[2] = "/dev/rdisk0s1s1";
+		//fsck_user[2] = "/dev/rdisk0s1s2";
 	}
 	else if(!strcmp(model, DEVICE_IPOD2G)) {
-		fsck[2] = "/dev/rdisk0s1";
-		fsck_user[2] = "/dev/rdisk0s2";
+		strncpy(root_disk, "/dev/rdisk0s1");
+		strncpy(user_disk, "/dev/rdisk0s2");
+		//fsck[2] = "/dev/rdisk0s1";
+		//fsck_user[2] = "/dev/rdisk0s2";
 	}
 	else {
-		fsck[2] = "/dev/rdisk0s1";
-		fsck_user[2] = "/dev/rdisk0s2s1";
+		strncpy(root_disk, "/dev/rdisk0s1");
+		strncpy(user_disk, "/dev/rdisk0s2s1");
+		//fsck[2] = "/dev/rdisk0s1";
+		//fsck_user[2] = "/dev/rdisk0s2s1";
 	}
 	*/
 
