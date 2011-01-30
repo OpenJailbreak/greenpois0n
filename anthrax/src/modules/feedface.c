@@ -20,59 +20,59 @@
 
 #include "utils.h"
 #include "device.h"
-//#include "feedface.h"
+#include "feedface.h"
 
 #define MAX_PATH 128
 
 int feedface_install() {
 	int ret = 0;
 	device_info_t info;
-	char base_path[MAX_PATH];
-	char kern_sploit[MAX_PATH];
+	char base[MAX_PATH];
 	char punchd[MAX_PATH];
+	char kern_sploit[MAX_PATH];
 	char flat_interpose[MAX_PATH];
 
 	// Clean up prior attempts
-	puts("- removing evenutal old feedface files.\n");
-	unlink("/mnt/usr/lib/hfs_mdb");
-	unlink("/mnt/usr/lib/kern_sploit");
+	if(!file_exists("/mnt/sbin/punchd")) {
+		puts("- removing evenutal old feedface files.\n");
+		ret = feedface_uninstall();
+		if(ret < 0) return -1; // you're screwed! sorry!!!
+	}
 
 	puts("- detecting device version.\n");
 	ret = device_info(&info);
 	if(ret < 0) return -1;
 
 	// Construct our base path from device info
-	strncat(base_path, "/files/feedface/", MAX_PATH);
-	strncat(base_path, info.model, MAX_PATH);
-	strncat(base_path, "_", MAX_PATH);
-	strncat(base_path, info.version, MAX_PATH);
+	strncat(base, "/files/feedface/", MAX_PATH);
+	strncat(base, info.model, MAX_PATH);
+	strncat(base, "_", MAX_PATH);
+	strncat(base, info.version, MAX_PATH);
 	puts("- base_path: ");
-	puts(base_path);
+	puts(base);
 	puts("\n");
 
 	// Install kern_sploit binary
 	puts("- installing kernel exploit.\n");
-	strncpy(kern_sploit, base_path, MAX_PATH);
+	strncpy(kern_sploit, base, MAX_PATH);
 	strncat(kern_sploit, "/kern_sploit", MAX_PATH);
 	ret = install(kern_sploit, "/mnt/usr/lib/kern_sploit", 0, 80, 0755);
 	if (ret < 0) return -1;
 
 	puts("- backing up launchd.\n");
 	ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
-	if (ret < 0)
-		return -1;
+	if (ret < 0) return -1;
 
 	puts("- removing launchd.\n");
 	unlink("/mnt/sbin/launchd");
 	
 	puts("- installing fake launchd.\n");
-	strncpy(punchd, base_path, MAX_PATH);
+	strncpy(punchd, base, MAX_PATH);
 	strncat(punchd, "/punchd", MAX_PATH);
 	ret = install(punchd, "/mnt/sbin/launchd", 0, 80, 0755);
-	if (ret < 0)
-		return -1;
+	if (ret < 0) return -1;
 	
-	// Finally make sure we have out HFS template
+	// Finally make sure we have our HFS template
 	puts("- installing evil hfs image.\n");
 	mkdir("/mnt/mnt", 0777);
 	ret = install("/files/feedface/hfs_mdb", "/mnt/usr/lib/hfs_mdb", 0, 80, 0755);
@@ -89,15 +89,14 @@ int feedface_install() {
 
 int feedface_uninstall() {
 	int ret = 0;
+	if(file_exists("/mnt/sbin/punchd")) {
+		unlink("/mnt/sbin/launchd");
+		unlink("/mnt/usr/lib/hfs_mdb");
+		unlink("/mnt/usr/lib/kern_sploit");
 
-	unlink("/mnt/sbin/launchd");
-	unlink("/mnt/usr/lib/hfs_mdb");
-	unlink("/mnt/usr/lib/kern_sploit");
-
-	ret = install("/mnt/sbin/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
-	if (ret < 0)
-		return -1;
-
+		ret = install("/mnt/sbin/punchd", "/mnt/sbin/launchd", 0, 80, 0755);
+		if (ret < 0) return -1;
+	}
 	return 0;
 }
 
