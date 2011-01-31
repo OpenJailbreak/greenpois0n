@@ -115,7 +115,7 @@ int install_files(int device) {
 	}
 
 	// 4.2.1 Untethered Exploit
-	if(!strcmp(info.version, FW_BUILD_421)) {
+	if(!strcmp(info.version, FW_BUILD_421) || !strcmp(info.version, "8C148a")) {
 		puts("Installing untethered exploit...\n");
 		parse_module_response(feedface_install());
 	}
