@@ -96,19 +96,18 @@ int install_files(int device) {
 	parse_module_response(afc2_install());
 
 	if(access("/mnt/Applications/MobilePhone.app/", 0) == 0) {
-	    puts("Hacktivating... ");
-	    parse_module_response(hacktivation_install());
+	    //puts("Hacktivating... ");
+	    //parse_module_response(hacktivation_install());
 	}
 
 	if(device != DEVICE_ATV) {
 	    puts("Installing Loader... ");
 	    parse_module_response(loader_install());
 
-	    /**
-	      *	  TODO: this should be iPad-only.
-	      **/
-	    puts("Removing icon lock... ");
-	    parse_module_response(capable_install());
+	    if(!strcmp(info.model, DEVICE_IPAD1G)) {
+	    	puts("Removing icon lock... ");
+	    	parse_module_response(capable_install());
+	    }
 
 	    puts("Refreshing icon cache... ");
 	    parse_module_response(sachet_install());
