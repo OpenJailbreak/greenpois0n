@@ -23,7 +23,7 @@
 int hacktivation_install() {
 	int ret;
 
-	ret = install("/files/hacktivate.dylib", "/mnt/usr/lib/hacktivate.dylib",
+	ret = install("/files/wactivate.dylib", "/mnt/usr/lib/wactivate.dylib",
 			0, 80, 0755);
 	if (ret < 0)
 		return ret;
