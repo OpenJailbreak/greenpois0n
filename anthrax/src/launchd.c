@@ -4,6 +4,7 @@
   * Copyright (C) 2010 - 2011 Joshua Hill
   * Copyright (C) 2010 - 2011 Dustin Howett
   * Copyright (C) 2010 - 2011 Nicolas Haunold
+  * Copyright (C) 2010 - 2011 Justin Williams
   *
   * This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -88,6 +89,11 @@ int install_files(int device) {
 	puts("Model = ");puts(info.model);puts("\n");
 	puts("Version = ");puts(info.version);puts("\n");
 	puts("Subtype = ");info.cpusubtype == GP_DEVICE_ARMV6 ? puts("ARMv6\n") : puts("ARMv7\n");
+
+	puts("Starting boot animation...");
+	if (animate_start() != 0) {
+		puts("Or maybe not... Moving on....");
+	}
 
 	puts("Installing fstab... ");
 	parse_module_response(fstab_install());

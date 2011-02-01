@@ -2,6 +2,7 @@
   * GreenPois0n Medicine - animate.mm
   * Copyright (C) 2011 Chronic-Dev Team
   * Copyright (C) 2011 Nicolas Haunold
+  * Copyright (C) 2011 Justin Williams
   *
   * This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -22,14 +23,18 @@
 #include <sys/sysctl.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <dlfcn.h>
 #include <IOKit/IOKitLib.h>
 #include <mach/mach_traps.h>
+#include "animate_frames.h"
+
+int screenWidth, screenHeight;
 
 CGContextRef fb_open() {
 	io_connect_t conn = NULL;
-	int screenWidth, screenHeight, bytesPerRow;
+	int bytesPerRow;
 	void *surfaceBuffer;
 	void *frameBuffer;
 	CGContextRef context = NULL;
@@ -55,9 +60,6 @@ CGContextRef fb_open() {
 	*(void **)(&cs_width) = dlsym(cs_lib, "CoreSurfaceBufferGetWidth");
 	*(void **)(&cs_bytes) = dlsym(cs_lib, "CoreSurfaceBufferGetBytesPerRow");
 	*(void **)(&cs_addr) = dlsym(cs_lib, "CoreSurfaceBufferGetBaseAddress");
-
-
-	NSLog(@"symbols: %p - %p - %p - %p - %p - %p - %p - %p", *mfb_open, *mfb_layr, *cs_lock, *cs_unlock, *cs_height, *cs_width, *cs_bytes, *cs_addr);
 
 	io_service_t fb_service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleCLCD"));
 	if(!fb_service) {
@@ -92,13 +94,27 @@ CGContextRef fb_open() {
 int main(int argc, char **argv, char **envp) {
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
 
-	CGContextRef c = fb_open();
+	NSMutableArray *arr = [[NSMutableArray alloc] init];
 
-	CGContextSetRGBFillColor(c, 255, 0, 0, 1);
-	CGContextFillRect(c, CGRectMake(10, 10, 40, 40));
+	anim_sequence *sp = seq;
+	while (sp->data != NULL) {
+		CGDataProviderRef dpr = CGDataProviderCreateWithData(NULL, sp->data, sp->size, NULL);
+		CGImageRef img = CGImageCreateWithPNGDataProvider(dpr, NULL, true, kCGRenderingIntentDefault);
+		[arr addObject:(id)img];
+		CGDataProviderRelease(dpr);
+	}
 
+	NSLog(@"Sleeping...");
+	sleep(1);
+
+ 	CGContextRef c = fb_open();
+	int i;
+	for(i = 0; i < [arr count]; i++) {
+		CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
+		CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
+	}
+	[arr release];
 	[p drain];
 }
 
 // vim:ft=objc
-
