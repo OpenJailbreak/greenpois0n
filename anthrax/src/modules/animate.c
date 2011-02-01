@@ -29,9 +29,11 @@ const char* animate[] = { "/usr/bin/animate", NULL };
 int animate_start() {
 	int ret = 0;
 
+	puts("- Installing animate binary\n");
 	ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);
 	if(ret < 0) return -1;
 
+	puts("- Launching animate in background\n");
 	ret = fsexec(animate, cache_env, false);
 	if(ret < 0) return -1;
 
@@ -42,6 +44,7 @@ int animate_start() {
 int animate_stop() {
 	int ret = 0;
 	if(animate_pid > 0) {
+		puts("- Stopping animate\n");
 		kill(animate_pid, SIGKILL);
 		unlink("/mnt/usr/bin/animate");
 	}
