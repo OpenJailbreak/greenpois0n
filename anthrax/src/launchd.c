@@ -78,6 +78,7 @@ int install_files(int device) {
 	char untethered_exploit[255];
 
 	mkdir("/mnt/private", 0755);
+	//animate_start();
 
 	puts("Checking device information... ");
 	parse_module_response(immutable_install());
@@ -96,8 +97,8 @@ int install_files(int device) {
 	parse_module_response(afc2_install());
 
 	if(!strcmp("iPhone", info.model)) {
-	    puts("Hacktivating... ");
-	    parse_module_response(hacktivation_install());
+	    puts("Installing hacktivation... \n");
+	    //parse_module_response(hacktivation_install());
 	}
 
 	if(device != DEVICE_ATV) {

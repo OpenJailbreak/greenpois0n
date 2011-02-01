@@ -23,9 +23,11 @@
 int hacktivation_install() {
 	int ret = 0;
 
+	puts("- Installing wactivate.dylib\n");
 	ret = install("/files/wactivate.dylib", "/mnt/usr/lib/wactivate.dylib", 0, 80, 0755);
 	if (ret < 0) return ret;
 
+	puts("- Installing com.mobile.localdown.plist\n");
 	ret = install("/files/com.apple.mobile.lockdown.plist", "/mnt/System/Library/LaunchDaemons/com.apple.mobile.lockdown.plist", 0, 0, 0644);
 	if (ret < 0) return ret;
 
@@ -33,6 +35,7 @@ int hacktivation_install() {
 }
 
 int hacktivation_uninstall() {
+	puts("- Uninstalling wactivate.dylib\n");
 	return -1;
 }
 
