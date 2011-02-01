@@ -95,9 +95,9 @@ int install_files(int device) {
 	puts("Installing AFC2... ");
 	parse_module_response(afc2_install());
 
-	if(access("/mnt/Applications/MobilePhone.app/", 0) == 0) {
+	if(!strcmp("iPhone", info.model)) {
 	    puts("Hacktivating... ");
-	    //parse_module_response(hacktivation_install());
+	    parse_module_response(hacktivation_install());
 	}
 
 	if(device != DEVICE_ATV) {
