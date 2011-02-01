@@ -96,7 +96,7 @@ int install_files(int device) {
 	parse_module_response(afc2_install());
 
 	if(access("/mnt/Applications/MobilePhone.app/", 0) == 0) {
-	    //puts("Hacktivating... ");
+	    puts("Hacktivating... ");
 	    //parse_module_response(hacktivation_install());
 	}
 

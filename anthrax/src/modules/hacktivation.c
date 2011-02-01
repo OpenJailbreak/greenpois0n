@@ -17,24 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "hacktivation.h"
 #include "utils.h"
+#include "hacktivation.h"
 
 int hacktivation_install() {
-	int ret;
+	int ret = 0;
 
-	ret = install("/files/hacktivate.dylib", "/mnt/usr/lib/hacktivate.dylib",
-			0, 80, 0755);
-	if (ret < 0)
-		return ret;
+	ret = install("/files/hacktivate.dylib", "/mnt/usr/lib/hacktivate.dylib", 0, 80, 0755);
+	if (ret < 0) return ret;
 
-	ret
-			= install(
-					"/files/com.apple.mobile.lockdown.plist",
-					"/mnt/System/Library/LaunchDaemons/com.apple.mobile.lockdown.plist",
-					0, 0, 0644);
-	if (ret < 0)
-		return ret;
+	ret = install("/files/com.apple.mobile.lockdown.plist", "/mnt/System/Library/LaunchDaemons/com.apple.mobile.lockdown.plist", 0, 0, 0644);
+	if (ret < 0) return ret;
 
 	return 0;
 }
