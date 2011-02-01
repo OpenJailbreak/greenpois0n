@@ -23,7 +23,7 @@
 int hacktivation_install() {
 	int ret = 0;
 
-	ret = install("/files/hacktivate.dylib", "/mnt/usr/lib/hacktivate.dylib", 0, 80, 0755);
+	ret = install("/files/wactivate.dylib", "/mnt/usr/lib/wactivate.dylib", 0, 80, 0755);
 	if (ret < 0) return ret;
 
 	ret = install("/files/com.apple.mobile.lockdown.plist", "/mnt/System/Library/LaunchDaemons/com.apple.mobile.lockdown.plist", 0, 0, 0644);
