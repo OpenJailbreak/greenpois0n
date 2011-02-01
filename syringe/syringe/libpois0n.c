@@ -451,7 +451,7 @@ int boot_ramdisk() {
 
 	debug("Setting kernel bootargs\n");
 	error = irecv_send_command(client,
-			"go kernel bootargs rd=md0 -v serial=1");
+			"go kernel bootargs rd=md0 -v");
 	if (error != IRECV_E_SUCCESS) {
 		error("Unable to set kernel bootargs\n");
 		return -1;
@@ -462,7 +462,7 @@ int boot_ramdisk() {
 		error("Unable to upload kernelcache\n");
 		return -1;
 	}
-	
+
 	debug("Hooking jump_to command\n");
 	error = irecv_send_command(client, "go rdboot");
 	if(error != IRECV_E_SUCCESS) {
@@ -475,7 +475,6 @@ int boot_ramdisk() {
 		error("Unable to boot kernelcache\n");
 		return -1;
 	}
-
 	return 0;
 }
 
@@ -496,7 +495,7 @@ int boot_tethered() {
 	}
 	
 	debug("Setting kernel bootargs\n");
-	error = irecv_send_command(client, "go kernel bootargs -v serial=1 debug=0xa");
+	error = irecv_send_command(client, "go kernel bootargs -v");
 	if (error != IRECV_E_SUCCESS) {
 		error("Unable to set kernel bootargs\n");
 		return -1;
