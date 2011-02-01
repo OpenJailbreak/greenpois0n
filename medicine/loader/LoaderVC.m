@@ -198,7 +198,7 @@
 	bytesReceived = bytesReceived+length;
 	
 	float percentComplete = (bytesReceived/(float)expectedLength);
-	NSString *str = [NSString stringWithFormat:@"Downloading... (%d", (int)(percentComplete*100)];
+	NSString *str = [NSString stringWithFormat:@"Downloading... (%d", (long long)(percentComplete*100)];
 	str = [str stringByAppendingString:@"%)"];
 	
 	[_myHud setText:str];
@@ -269,10 +269,11 @@
 	[_myHud done];
 	[_myHud setText:@"Success!"];
 
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Do you want to remove Loader from your device?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Remove", nil];
+/*	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Do you want to remove Loader from your device?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Remove", nil];
 	[alert setTag:0xDEADBEEF];
 	[alert show];
 	[alert release];
+*/
 
 	[self removeStuff];
 	[self performSelector:@selector(removeHUD) withObject:nil afterDelay:2.0];
