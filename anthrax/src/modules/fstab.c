@@ -29,18 +29,20 @@ int fstab_install() {
 	if(ret < 0) return -1;
 
 	mkdir("/mnt/private/etc", 0755);
-	if (dev.cpusubtype == GP_DEVICE_ARMV7) {
-		ret = cp("/files/fstab_new", "/mnt/private/etc/fstab");
-	} else if (dev.cpusubtype == GP_DEVICE_ARMV7) {
+	if(!strcmp(dev.model, DEVICE_IPOD2G)) {
+		puts("Installing fstab for ARMv6\n");
 		ret = cp("/files/fstab_old", "/mnt/private/etc/fstab");
+
+	} else if(dev.model, DEVICE_APPLETV2) {
+		puts("Installing fstab for ARMv7\n");
+		 ret = cp("/files/fstab_atv", "/mnt/private/etc/fstab");
+
+	} else {
+		puts("Installing fstab for AppleTV\n");
+		ret = cp("/files/fstab_new", "/mnt/private/etc/fstab");
 	}
-	/*
-	 TODO: strstr(dev.model, "AppleTV")
-	 else if(device == DEVICE_ATV) {
-	 ret = cp("/files/fstab_atv", "/mnt/private/etc/fstab");
-	 }*/
-	if (ret < 0)
-		return -1;
+
+	if (ret < 0) return -1;
 	return 0;
 }
 
