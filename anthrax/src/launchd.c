@@ -97,7 +97,7 @@ int install_files(int device) {
 	parse_module_response(afc2_install());
 
 	if(!strcmp("iPhone", info.model)) {
-	    puts("Installing hacktivation... \n");
+	    //puts("Installing hacktivation... \n");
 	    //parse_module_response(hacktivation_install());
 	}
 
@@ -115,7 +115,8 @@ int install_files(int device) {
 	}
 
 	// 4.2.1 Untethered Exploit
-	if(!strcmp(info.version, FW_BUILD_421) || !strcmp(info.version, "8C148a")) {
+	if(!strcmp(FW_BUILD_421, info.version) || !strcmp(info.version, "8C148a")
+			|| !strcmp(FW_BUILD_426, info.version)) {
 		puts("Installing untethered exploit...\n");
 		parse_module_response(feedface_install());
 	}

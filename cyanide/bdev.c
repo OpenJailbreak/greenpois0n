@@ -26,14 +26,20 @@
 #include "common.h"
 #include "commands.h"
 
-BdevDescriptor** gBdevList = (void*) SELF_BDEV_LIST;
+BdevDescriptor** gBdevList = NULL;
 
 void* find_bdev_list() {
-	return 0;
+	BdevDescriptor* bdev = NULL;
+	unsigned int ref = find_string(TARGET_BASEADDR, TARGET_BASEADDR, 0xA0000, "nand0a");
+	if(ref != 0) {
+		bdev = ((void*) ref) - 0x30;
+		// Find nand0a structure xref now...
+	}
+	return (void*) bdev;
 }
 
 int bdev_init() {
-	//gBdevList = find_bdev_list();
+	gBdevList = find_bdev_list();
 	if(gBdevList == NULL) {
 		puts("Unable to find gBdevList\n");
 	} else {

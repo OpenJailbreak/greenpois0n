@@ -5,7 +5,7 @@
 	<key>EnvironmentVariables</key>
 	<dict>
 		<key>DYLD_INSERT_LIBRARIES</key>
-		<string>/usr/lib/wactivate.dylib</string>
+		<string>/usr/lib/whacktivate.dylib</string>
 	</dict>
 	<key>Label</key>
 	<string>com.apple.mobile.lockdown</string>
