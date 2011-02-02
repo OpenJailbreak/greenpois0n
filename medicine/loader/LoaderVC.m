@@ -135,10 +135,10 @@
 		NSDateFormatter *form = [[[NSDateFormatter alloc] init] autorelease];
 		[form setDateStyle:NSDateFormatterMediumStyle];
 		[form setTimeStyle:NSDateFormatterShortStyle];
-	
+
 		return [NSString stringWithFormat:@"%@\nLast Update: %@\nVersion %@", [_sourceDict objectForKey:@"Message"], [form stringFromDate:date], [_sourceDict objectForKey:@"Version"]];
 	}
-	
+
 	return nil;
 }
 
@@ -162,7 +162,8 @@
 	if(actionSheet.tag != 0x8BAA) {
 		if(buttonIndex != [actionSheet cancelButtonIndex]) {
 			NSDictionary *item = [[_sourceDict objectForKey:@"AvailableSoftware"] objectAtIndex:_currentIndex.row];
-		
+			pkg_size = [[item objectForKey:@"Size"] longLongValue];
+			bytesReceived = 0;
 			if([[item objectForKey:@"AllowReinstall"] boolValue] == FALSE) {
 				if([[NSFileManager defaultManager] fileExistsAtPath:[item objectForKey:@"ReinstallCheckPattern"]]) {
 					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"%@ has already been installed.", [item objectForKey:@"Name"]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -194,37 +195,29 @@
 
 
 - (void)download:(NSURLDownload *)download didReceiveDataOfLength:(unsigned)length {
-	long long expectedLength = [downloadResponse expectedContentLength];
-	bytesReceived = bytesReceived+length;
-	
-	float percentComplete = (bytesReceived/(float)expectedLength);
-	NSString *str = [NSString stringWithFormat:@"Downloading... (%d", (long long)(percentComplete*100)];
+	bytesReceived += length;
+
+	double pc = (bytesReceived/(double)pkg_size);
+	NSString *str = [NSString stringWithFormat:@"Downloading... (%lld", (long long)(pc*100)];
 	str = [str stringByAppendingString:@"%)"];
-	
+
 	[_myHud setText:str];
 }
 
 - (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response {
 	bytesReceived = 0;
-	[self setDownloadResponse:response];
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
 	[download release];
-	
+
 	[self removeHUD];
-	
+
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alert show];
 	[alert release];
 }
 
-- (void)setDownloadResponse:(NSURLResponse *)aDownloadResponse {
-	[aDownloadResponse retain];
-	[downloadResponse release];
-	downloadResponse = aDownloadResponse;
-}
- 
 - (void)removeStuff {
 	NSFileManager *f = [NSFileManager defaultManager];
 	[f removeItemAtPath:@"/var/mobile/loader_package.tar.gz" error:nil];
@@ -240,7 +233,7 @@
 			[self suicide];
 		}
 	}
-	
+
 	[[[UIApplication sharedApplication] delegate] setReboot:YES];
 }
 
@@ -265,7 +258,7 @@
 
 - (void)cleanUp {
 	notify_post("com.apple.mobile.application_installed");
-	
+
 	[_myHud done];
 	[_myHud setText:@"Success!"];
 
@@ -277,36 +270,18 @@
 
 	[self removeStuff];
 	[self performSelector:@selector(removeHUD) withObject:nil afterDelay:2.0];
-	
-	if([self isWildcat]) {
-		NSString *filePath = @"/System/Library/CoreServices/SpringBoard.app/K48AP.plist";
-		
-		NSMutableDictionary *capabilityDict, *fileDict;
-
-		fileDict = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
-		capabilityDict = [[NSMutableDictionary alloc] initWithDictionary:[fileDict objectForKey:@"capabilities"]];
-		
-		[capabilityDict setObject:[NSNumber numberWithBool:NO] forKey:@"hide-non-default-apps"];
-
-		[fileDict setObject:capabilityDict forKey:@"capabilities"];
-		[fileDict writeToFile:filePath atomically:NO];
-
-		[fileDict release];
-		[capabilityDict release];
-	}
-
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)download {
 	[download release];
 	[_myHud setText:@"Extracting..."];
-	
+
 	[NSThread detachNewThreadSelector:@selector(extractPackage) toTarget:self withObject:nil];
 }
 
 - (void)dealloc {
 	if(_sourceDict) [_sourceDict release];
-	
+
 	[_queue release];
 	[_myHud release];
 	[super dealloc];
