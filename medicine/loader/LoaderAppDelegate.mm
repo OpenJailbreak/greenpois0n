@@ -30,6 +30,8 @@
 @synthesize window, reboot = _reboot;
 
 
+int reboot(int cmd);
+
 #pragma mark -
 #pragma mark Application lifecycle
 
@@ -47,8 +49,7 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-	system("su mobile -c uicache");
-	notify_post("com.apple.mobile.application_installed");
+	system("su mobile -c /usr/bin/sbreload");
 	sleep(2);
 	if(self.reboot) {
 		system("reboot");
@@ -61,8 +62,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
 	if([[[UIDevice currentDevice] systemVersion] intValue] >= 4) {
 		// no backgrounding for you!
-		system("su mobile -c uicache");
-		notify_post("com.apple.mobile.application_installed");
+		system("su mobile -c /usr/bin/sbreload");
 		sleep(2);
 		if(self.reboot) {
 			system("reboot");
