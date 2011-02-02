@@ -5,7 +5,8 @@ int patch_dword(unsigned int* addr, unsigned int value)
 {
     int pageSize = getpagesize();
     void* page = (((unsigned int)addr)/pageSize) * pageSize;
-    
+
+    //VM_PROT_COPY | VM_PROT_READ | VM_PROT_WRITE    
     int x = vm_protect(mach_task_self(), page, pageSize, 0, 0x13);
     
     if (x)
@@ -14,6 +15,7 @@ int patch_dword(unsigned int* addr, unsigned int value)
         return 1;
     }
     *addr = value;
+    //VM_PROT_EXECUTE | VM_PROT_READ
     vm_protect(mach_task_self(), page, pageSize, 0, 0x5);
     return 0;
 }
