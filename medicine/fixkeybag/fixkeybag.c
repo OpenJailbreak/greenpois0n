@@ -8,7 +8,7 @@ int main()
     if (stat("/private/var/keybags/systembag.kb",&status) != 0)
     {
         printf("System keybag not found, fixing...\n");
-        int x = MKBKeyBagCreateSystem(0, "/");
+        int x = MKBKeyBagCreateSystem(0, "/private/var");
         printf("MKBKeyBagCreateSystem return %x\n", x);
     }
     return 0;
