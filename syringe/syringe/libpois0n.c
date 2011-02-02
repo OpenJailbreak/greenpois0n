@@ -452,7 +452,7 @@ int boot_ramdisk() {
 	debug("Setting kernel bootargs\n");
 	#ifdef DEBUG_SERIAL
 	error = irecv_send_command(client,
-			"go kernel bootargs rd=md0 -v serial=1");
+			"go kernel bootargs rd=md0 -v");
 	#endif
 
 	#ifndef DEBUG_SERIAL
@@ -504,7 +504,7 @@ int boot_tethered() {
 	
 	debug("Setting kernel bootargs\n");
 	#ifdef DEBUG_SERIAL
-	error = irecv_send_command(client, "go kernel bootargs -v serial=1 debug=0xa");
+	error = irecv_send_command(client, "go kernel bootargs -v debug=0xa");
 	#endif
 	#ifndef DEBUG_SERIAL
 	error = irecv_send_command(client, "go kernel bootargs -v debug=0xa");
