@@ -285,7 +285,7 @@ int main(int argc, char *argv[]) {
 	[thirdLabel setFont:[NSFont fontWithName:@"Lucida Grande" size:12.0]];
 	[fourthLabel setStringValue:@"Release sleep button; continue holding home."];
 	[fourthLabel setFont:[NSFont fontWithName:@"Lucida Grande" size:12.0]];
-	[copyrightLabel setStringValue:@"© 2009-2010 chronic dev team (http://chronic-dev.org). Beware the copyright monster!"];
+	[copyrightLabel setStringValue:@"© 2009-2011 chronic dev team (http://chronic-dev.org). Beware the copyright monster!"];
 	[copyrightLabel setFont:[NSFont fontWithName:@"Lucida Grande" size:10.0]];
 	
 	[secondsLabel setAlphaValue:0.0];
