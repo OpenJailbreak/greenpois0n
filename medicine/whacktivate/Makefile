@@ -9,7 +9,7 @@ CCFLAGS=-arch armv6 -isysroot=$(SDK) -I./include -I$(SDK)/usr/include -L$(SDK)/u
 
 all: whacktivate.dylib
 
-jhacktivate.dylib: whacktivate.c
+whacktivate.dylib: whacktivate.c
 	$(CC) $(CCFLAGS) -o $@ $^
 	ldid -S $@
 
