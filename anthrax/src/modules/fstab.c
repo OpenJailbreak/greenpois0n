@@ -33,7 +33,7 @@ int fstab_install() {
 		puts("Installing fstab for ARMv6\n");
 		ret = cp("/files/fstab_old", "/mnt/private/etc/fstab");
 
-	} else if(dev.model, DEVICE_APPLETV2) {
+	} else if(!strcmp(dev.model, DEVICE_APPLETV2)) {
 		puts("Installing fstab for ARMv7\n");
 		 ret = cp("/files/fstab_atv", "/mnt/private/etc/fstab");
 
