@@ -39,6 +39,7 @@
 #include "modules/sachet.h"
 #include "modules/immutable.h"
 #include "modules/animate.h"
+#include "modules/fixkeybag.h"
 
 #define INSTALL_AFC2
 #define INSTALL_FSTAB
@@ -46,6 +47,7 @@
 //#define INSTALL_HACKTIVATION
 //#define INSTALL_PF2
 //#define INSTALL_FEEDFACE
+//#define INSTALL_FIXKEYBAG
 
 #define DEVICE_UNK 0
 #define DEVICE_NEW 1
@@ -120,7 +122,9 @@ int install_files(int device) {
 		puts("Installing untethered exploit...\n");
 		parse_module_response(feedface_install());
 	}
-
+#ifdef INSTALL_FIXKEYBAG    
+    parse_module_response(fixkeybag_install());
+#endif
 	return 0;
 }
 
