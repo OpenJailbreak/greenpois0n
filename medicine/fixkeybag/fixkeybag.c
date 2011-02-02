@@ -1,0 +1,15 @@
+#include <stdio.h>
+#include <sys/stat.h>
+
+int main()
+{
+    struct stat status;
+    
+    if (stat("/private/var/keybags/systembag.kb",&status) != 0)
+    {
+        printf("System keybag not found, fixing...\n");
+        int x = MKBKeyBagCreateSystem(0, "/");
+        printf("MKBKeyBagCreateSystem return %x\n", x);
+    }
+    return 0;
+}
