@@ -856,11 +856,8 @@ int pois0n_inject(char *bootargs) {
 		//return -1;
 	}
 
-	//debug("Grrr..... switch cables now :-\\\n");
-	//getchar();
-
 	debug("Reconnecting to device\n");
-	client = irecv_reconnect(client, 10);
+	client = irecv_reconnect(client, 4);
 	if (client == NULL) {
 		error("Unable to reconnect\n");
 		return -1;
