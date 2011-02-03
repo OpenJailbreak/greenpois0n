@@ -98,7 +98,7 @@ int main(int argc, char **argv, char **envp) {
 
 	anim_sequence *sp = seq;
 	while (sp->data != NULL) {
-		NSLog(@"Adding Image...");
+		printf("Adding Image...");
 		CGDataProviderRef dpr = CGDataProviderCreateWithData(NULL, sp->data, sp->size, NULL);
 		CGImageRef img = CGImageCreateWithPNGDataProvider(dpr, NULL, true, kCGRenderingIntentDefault);
 		[arr addObject:(id)img];
@@ -106,13 +106,13 @@ int main(int argc, char **argv, char **envp) {
 		sp++;
 	}
 
-	NSLog(@"Sleeping...");
+	printf("Sleeping...");
 	sleep(1);
 
  	CGContextRef c = fb_open();
 	int i;
 	for(i = 0; i < [arr count]; i++) {
-		NSLog(@"Displaying Image...");
+		printf("Displaying Image...");
 		CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
 		CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
 	}
