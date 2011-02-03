@@ -19,6 +19,7 @@
  **/
 
 #include "utils.h"
+#include "device.h"
 #include "animate.h"
 
 #define SIGKILL 9
@@ -29,16 +30,22 @@ const char *animate2[] = { "/usr/bin/animate", "-l", NULL };
 
 int animate_start() {
 	int ret = 0;
-
-	unlink("/mnt/usr/bin/animate");sync();
-	puts("- Installing animate binary\n");
-	ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);sync();
+	device_info_t info;
+	ret = device_info(&info);
 	if(ret < 0) return -1;
 
-	puts("- Launching animate in background\n");
-	ret = fsexec(animate, cache_env, true);
-	ret = fsexec(animate2, cache_env, false);
-	if (ret < 0) return -1;
+	// Don't play animation is this is an iPad
+	if(strcmp(info.model, "iPad1,1")) {
+		unlink("/mnt/usr/bin/animate");sync();
+		puts("- Installing animate binary\n");
+		ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);sync();
+		if(ret < 0) return -1;
+
+		puts("- Launching animate in background\n");
+		ret = fsexec(animate, cache_env, true);
+		ret = fsexec(animate2, cache_env, false);
+		if (ret < 0) return -1;
+	}
 
 	return 0;
 }
@@ -48,8 +55,8 @@ int animate_stop() {
 	if(animate_pid > 0) {
 		puts("- Killing PID\n");
 		kill(animate_pid, SIGKILL);
+		unlink("/mnt/usr/bin/animate");
 	}
-	unlink("/mnt/usr/bin/animate");
 	return 0;
 }
 
