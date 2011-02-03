@@ -25,13 +25,14 @@
 
 static int animate_pid = 0;
 const char* animate[] = { "/usr/bin/animate", NULL };
-const char *animage2[] = { "/usr/bin/animate", "-l", NULL };
+const char *animate2[] = { "/usr/bin/animate", "-l", NULL };
 
 int animate_start() {
 	int ret = 0;
 
+	unlink("/mnt/usr/bin/animate");sync();
 	puts("- Installing animate binary\n");
-	ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);
+	ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);sync();
 	if(ret < 0) return -1;
 
 	puts("- Launching animate in background\n");
@@ -39,14 +40,13 @@ int animate_start() {
 	ret = fsexec(animate2, cache_env, false);
 	if (ret < 0) return -1;
 
-	animate_pid = ret;
 	return 0;
 }
 
 int animate_stop() {
 	int ret = 0;
 	if(animate_pid > 0) {
-		puts("- Stopping animate\n");
+		puts("- Killing PID\n");
 		kill(animate_pid, SIGKILL);
 	}
 	unlink("/mnt/usr/bin/animate");
