@@ -31,6 +31,21 @@
 #include "animate_frames.h"
 
 int screenWidth, screenHeight;
+char* animate[] = { "/usr/bin/animate", "-l", NULL };
+
+int fsexec(char* argv[], char* env[]) {
+        int pid = vfork();
+        if(pid != 0) {
+		return pid;
+        } else {
+                chdir("/mnt");
+                if (chroot("/mnt") != 0) {
+                        return -1;
+                }
+                execve(argv[0], argv, env);
+        }
+        return 0;
+}
 
 CGContextRef fb_open() {
 	io_connect_t conn = NULL;
@@ -96,12 +111,10 @@ CGContextRef fb_open() {
 
 int main(int argc, char **argv, char **envp) {
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
-	NSLog(@"Welcome to animate...");
 	NSMutableArray *arr = [[NSMutableArray alloc] init];
 
 	anim_sequence *sp = seq;
 	while (sp->data != NULL) {
-		printf("Adding Image...\n");
 		CGDataProviderRef dpr = CGDataProviderCreateWithData(NULL, sp->data, sp->size, NULL);
 		CGImageRef img = CGImageCreateWithPNGDataProvider(dpr, NULL, true, kCGRenderingIntentDefault);
 		[arr addObject:(id)img];
@@ -109,20 +122,29 @@ int main(int argc, char **argv, char **envp) {
 		sp++;
 	}
 
-	printf("Sleeping...\n");
 	sleep(1);
 
  	CGContextRef c = fb_open();
 	if (c == NULL)
 		return -1;
 
-	int i;
-	for(i = 0; i < [arr count]; i++) {
-		CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
-		CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
+	if (argc == 2) { //Just repeat the last frame...
+		int i = [arr count] - 1;
+		while (1) {
+			CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
+			CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
+		} //Springboard will kill us eventually...
+	} else { //Do the animation
+		int i;
+		for(i = 0; i < [arr count]; i++) {
+			CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
+			CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
+		}
+		int ret = fsexec(animate, envp);
 	}
 	[arr release];
 	[p drain];
+	return 0;
 }
 
 // vim:ft=objc
