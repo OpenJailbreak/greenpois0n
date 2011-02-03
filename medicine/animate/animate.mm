@@ -62,9 +62,12 @@ CGContextRef fb_open() {
 	*(void **)(&cs_addr) = dlsym(cs_lib, "CoreSurfaceBufferGetBaseAddress");
 
 	io_service_t fb_service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleCLCD"));
-	if(!fb_service) {
-		printf("Couldn't find framebuffer.\n");
-		return NULL;
+	if (!fb_service) {
+		fb_service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleM2CLCD"));
+		if (!fb_service) {
+			printf("Couldn't find framebuffer.\n");
+			return NULL;
+		}
 	}
 
 	(*mfb_open)(fb_service, mach_task_self(), 0, &conn);
