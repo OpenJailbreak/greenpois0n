@@ -82,7 +82,7 @@ CGContextRef fb_open() {
 	colorSpace = CGColorSpaceCreateDeviceRGB();
 	context = CGBitmapContextCreate(frameBuffer, screenWidth, screenHeight, 8, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast);
 	if(context == NULL) {
-		printf("Couldn't create screen context!");
+		printf("Couldn't create screen context!\n");
 		return NULL;
 	}
 
@@ -98,7 +98,7 @@ int main(int argc, char **argv, char **envp) {
 
 	anim_sequence *sp = seq;
 	while (sp->data != NULL) {
-		printf("Adding Image...");
+		printf("Adding Image...\n");
 		CGDataProviderRef dpr = CGDataProviderCreateWithData(NULL, sp->data, sp->size, NULL);
 		CGImageRef img = CGImageCreateWithPNGDataProvider(dpr, NULL, true, kCGRenderingIntentDefault);
 		[arr addObject:(id)img];
@@ -106,13 +106,15 @@ int main(int argc, char **argv, char **envp) {
 		sp++;
 	}
 
-	printf("Sleeping...");
+	printf("Sleeping...\n");
 	sleep(1);
 
  	CGContextRef c = fb_open();
+	if (c == NULL)
+		return -1;
+
 	int i;
 	for(i = 0; i < [arr count]; i++) {
-		printf("Displaying Image...");
 		CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
 		CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
 	}
