@@ -113,21 +113,21 @@ int main(int argc, char **argv, char **envp) {
 	if (c == NULL)
 		return -1;
 
-	int i;
-	for(i = 0; i < [arr count]; i++) {
-		CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
-		CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
-	}
-		
-	if(vfork() == 0) {
+	if (argc == 1) {
+		int i;
+		for (i = 0; i < [arr count]; i++) {
+			CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
+			CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
+		}
+	} else {
 		//Loop last frame
-		//int i = [arr count] - 1;
+		int i = [arr count] - 1;
 		while (1) {
 			CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
 			CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
 		} //Springboard will kill us eventually...
 	}
-	
+
 	[arr release];
 	[p drain];
 	return 0;
