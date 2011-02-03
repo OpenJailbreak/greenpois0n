@@ -46,7 +46,7 @@ int animate_stop() {
 	if(animate_pid > 0) {
 		puts("- Stopping animate\n");
 		kill(animate_pid, SIGKILL);
-		unlink("/mnt/usr/bin/animate");
+		//unlink("/mnt/usr/bin/animate");
 	}
 	return 0;
 }
