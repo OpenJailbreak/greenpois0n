@@ -40,9 +40,14 @@
 static pois0n_callback progress_callback = NULL;
 static void* user_object = NULL;
 
+void pois0n_set_error(const char* message) {
+	strncpy(libpois0n_error, message, 255);
+}
+
 int recovery_callback(irecv_client_t client, const irecv_event_t* event) {
-	if(progress_callback)
+	if(progress_callback) {
 		progress_callback(event->progress, user_object);
+	}
 	return 0;
 }
 
@@ -56,13 +61,13 @@ int send_command(char* command) {
 	irecv_error_t error = IRECV_E_SUCCESS;
 	error = irecv_send_command(client, command);
 	if (error != IRECV_E_SUCCESS) {
-		printf("Unable to send command\n");
+		pois0n_set_error("Unable to send command\n");
 		return -1;
 	}
 
 	error = irecv_getret(client, &ret);
 	if (error != IRECV_E_SUCCESS) {
-		printf("Unable to send command\n");
+		pois0n_set_error("Unable to send command\n");
 		return -1;
 	}
 
@@ -72,7 +77,7 @@ int send_command(char* command) {
 int fetch_image(const char* path, const char* output) {
 	debug("Fetching %s...\n", path);
 	if (download_file_from_zip(device->url, path, output, &download_callback) != 0) {
-		error("Unable to fetch %s\n", path);
+		pois0n_set_error("Unable to connect to the network");
 		return -1;
 	}
 
@@ -167,7 +172,7 @@ int upload_firmware_image(const char* type) {
 	debug("Resetting device counters\n");
 	error = irecv_reset_counters(client);
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to upload firmware image\n");
+		pois0n_set_error("Unable to upload firmware image\n");
 		debug("%s\n", irecv_strerror(error));
 		return -1;
 	}
@@ -175,7 +180,7 @@ int upload_firmware_image(const char* type) {
 	debug("Uploading %s to device\n", image);
 	error = irecv_send_file(client, image, 1);
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to upload firmware image\n");
+		pois0n_set_error("Unable to upload firmware image\n");
 		debug("%s\n", irecv_strerror(error));
 		return -1;
 	}
@@ -330,14 +335,14 @@ int upload_firmware_payload(const char* type) {
 	}
 
 	if (payload == NULL) {
-		error("Unable to upload firmware payload\n");
+		pois0n_set_error("Unable to upload firmware payload\n");
 		return -1;
 	}
 
 	debug("Resetting device counters\n");
 	error = irecv_reset_counters(client);
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to upload firmware payload\n");
+		pois0n_set_error("Unable to upload firmware payload\n");
 		debug("%s\n", irecv_strerror(error));
 		return -1;
 	}
@@ -345,7 +350,7 @@ int upload_firmware_payload(const char* type) {
 	debug("Uploading %s payload\n", type);
 	error = irecv_send_buffer(client, (unsigned char*) payload, size, 1);
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to upload %s payload\n", type);
+		pois0n_set_error("Unable to upload payload\n");
 		return -1;
 	}
 
@@ -378,7 +383,7 @@ int upload_devicetree() {
 
 int upload_ramdisk() {
 	if (irecv_send_buffer(client, (unsigned char*) ramdisk_dmg, ramdisk_dmg_len, 0) < 0) {
-		error("Unable upload ramdisk\n");
+		pois0n_set_error("Unable upload ramdisk\n");
 		return -1;
 	}
 	return 0;
@@ -404,14 +409,14 @@ int upload_kernelcache() {
 	error = irecv_reset_counters(client);
 	if (error != IRECV_E_SUCCESS) {
 		debug("%s\n", irecv_strerror(error));
-		error("Unable upload kernelcache\n");
+		pois0n_set_error("Unable upload kernelcache\n");
 		return -1;
 	}
 
 	error = irecv_send_file(client, kernelcache, 1);
 	if (error != IRECV_E_SUCCESS) {
 		debug("%s\n", irecv_strerror(error));
-		error("Unable upload kernelcache\n");
+		pois0n_set_error("Unable upload kernelcache\n");
 		return -1;
 	}
 
@@ -446,7 +451,7 @@ int boot_ramdisk() {
 	debug("Executing ramdisk\n");
 	error = irecv_send_command(client, "ramdisk");
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to execute ramdisk command\n");
+		pois0n_set_error("Unable to execute ramdisk command\n");
 		return -1;
 	}
 
@@ -461,7 +466,7 @@ int boot_ramdisk() {
 	#endif
 
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to set kernel bootargs\n");
+		pois0n_set_error("Unable to set kernel bootargs\n");
 		return -1;
 	}
 
@@ -474,13 +479,13 @@ int boot_ramdisk() {
 	debug("Hooking jump_to command\n");
 	error = irecv_send_command(client, "go rdboot");
 	if(error != IRECV_E_SUCCESS) {
-		error("Unable to hook jump_to\n");
+		pois0n_set_error("Unable to hook jump_to\n");
 		return -1;
 	}
 
 	error = irecv_send_command(client, "bootx");
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to boot kernelcache\n");
+		pois0n_set_error("Unable to boot kernelcache\n");
 		return -1;
 	}
 	return 0;
@@ -498,7 +503,7 @@ int boot_tethered() {
 	debug("Executing ramdisk\n");
 	error = irecv_send_command(client, "ramdisk");
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to execute ramdisk command\n");
+		pois0n_set_error("Unable to execute ramdisk command\n");
 		return -1;
 	}
 	
@@ -511,7 +516,7 @@ int boot_tethered() {
 	#endif
 
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to set kernel bootargs\n");
+		pois0n_set_error("Unable to set kernel bootargs\n");
 		return -1;
 	}
 
@@ -530,7 +535,7 @@ int boot_tethered() {
 
 	error = irecv_send_command(client, "bootx");
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to boot kernelcache\n");
+		pois0n_set_error("Unable to boot kernelcache\n");
 		return -1;
 	}
 	
@@ -550,7 +555,7 @@ int boot_iboot() {
 				"go image load 0x69626F74 0x41000000");
 	}
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable load iBoot to memory\n");
+		pois0n_set_error("Unable load iBoot to memory\n");
 		return -1;
 	}
 
@@ -563,7 +568,7 @@ int boot_iboot() {
 				"go memory move 0x41000040 0x41000000 0x48000");
 	}
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to move iBoot into memory\n");
+		pois0n_set_error("Unable to move iBoot into memory\n");
 		return -1;
 	}
 
@@ -574,7 +579,7 @@ int boot_iboot() {
 		error = irecv_send_command(client, "go patch 0x41000000 0x48000");
 	}
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to patch iBoot\n");
+		pois0n_set_error("Unable to patch iBoot\n");
 		return -1;
 	}
 
@@ -588,14 +593,14 @@ int boot_iboot() {
 		error = irecv_send_command(client, "go jump 0x41000000");
 	}
 	if (error != IRECV_E_SUCCESS) {
-		error("Unable to jump into iBoot\n");
+		pois0n_set_error("Unable to jump into iBoot\n");
 		return -1;
 	}
 
 	debug("Reconnecting to device\n");
 	client = irecv_reconnect(client, 10);
 	if (client == NULL) {
-		error("Unable to boot the device tethered\n");
+		pois0n_set_error("Unable to boot the device tethered\n");
 		return -1;
 	}
 
@@ -628,7 +633,7 @@ int execute_ibss_payload(char *bootarg) {
 		error = irecv_getenv(client, "boot-args", &bootargs);
 		if (error != IRECV_E_SUCCESS) {
 			debug("%s\n", irecv_strerror(error));
-			error("Unable to read env var\n");
+			pois0n_set_error("Unable to read env var\n");
 			return -1;
 		}
 	}
@@ -670,6 +675,7 @@ void pois0n_init() {
 	irecv_init();
 	irecv_set_debug_level(libpois0n_debug);
 	debug("Initializing libpois0n\n");
+	pois0n_set_error("An unknown error has occured");
 
 #ifdef __APPLE__
 	system("killall -9 iTunesHelper");
@@ -703,7 +709,7 @@ int pois0n_is_ready() {
 	// Check device
 	// debug("Checking the device mode\n");
 	if (client->mode != kDfuMode) {
-		error("Device must be in DFU mode to continue\n");
+		pois0n_set_error("Device must be in DFU mode to continue\n");
 		irecv_close(client);
 		return -1;
 	}
@@ -718,7 +724,7 @@ int pois0n_is_compatible() {
 	debug("Checking the device type\n");
 	error = irecv_get_device(client, &device);
 	if (device == NULL || device->index == DEVICE_UNKNOWN) {
-		error("Sorry device is not compatible with this jailbreak\n");
+		pois0n_set_error("Sorry device is not compatible with this jailbreak\n");
 		return -1;
 	}
 	info("Identified device as %s\n", device->product);
@@ -731,7 +737,7 @@ int pois0n_is_compatible() {
 			&& device->chip_id != 8720
 #endif
 	) {
-		error("Sorry device is not compatible with this jailbreak\n");
+		pois0n_set_error("Sorry device is not compatible with this jailbreak\n");
 		return -1;
 	}
 
@@ -744,6 +750,10 @@ void pois0n_exit() {
 	irecv_exit();
 }
 
+char* pois0n_get_error() {
+	return strdup(libpois0n_error);
+}
+
 int pois0n_injectonly() {
 	//////////////////////////////////////
 	// Send exploit
@@ -753,13 +763,13 @@ int pois0n_injectonly() {
 
 		debug("Preparing to upload limera1n exploit\n");
 		if (limera1n_exploit() < 0) {
-			error("Unable to upload exploit data\n");
+			pois0n_set_error("Unable to upload exploit data\n");
 			return -1;
 		}
 
 #else
 
-		error("Sorry, this device is not currently supported\n");
+		pois0n_set_error("Sorry, this device is not currently supported\n");
 		return -1;
 
 #endif
@@ -772,13 +782,13 @@ int pois0n_injectonly() {
 
 		debug("Preparing to upload limera1n exploit\n");
 		if (limera1n_exploit() < 0) {
-			error("Unable to upload exploit data\n");
+			pois0n_set_error("Unable to upload exploit data\n");
 			return -1;
 		}
 
 #else
 
-		error("Sorry, this device is not currently supported\n");
+		pois0n_set_error("Sorry, this device is not currently supported\n");
 		return -1;
 
 #endif
@@ -791,13 +801,13 @@ int pois0n_injectonly() {
 
 		debug("Preparing to upload steaks4uce exploit\n");
 		if (steaks4uce_exploit() < 0) {
-			error("Unable to upload exploit data\n");
+			pois0n_set_error("Unable to upload exploit data\n");
 			return -1;
 		}
 
 #else
 
-		error("Sorry, this device is not currently supported\n");
+		pois0n_set_error("Sorry, this device is not currently supported\n");
 		return -1;
 
 #endif
@@ -810,13 +820,13 @@ int pois0n_injectonly() {
 
 		debug("Preparing to upload pwnage2 exploit\n");
 		if(pwnage2_exploit() < 0) {
-			error("Unable to upload exploit data\n");
+			pois0n_set_error("Unable to upload exploit data\n");
 			return -1;
 		}
 
 #else
 
-		error("Sorry, this device is not currently supported\n");
+		pois0n_set_error("Sorry, this device is not currently supported\n");
 		return -1;
 
 #endif
@@ -824,7 +834,7 @@ int pois0n_injectonly() {
 	}
 
 	else {
-		error("Sorry, this device is not currently supported\n");
+		pois0n_set_error("Sorry, this device is not currently supported\n");
 		return -1;
 	}
 	return 0;
