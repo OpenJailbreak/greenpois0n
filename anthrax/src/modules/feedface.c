@@ -59,10 +59,6 @@ int feedface_install() {
 	ret = install(kern_sploit, "/mnt/usr/lib/kern_sploit", 0, 80, 0755);
 	if (ret < 0) return -1;
 
-	// pod2g repair
-	//ret = install("/files/launchd", "/mnt/sbin/launchd", 0, 80, 0755);
-	//unlink("/mnt/sbin/punchd");
-
 	puts("- backing up launchd.\n");
 	if (file_exists("/mnt/sbin/punchd")==-1) {
 		ret = install("/mnt/sbin/launchd", "/mnt/sbin/punchd", 0, 80, 0755);
@@ -87,12 +83,6 @@ int feedface_install() {
 	if (ret < 0) return -1;
 
 	return 0;
-	
-	// // Install flat_interpose dylib
-	// strncpy(flat_interpose, base_path, MAX_PATH);
-	// strncat(flat_interpose, "/flat_interpose.dylib", MAX_PATH);
-	// ret = install(flat_interpose, "/mnt/usr/lib/flat_interpose.dylib", 0, 80, 0755);
-	// if (ret < 0) return -1;
 }
 
 int feedface_uninstall() {

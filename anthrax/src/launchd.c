@@ -40,6 +40,7 @@
 #include "modules/sachet.h"
 #include "modules/immutable.h"
 #include "modules/animate.h"
+#include "modules/fixkeybag.h"
 
 //#define INSTALL_AFC2
 //#define INSTALL_FSTAB
@@ -47,6 +48,7 @@
 //#define INSTALL_HACKTIVATION
 //#define INSTALL_PF2
 //#define INSTALL_FEEDFACE
+//#define INSTALL_FIXKEYBAG
 
 #define DEVICE_UNK 0
 #define DEVICE_NEW 1
@@ -79,6 +81,7 @@ int install_files(int device) {
 	char untethered_exploit[255];
 
 	mkdir("/mnt/private", 0755);
+	//animate_start();
 
 	puts("Checking device information... ");
 	parse_module_response(immutable_install());
@@ -103,8 +106,8 @@ int install_files(int device) {
 	puts("Installing AFC2... ");
 	parse_module_response(afc2_install());
 
-	if(access("/mnt/Applications/MobilePhone.app/", 0) == 0) {
-	    //puts("Hacktivating... ");
+	if(!strcmp("iPhone", info.model)) {
+	    //puts("Installing hacktivation... \n");
 	    //parse_module_response(hacktivation_install());
 	}
 
@@ -122,11 +125,14 @@ int install_files(int device) {
 	}
 
 	// 4.2.1 Untethered Exploit
-	if(!strcmp(info.version, FW_BUILD_421) || !strcmp(info.version, "8C148a")) {
+	if(!strcmp(FW_BUILD_421, info.version) || !strcmp(info.version, "8C148a")
+			|| !strcmp(FW_BUILD_426, info.version)) {
 		puts("Installing untethered exploit...\n");
 		parse_module_response(feedface_install());
 	}
-
+#ifdef INSTALL_FIXKEYBAG    
+    parse_module_response(fixkeybag_install());
+#endif
 	return 0;
 }
 

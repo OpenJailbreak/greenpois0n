@@ -55,7 +55,7 @@ int device_info(device_info_t* info) {
 	ret = device_cpusubtype(&subtype);
 	if(ret < 0) return -1;
 
-	if (subtype <= 412) {
+	if (!strcmp(info->model, DEVICE_IPOD2G)) {
 		info->cpusubtype = GP_DEVICE_ARMV6;
 	} else {
 		info->cpusubtype = GP_DEVICE_ARMV7;

@@ -22,6 +22,7 @@
 #define FIRMWARE_H
 
 #define FW_BUILD_421 "8C148"
+#define FW_BUILD_426 "8E200"
 
 typedef struct {
 	const char* build;

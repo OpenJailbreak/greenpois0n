@@ -25,9 +25,9 @@
 	NSOperationQueue *_queue;
 	NSDictionary *_sourceDict;
 	NSIndexPath *_currentIndex;
-	
-	NSURLResponse *downloadResponse;
-	int bytesReceived;
+
+	long long bytesReceived;
+	long long pkg_size;
 }
 
 - (void)setDownloadResponse:(NSURLResponse *)aDownloadResponse;

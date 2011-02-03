@@ -35,6 +35,8 @@
 #define STEAKS4UCE
 //#define PWNAGE2
 
+//#define DEBUG_SERIAL
+
 static pois0n_callback progress_callback = NULL;
 static void* user_object = NULL;
 
@@ -69,8 +71,7 @@ int send_command(char* command) {
 
 int fetch_image(const char* path, const char* output) {
 	debug("Fetching %s...\n", path);
-	if (download_file_from_zip(device->url, path, output, &download_callback)
-			!= 0) {
+	if (download_file_from_zip(device->url, path, output, &download_callback) != 0) {
 		error("Unable to fetch %s\n", path);
 		return -1;
 	}
@@ -450,8 +451,15 @@ int boot_ramdisk() {
 	}
 
 	debug("Setting kernel bootargs\n");
+	#ifdef DEBUG_SERIAL
 	error = irecv_send_command(client,
-			"go kernel bootargs rd=md0 -v");
+			"go kernel bootargs rd=md0 -v serial=1");
+	#endif
+
+	#ifndef DEBUG_SERIAL
+	error = irecv_send_command(client, "go kernel bootargs rd=md0 -v");
+	#endif
+
 	if (error != IRECV_E_SUCCESS) {
 		error("Unable to set kernel bootargs\n");
 		return -1;
@@ -495,7 +503,13 @@ int boot_tethered() {
 	}
 	
 	debug("Setting kernel bootargs\n");
-	error = irecv_send_command(client, "go kernel bootargs -v");
+	#ifdef DEBUG_SERIAL
+	error = irecv_send_command(client, "go kernel bootargs -v serial=1 debug=0xa");
+	#endif
+	#ifndef DEBUG_SERIAL
+	error = irecv_send_command(client, "go kernel bootargs -v debug=0xa");
+	#endif
+
 	if (error != IRECV_E_SUCCESS) {
 		error("Unable to set kernel bootargs\n");
 		return -1;

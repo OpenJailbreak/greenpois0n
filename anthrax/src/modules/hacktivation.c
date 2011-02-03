@@ -17,29 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include "hacktivation.h"
 #include "utils.h"
+#include "hacktivation.h"
 
 int hacktivation_install() {
-	int ret;
+	int ret = 0;
 
-	ret = install("/files/hacktivate.dylib", "/mnt/usr/lib/hacktivate.dylib",
-			0, 80, 0755);
-	if (ret < 0)
-		return ret;
+	puts("- Installing whacktivate.dylib\n");
+	ret = install("/files/whacktivate.dylib", "/mnt/usr/lib/whacktivate.dylib", 0, 80, 0755);
+	if (ret < 0) return ret;
 
-	ret
-			= install(
-					"/files/com.apple.mobile.lockdown.plist",
-					"/mnt/System/Library/LaunchDaemons/com.apple.mobile.lockdown.plist",
-					0, 0, 0644);
-	if (ret < 0)
-		return ret;
+	// We should really back this plist up before replacing it
+	puts("- Installing com.mobile.localdown.plist\n");
+	ret = install("/files/com.apple.mobile.lockdown.plist", "/mnt/System/Library/LaunchDaemons/com.apple.mobile.lockdown.plist", 0, 0, 0644);
+	if (ret < 0) return ret;
 
 	return 0;
 }
 
 int hacktivation_uninstall() {
+	puts("Uninstalling hacktivation...\n");
+	unlink("/mnt/usr/lib/whacktivate.dylib");
 	return -1;
 }
 

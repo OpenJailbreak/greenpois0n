@@ -176,6 +176,17 @@ char* _strncpy(char* s1, const char* s2, int n) {
 	return s1;
 }
 
+/*
+char* _strncmp(const char* s1, const char* s2, int n) {
+	int i = 0;
+	for(i = 0; s2[i] != '\0'; i++) {
+		if(i >= n) break;
+		if(s1[i] != s2[i]) return -1;
+	}
+	return 0;
+}
+*/
+
 int _strcmp(const char* s1, const char* s2) {
 	int i = 0;
 	int len = strlen(s1);

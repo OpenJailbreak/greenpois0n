@@ -13,14 +13,6 @@
 #include "offsets.h"
 #include "commands.h"
 
-#ifdef TARGET_BDEV_LIST
-#	define SELF_BDEV_LIST ((void*)(TARGET_BASEADDR + TARGET_BDEV_LIST))
-#endif
-
-#ifndef SELF_BDEV_LIST
-#	define SELF_BDEV_LIST 0
-#endif
-
 typedef struct BdevDescriptor {
     struct BdevDescriptor* next;
     void* unk1;
