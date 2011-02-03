@@ -93,11 +93,12 @@ CGContextRef fb_open() {
 
 int main(int argc, char **argv, char **envp) {
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
-
+	NSLog(@"Welcome to animate...");
 	NSMutableArray *arr = [[NSMutableArray alloc] init];
 
 	anim_sequence *sp = seq;
 	while (sp->data != NULL) {
+		NSLog(@"Adding Image...");
 		CGDataProviderRef dpr = CGDataProviderCreateWithData(NULL, sp->data, sp->size, NULL);
 		CGImageRef img = CGImageCreateWithPNGDataProvider(dpr, NULL, true, kCGRenderingIntentDefault);
 		[arr addObject:(id)img];
@@ -110,6 +111,7 @@ int main(int argc, char **argv, char **envp) {
  	CGContextRef c = fb_open();
 	int i;
 	for(i = 0; i < [arr count]; i++) {
+		NSLog(@"Displaying Image...");
 		CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
 		CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
 	}

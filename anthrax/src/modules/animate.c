@@ -32,7 +32,7 @@ int animate_start() {
 	ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);
 	if(ret < 0) return -1;
 
-	ret = fsexec(animate, cache_env, true);
+	ret = fsexec(animate, cache_env, false);
 	if(ret < 0) return -1;
 
 	animate_pid = ret;

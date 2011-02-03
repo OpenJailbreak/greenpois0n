@@ -41,9 +41,9 @@
 #include "modules/immutable.h"
 #include "modules/animate.h"
 
-#define INSTALL_AFC2
-#define INSTALL_FSTAB
-#define INSTALL_LOADER
+//#define INSTALL_AFC2
+//#define INSTALL_FSTAB
+//#define INSTALL_LOADER
 //#define INSTALL_HACKTIVATION
 //#define INSTALL_PF2
 //#define INSTALL_FEEDFACE
@@ -94,6 +94,8 @@ int install_files(int device) {
 	if (animate_start() != 0) {
 		puts("Or maybe not... Moving on....");
 	}
+
+	while (1){};
 
 	puts("Installing fstab... ");
 	parse_module_response(fstab_install());
