@@ -103,6 +103,7 @@ int main(int argc, char **argv, char **envp) {
 		CGImageRef img = CGImageCreateWithPNGDataProvider(dpr, NULL, true, kCGRenderingIntentDefault);
 		[arr addObject:(id)img];
 		CGDataProviderRelease(dpr);
+		sp++;
 	}
 
 	NSLog(@"Sleeping...");
