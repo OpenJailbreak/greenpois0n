@@ -80,7 +80,6 @@ int install_files(int device) {
 	char untethered_exploit[255];
 
 	mkdir("/mnt/private", 0755);
-	//animate_start();
 
 	puts("Checking device information... ");
 	parse_module_response(immutable_install());
@@ -205,6 +204,16 @@ int main(int argc, char* argv[], char* env[]) {
 	}
 	puts("Root filesystem checked\n");
 
+	puts("Updating filesystem...\n");
+	if(dev == DEVICE_ATV) {
+		ret = hfs_mount("/dev/disk0s1s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
+	} else {
+		ret = hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
+	}
+
+	puts("Starting boot animation\n");
+	animate_start();
+
 	puts("Checking user filesystem...\n");
 	if(dev == DEVICE_ATV) {
 		fsexec(fsck_hfs_user_atv, env, true);
@@ -214,12 +223,6 @@ int main(int argc, char* argv[], char* env[]) {
 	}
 	puts("User filesystem checked\n");
 
-	puts("Updating filesystem...\n");
-	if(dev == DEVICE_ATV) {
-		ret = hfs_mount("/dev/disk0s1s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
-	} else {
-		ret = hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
-	}
 	if (ret != 0) {
 		puts("Unable to update filesystem!\n");
 		unmount("/mnt/dev", 0);
