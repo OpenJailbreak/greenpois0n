@@ -268,6 +268,9 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("Installation complete\n");
 	sync();
 
+	puts("Stopping boot animation\n");
+	animate_stop();
+
 	puts("Unmounting disks...\n");
 	rmdir("/mnt/private/var2");
 	unmount("/mnt/private/var2", 0);

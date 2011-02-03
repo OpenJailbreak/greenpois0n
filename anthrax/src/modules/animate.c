@@ -34,12 +34,13 @@ int animate_start() {
 	ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);sync();
 	if(ret < 0) return -1;
 
-	puts("- Launching animate in background\n");
-	ret = fsexec(animate, cache_env, true);sync();
-	if(ret < 0) return -1;
+	//puts("- Launching animate in background\n");
+	//ret = fsexec(animate, cache_env, false);sync();
+	//if(ret < 0) return -1;
 
 	if(ret > 0) {
 		animate_pid = ret;
+		puts("- Got PID of ");puti(animate_pid);puts("\n");
 	}
 
 	return 0;
@@ -48,7 +49,7 @@ int animate_start() {
 int animate_stop() {
 	int ret = 0;
 	if(animate_pid > 0) {
-		puts("- Stopping animate\n");
+		puts("- Killing PID\n");
 		kill(animate_pid, SIGKILL);
 	}
 	return 0;
