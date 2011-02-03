@@ -1,0 +1,59 @@
+*** greenpois0n 1.0 RC5 ***
+
+> Description of the software:
+
+  greenpois0n will Jailbreak your iDevice.
+
+> Supported iDevices:
+  - iPod Touch 2G (all bootroms)
+  - iPod Touch 3G
+  - iPod Touch 4G
+  - iPad 1G
+  - iPhone 3Gs (all bootroms)
+  - iPhone 4
+  - iPhone 4 Verizon (_not_tested_)
+  - AppleTV 2
+
+> Requirements (check this !)
+
+  - a supported device (see above)
+  - the device should run iOS 4.2.1. Please check on the device in the Settings -> General -> About page.
+    If your device is running an older version, please upgrade iOS first using iTunes.
+    *** If you want to SIM Unlock, preserve your baseband using TinyUmbrella ¨***
+  - at least MacOSX 10.5
+
+> Notes (checks this also !)
+
+  - this version of greenpois0n doesn't include a patched activation system. You'll need to activate your device using iTunes
+  - WE DO NOT SUPPORT PIRACY !
+
+> Instructions
+
+  1. plug the device to your computer using the USB cable
+  2. quit iTunes if it shows up
+  3. start greenpois0n.app
+  4. follow instructions
+  5. the device will boot a 1st time with verbose text on screen. This operation will install the jailbreak on the device.
+  6. the device will reboot normally
+  7. start the Loader application (green icon on the SpringBoard), and follow instructions to install Cydia
+
+> Credits (alphabetical order)
+
+  Chronic-Dev Team (follow us on twitter):
+  - AriX        : @AriX
+  - chronic     : @chronic
+  - DHowett     : @DHowett
+  - jan0        : @0naj
+  - Jaywalke    : @Jaywalker9988
+  - OPK         : @iOPK
+  - pod2g       : @pod2g
+  - posixninja  : @p0sixninja
+  - semaphore   : @notcom
+  - westbaer    : @westbaer
+
+  Greetings: chpwn, comex, geohot
+
+> Donations:
+
+  Donations are always greatly appreciated and will permit to buy new devices to make tests for future jailbreaks. ( http://www.greenpois0n.com )
+
