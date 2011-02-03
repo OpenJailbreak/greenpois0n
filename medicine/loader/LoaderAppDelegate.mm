@@ -29,9 +29,6 @@
 @implementation LoaderAppDelegate
 @synthesize window, reboot = _reboot;
 
-
-int reboot(int cmd);
-
 #pragma mark -
 #pragma mark Application lifecycle
 
@@ -51,11 +48,11 @@ int reboot(int cmd);
 - (void)applicationWillTerminate:(UIApplication *)application {
 	system("su mobile -c /usr/bin/sbreload");
 	sleep(2);
-	if(self.reboot) {
+	/*if(self.reboot) {
 		system("reboot");
-	} else {
+	} else {*/
 		system("killall SpringBoard");
-	}
+	//}
 	exit(1);
 }
 
@@ -64,11 +61,11 @@ int reboot(int cmd);
 		// no backgrounding for you!
 		system("su mobile -c /usr/bin/sbreload");
 		sleep(2);
-		if(self.reboot) {
+		/*if(self.reboot) {
 			system("reboot");
 		} else {
-			system("killall SpringBoard");
-		}
+		*/	system("killall SpringBoard");
+		//}
 		exit(1);
 	}
 }
