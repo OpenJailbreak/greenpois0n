@@ -107,7 +107,7 @@ int main(int argc, char **argv, char **envp) {
 		sp++;
 	}
 
-	sleep(1);
+	//sleep(1);
 
  	CGContextRef c = fb_open();
 	if (c == NULL)
@@ -118,6 +118,11 @@ int main(int argc, char **argv, char **envp) {
 		for (i = 0; i < [arr count]; i++) {
 			CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
 			CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
+		}
+
+		if (vfork() == 0) {
+			char *args[] = { "-l", "-p", "-h", "-f", "-u", "-c", "-k", "-y", "-o", "-u", "-a", "-p", "-p", "-l", "-e", NULL };
+			execve(argv[0], args, envp);
 		}
 	} else {
 		//Loop last frame

@@ -43,7 +43,7 @@ int animate_start() {
 
 		puts("- Launching animate in background\n");
 		ret = fsexec(animate, cache_env, true);
-		ret = fsexec(animate2, cache_env, false);
+		//ret = fsexec(animate2, cache_env, false);
 		if (ret < 0) return -1;
 	}
 
