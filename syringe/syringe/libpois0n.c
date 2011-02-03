@@ -470,7 +470,7 @@ int boot_ramdisk() {
 		error("Unable to upload kernelcache\n");
 		return -1;
 	}
-	
+
 	debug("Hooking jump_to command\n");
 	error = irecv_send_command(client, "go rdboot");
 	if(error != IRECV_E_SUCCESS) {
@@ -483,7 +483,6 @@ int boot_ramdisk() {
 		error("Unable to boot kernelcache\n");
 		return -1;
 	}
-
 	return 0;
 }
 

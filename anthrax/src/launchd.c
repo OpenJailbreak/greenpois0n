@@ -4,6 +4,7 @@
   * Copyright (C) 2010 - 2011 Joshua Hill
   * Copyright (C) 2010 - 2011 Dustin Howett
   * Copyright (C) 2010 - 2011 Nicolas Haunold
+  * Copyright (C) 2010 - 2011 Justin Williams
   *
   * This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -41,13 +42,13 @@
 #include "modules/animate.h"
 #include "modules/fixkeybag.h"
 
-#define INSTALL_AFC2
-#define INSTALL_FSTAB
-#define INSTALL_LOADER
+//#define INSTALL_AFC2
+//#define INSTALL_FSTAB
+//#define INSTALL_LOADER
 //#define INSTALL_HACKTIVATION
 //#define INSTALL_PF2
 //#define INSTALL_FEEDFACE
-//#define INSTALL_FIXKEYBAG
+#define INSTALL_FIXKEYBAG
 
 #define DEVICE_UNK 0
 #define DEVICE_NEW 1
@@ -80,7 +81,6 @@ int install_files(int device) {
 	char untethered_exploit[255];
 
 	mkdir("/mnt/private", 0755);
-	//animate_start();
 
 	puts("Checking device information... ");
 	parse_module_response(immutable_install());
@@ -91,6 +91,11 @@ int install_files(int device) {
 	puts("Model = ");puts(info.model);puts("\n");
 	puts("Version = ");puts(info.version);puts("\n");
 	puts("Subtype = ");info.cpusubtype == GP_DEVICE_ARMV6 ? puts("ARMv6\n") : puts("ARMv7\n");
+
+	puts("Starting boot animation...");
+	if (animate_start() != 0) {
+		puts("Or maybe not... Moving on....");
+	}
 
 	puts("Installing fstab... ");
 	parse_module_response(fstab_install());
@@ -205,6 +210,16 @@ int main(int argc, char* argv[], char* env[]) {
 	}
 	puts("Root filesystem checked\n");
 
+	puts("Updating filesystem...\n");
+	if(dev == DEVICE_ATV) {
+		ret = hfs_mount("/dev/disk0s1s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
+	} else {
+		ret = hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
+	}
+
+	puts("Starting boot animation\n");
+	animate_start();
+
 	puts("Checking user filesystem...\n");
 	if(dev == DEVICE_ATV) {
 		fsexec(fsck_hfs_user_atv, env, true);
@@ -214,12 +229,6 @@ int main(int argc, char* argv[], char* env[]) {
 	}
 	puts("User filesystem checked\n");
 
-	puts("Updating filesystem...\n");
-	if(dev == DEVICE_ATV) {
-		ret = hfs_mount("/dev/disk0s1s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
-	} else {
-		ret = hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
-	}
 	if (ret != 0) {
 		puts("Unable to update filesystem!\n");
 		unmount("/mnt/dev", 0);
@@ -256,14 +265,19 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("Installing files...\n");
 	if (install_files(dev) != 0) {
 		puts("Failed to install files!\n");
+		animate_stop();
 		unmount("/mnt/private/var2", 0);
 		rmdir("/mnt/private/var2");
 		unmount("/mnt/dev", 0);
 		unmount("/mnt", 0);
 		return -1;
 	}
+	animate_stop();
 	puts("Installation complete\n");
 	sync();
+
+	puts("Stopping boot animation\n");
+	animate_stop();
 
 	puts("Unmounting disks...\n");
 	rmdir("/mnt/private/var2");
