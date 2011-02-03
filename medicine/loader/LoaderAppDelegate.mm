@@ -48,11 +48,11 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
 	system("su mobile -c /usr/bin/sbreload");
 	sleep(2);
-	/*if(self.reboot) {
+	if(self.reboot) {
 		system("reboot");
-	} else {*/
+	} else {
 		system("killall SpringBoard");
-	//}
+	}
 	exit(1);
 }
 
@@ -61,11 +61,11 @@
 		// no backgrounding for you!
 		system("su mobile -c /usr/bin/sbreload");
 		sleep(2);
-		/*if(self.reboot) {
+		if(self.reboot) {
 			system("reboot");
 		} else {
-		*/	system("killall SpringBoard");
-		//}
+			system("killall SpringBoard");
+		}
 		exit(1);
 	}
 }
