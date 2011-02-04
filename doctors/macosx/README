@@ -24,6 +24,8 @@
 
 > Notes (checks this also !)
 
+  - if your device is jailbroken with iPhone Dev Team's Monte, please restore to fresh 4.2.1. first
+  - if Cydia doesn't show up after Loader, you may need to reboot the device
   - this version of greenpois0n doesn't include a patched activation system. You'll need to activate your device using iTunes
   - WE DO NOT SUPPORT PIRACY !
 
@@ -44,7 +46,7 @@
   - chronic     : @chronic
   - DHowett     : @DHowett
   - jan0        : @0naj
-  - Jaywalke    : @Jaywalker9988
+  - Jaywalker    : @Jaywalker9988
   - OPK         : @iOPK
   - pod2g       : @pod2g
   - posixninja  : @p0sixninja
