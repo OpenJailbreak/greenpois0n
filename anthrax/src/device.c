@@ -23,13 +23,13 @@
 //#include "firmware.h"
 
 int device_model(char** model) {
-	int size = 10;
+	int size = 11;
 	int node[2] = { NODE_HW, HW_MODEL };
 	return sysctl(node, 2, model, &size, 0, 0);
 }
 
 int device_version(char** version) {
-	int size = 10;
+	int size = 11;
 	int node[2] = { NODE_KERN, KERN_OSVERSION };
 	return sysctl(node, 2, version, &size, 0, 0);
 }

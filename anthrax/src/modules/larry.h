@@ -1,8 +1,7 @@
 /**
- * GreenPois0n Anthrax - firmware.h
+ * GreenPois0n Anthrax - larry.h
  * Copyright (C) 2011 Chronic-Dev Team
- * Copyright (C) 2011 Joshua Hill
- * Copyright (C) 2011 Nicolas Haunold
+ * Copyright (C) 2011 Kevin Bradley
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,19 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef FIRMWARE_H
-#define FIRMWARE_H
+#ifndef LARRY_H
+#define LARRY_H
 
-#define FW_APPLETV_421 "8C154"
-#define FW_BUILD_421 "8C148"
-#define FW_BUILD_426 "8E200"
-
-typedef struct {
-	const char* build;
-	const char* version;
-} firmware_info_t;
-
-int firmware_version(char** version);
-int firmware_info(firmware_info_t* info);
+int larry_install();
+int larry_uninstall();
 
 #endif
+
