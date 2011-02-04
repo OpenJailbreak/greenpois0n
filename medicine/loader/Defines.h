@@ -17,5 +17,5 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#define kLoaderURL @"http://www.greenpois0n.com/sources.plist"
+#define kLoaderURL @"http://cache.saurik.com/greenpois0n/sources.plist"
 #define kTitle @"Loader"
