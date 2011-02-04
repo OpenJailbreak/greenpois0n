@@ -4,7 +4,7 @@ ifeq ($(UNAME),Darwin)
 	OS_STATIC_EXT = .a
 	OS_EXEC_EXT = 
 else
-	ifeq ($(UNAME),MINGW32_NT-5.1)
+	ifneq (,$(findstring MINGW32_NT,$(UNAME)))
 		OS_SHARED_EXT = .dll
 		OS_STATIC_EXT = .a
 		OS_EXEC_EXT = .exe

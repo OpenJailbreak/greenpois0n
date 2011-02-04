@@ -31,6 +31,11 @@ ipch/*
 /loadibec
 .DS_Store
 
+# Binaries (Win32/MinGW)
+injectpois0n.exe
+tetheredboot.exe
+loadibec.exe
+
 # Misc
 
 tetheredboot-Debug/*
