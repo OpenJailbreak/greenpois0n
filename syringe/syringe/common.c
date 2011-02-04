@@ -21,5 +21,8 @@
 #include "libirecovery.h"
 
 int libpois0n_debug = 1;
+char libpois0n_error[255];
+
 irecv_client_t client = NULL;
 irecv_device_t device = NULL;
+

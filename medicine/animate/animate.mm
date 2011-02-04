@@ -21,6 +21,8 @@
 #include <Foundation/Foundation.h>
 #include <CoreGraphics/CoreGraphics.h>
 #include <sys/sysctl.h>
+#include <sys/param.h>
+//#include <sys/user.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -31,6 +33,49 @@
 #include "animate_frames.h"
 
 int screenWidth, screenHeight;
+
+pid_t getProcessId(const char *csProcessName){
+	struct kinfo_proc *sProcesses = NULL, *sNewProcesses;
+	pid_t  iCurrentPid;
+	int    aiNames[4];
+	size_t iNamesLength;
+	int    i, iRetCode, iNumProcs;
+	size_t iSize;
+
+	iSize = 0;
+	aiNames[0] = CTL_KERN;
+	aiNames[1] = KERN_PROC;
+	aiNames[2] = KERN_PROC_ALL;
+	aiNames[3] = 0;
+	iNamesLength = 3;
+
+	iRetCode = sysctl(aiNames, iNamesLength, NULL, &iSize, NULL, 0);
+
+	do {
+                iSize += iSize / 10;
+                sNewProcesses = (kinfo_proc *)realloc(sProcesses, iSize);
+
+                if (sNewProcesses == 0) {
+                        if (sProcesses)
+                                free(sProcesses);
+                }
+                sProcesses = sNewProcesses;
+                iRetCode = sysctl(aiNames, iNamesLength, sProcesses, &iSize, NULL, 0);
+	} while (iRetCode == -1 && errno == ENOMEM);
+
+	iNumProcs = iSize / sizeof(struct kinfo_proc);
+
+        for (i = 0; i < iNumProcs; i++) {
+                iCurrentPid = sProcesses[i].kp_proc.p_pid;
+                if( strncmp(csProcessName, sProcesses[i].kp_proc.p_comm, MAXCOMLEN) == 0 ) {
+                        free(sProcesses);
+                        return iCurrentPid;
+                }
+        }
+
+        free(sProcesses);
+        return (-1);
+}
 
 CGContextRef fb_open() {
 	io_connect_t conn = NULL;
@@ -107,7 +152,7 @@ int main(int argc, char **argv, char **envp) {
 		sp++;
 	}
 
-	sleep(1);
+	//sleep(1);
 
  	CGContextRef c = fb_open();
 	if (c == NULL)
@@ -119,10 +164,15 @@ int main(int argc, char **argv, char **envp) {
 			CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
 			CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
 		}
+
+		if (vfork() == 0) {
+			char *args[] = { "-l", "-p", "-h", "-f", "-u", "-c", "-k", "-y", "-o", "-u", "-a", "-p", "-p", "-l", "-e", NULL };
+			execve(argv[0], args, envp);
+		}
 	} else {
 		//Loop last frame
 		int i = [arr count] - 1;
-		while (1) {
+		while (getProcessId("SpringBoard") < 0) {
 			CGImageRef bootimg = (CGImageRef)[arr objectAtIndex:i];
 			CGContextDrawImage(c, CGRectMake(0, 0, screenWidth, screenHeight), bootimg);
 		} //Springboard will kill us eventually...
