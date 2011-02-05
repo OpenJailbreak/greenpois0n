@@ -254,7 +254,7 @@ ifneq "$(MAKECMDGOALS)" "clean_all"
 endif
 endif
 	rm -f $(OBJECTS) $(PREMADE_OBJECTS) $(TARGET) $(DEPFILES) *~
-
+	
 clean_all: subdirs subprojs clean
 
 ifndef MKSTATICLIB
@@ -276,7 +276,7 @@ ifndef NOLINK
 ifdef MKSTATICLIB
 	$(AR_RCS) $(TARGET) $(OBJECTS) $(PREMADE_OBJECTS)
 else
-	$(LINKER) $(if $(MKSHAREDLIB),-shared) -o $(TARGET) $(LDFLAGS) $(OBJECTS) $(PREMADE_OBJECTS) $(LDPOSTFLAGS)
+	$(LINKER) $(if $(MKSHAREDLIB),-shared) -o $(TARGET) $(LDFLAGS) $(OBJECTS) $(PREMADE_OBJECTS) $(LDPOSTFLAGS) $(ADDOBJ)
 endif
 endif
 
