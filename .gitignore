@@ -1,6 +1,24 @@
 # payloads
-/syringe/include/payloads/*.h
+/syringe/include/payloads/
+/cyanide/payloads/
+/syringe/include/resources/
 
 # firmwares
 iBSS*
 kernel*
+
+#object files
+*.o
+
+#binaries
+/anthrax/src/launchd
+/cyanide/tools/bin2c
+/syringe/utilities/injectpois0n
+/syringe/utilities/loadibec
+/syringe/utilities/tetheredboot
+injectpois0n
+
+# ramdisk
+/anthrax/ramdisk.h
+/anthrax/ramdisk.dmg
+/anthrax/ramdisk.img3
