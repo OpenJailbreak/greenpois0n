@@ -18,7 +18,3 @@ kernel*
 /syringe/utilities/tetheredboot
 injectpois0n
 
-# ramdisk
-/anthrax/ramdisk.h
-/anthrax/ramdisk.dmg
-/anthrax/ramdisk.img3
