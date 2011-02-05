@@ -1,7 +1,6 @@
 # payloads
 /syringe/include/payloads/
 /cyanide/payloads/
-/syringe/include/resources/
 
 # firmwares
 iBSS*
