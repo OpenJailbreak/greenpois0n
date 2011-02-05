@@ -6,8 +6,7 @@ all:
 	cp ./anthrax/ramdisk.h ./syringe/include/resources/
 	
 	make -C syringe
-	cp syringe/utilities/injectpois0n ./injectpois0n
-	chmod +x ./injectpois0n
+	cp -a syringe/utilities/injectpois0n ./injectpois0n
 	
 	#make -C doctors
 	#mkdir -p ./staging/doctor
