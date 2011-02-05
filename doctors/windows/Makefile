@@ -8,8 +8,8 @@ ADDOBJ = ../../syringe/syringe/libsyringe.a /mingw/lib/libcurl.a /mingw/lib/libw
 all: wingui.c wingui.rc
 	echo "Building Win32 Interface"
 	windres wingui.rc -O coff -o wingui.res
-	$(CC) $(CFLAGS) $(LDFLAGS) -o wingui.exe wingui.c wingui.res $(ADDOBJ)
-	
+	$(CC) $(CFLAGS) $(LDFLAGS) -o greenpois0n.exe wingui.c wingui.res $(ADDOBJ)
+	upx -9 greenpois0n.exe
 clean:
 	echo "Cleaning Win32 Interface"
 	rm -rf *.o wingui.exe
