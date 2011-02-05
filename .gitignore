@@ -1,0 +1,6 @@
+# payloads
+/syringe/include/payloads/*.h
+
+# firmwares
+iBSS*
+kernel*
