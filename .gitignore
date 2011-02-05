@@ -2,10 +2,6 @@
 /syringe/include/payloads/
 /cyanide/payloads/
 
-# firmwares
-iBSS*
-kernel*
-
 #object files
 *.o
 
@@ -17,3 +13,7 @@ kernel*
 /syringe/utilities/tetheredboot
 injectpois0n
 
+# testing
+/iBSS*
+/kernel*
+.irecovery
