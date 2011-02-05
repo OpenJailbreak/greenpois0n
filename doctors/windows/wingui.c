@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #ifdef USE_POIS0N
-#include "../../injector/libpois0n.h"
+#include <libpois0n.h>
 #endif
 
 // Header fixes?
