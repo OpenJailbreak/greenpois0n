@@ -12,6 +12,7 @@
 /syringe/utilities/loadibec
 /syringe/utilities/tetheredboot
 injectpois0n
+/doctors/windows/wingui.exe
 
 # testing
 /iBSS*
