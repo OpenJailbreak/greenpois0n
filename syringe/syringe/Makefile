@@ -19,7 +19,7 @@ PLAT_LIBRARIES =
 XPLAT_PREMADE_OBJECTS = exploits/limera1n.o exploits/steaks4uce.o
 PLAT_PREMADE_OBJECTS =
 
-UNAME=Darwin
+include ../platform.mk
 ifeq ($(UNAME),Darwin)
 	# OS X
 	PLAT_CFLAGS = -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
