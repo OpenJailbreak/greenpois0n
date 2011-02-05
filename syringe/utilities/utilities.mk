@@ -2,15 +2,20 @@ UNAME := $(shell uname -s)
 INCLUDES = ../include
 SOURCES = $(TARGET).c
 
+XPLAT_CFLAGS = -O3
+PLAT_CFLAGS =
 XPLAT_LIBRARIES = syringe curl z
 XPLAT_LDFLAGS = -L../syringe
 PLAT_LDFLAGS =
 XPLAT_PREMADE_OBJECTS =
 PLAT_PREMADE_OBJECTS =
+
+UNAME=Darwin
 ifeq ($(UNAME),Darwin)
 	# OS X
+	PLAT_CFLAGS = -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
 	PLAT_LIBRARIES = usb-1.0
-	PLAT_LDFLAGS = -framework CoreFoundation -framework IOKit
+	PLAT_LDFLAGS = -framework CoreFoundation -framework IOKit -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-no_compact_linkedit
 else
 	ifneq (,$(findstring MINGW32_NT,$(UNAME)))
 		# Win32
@@ -26,6 +31,6 @@ endif
 PREMADE_OBJECTS = $(XPLAT_PREMADE_OBJECTS) $(PLAT_PREMADE_OBJECTS)
 LIBRARIES = $(XPLAT_LIBRARIES) $(PLAT_LIBRARIES)
 LDFLAGS = $(XPLAT_LDFLAGS) $(PLAT_LDFLAGS)
-CFLAGS = -O3
+CFLAGS = $(XPLAT_CFLAGS) $(PLAT_CFLAGS)
 
 include ../common.mk
