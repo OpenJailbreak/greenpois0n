@@ -197,6 +197,10 @@ BOOL UpdateJailbreakStatus() {
 	return dfu;
 }
 
+pois0n_injection() {
+	pois0n_inject(NULL);
+}
+
 void PerformJailbreak() {
 	DWORD dwGenericThread;
 	EnableWindow(progress, TRUE);
@@ -206,7 +210,7 @@ void PerformJailbreak() {
 	SendMessage(enter, WM_SETTEXT, 0, TEXT("Jailbreaking..."));
 
 #ifdef USE_POIS0N
-	hJailbreakThread = CreateThread(NULL, 0, pois0n_inject, NULL, 0, &dwGenericThread);
+	hJailbreakThread = CreateThread(NULL, 0, pois0n_injection, NULL, 0, &dwGenericThread);
 #endif
 }
 
