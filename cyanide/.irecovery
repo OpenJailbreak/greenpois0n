@@ -1,7 +1,0 @@
-_HiStOrY_V2_
-go\040kernel\040patch
-/exit
-setenv\040boot-args\0400
-setenv\040boot-args\0400
-saveenv
-reboot

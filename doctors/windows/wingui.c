@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #ifdef USE_POIS0N
-#include "../../injector/libpois0n.h"
+#include <libpois0n.h>
 #endif
 
 // Header fixes?
@@ -28,7 +28,7 @@ HANDLE hJailbreakThread = NULL;
 HWND window = NULL;
 HWND nButton = NULL, title = NULL, group = NULL, copyright = NULL, progress = NULL, subtitle = NULL;
 HWND reset = NULL, seconds = NULL, counter = NULL, first = NULL, second = NULL, third = NULL, fourth = NULL, enter = NULL;
-HBITMAP hImage = NULL;
+//DONATE/HBITMAP hImage = NULL;
 
 BOOL jbcomplete = FALSE;
 int dfutimer = 0;
@@ -197,6 +197,10 @@ BOOL UpdateJailbreakStatus() {
 	return dfu;
 }
 
+pois0n_injection() {
+	pois0n_inject(NULL);
+}
+
 void PerformJailbreak() {
 	DWORD dwGenericThread;
 	EnableWindow(progress, TRUE);
@@ -206,7 +210,7 @@ void PerformJailbreak() {
 	SendMessage(enter, WM_SETTEXT, 0, TEXT("Jailbreaking..."));
 
 #ifdef USE_POIS0N
-	hJailbreakThread = CreateThread(NULL, 0, pois0n_inject, NULL, 0, &dwGenericThread);
+	hJailbreakThread = CreateThread(NULL, 0, pois0n_injection, NULL, 0, &dwGenericThread);
 #endif
 }
 
@@ -243,7 +247,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
 	InitCommonControlsEx(&icex);
 
     // Main window
-    window = CreateWindowEx(0, szClassName, TEXT("greenpois0n"), WS_OVERLAPPED | WS_SYSMENU | SS_OWNERDRAW, CW_USEDEFAULT, CW_USEDEFAULT, 520 + GetSystemMetrics(SM_CXFIXEDFRAME), 260 + GetSystemMetrics(SM_CYFIXEDFRAME) + GetSystemMetrics(SM_CYCAPTION), HWND_DESKTOP, NULL, hInstance, NULL);
+    window = CreateWindowEx(0, szClassName, TEXT("greenpois0n RC5"), WS_OVERLAPPED | WS_SYSMENU | SS_OWNERDRAW, CW_USEDEFAULT, CW_USEDEFAULT, 520 + GetSystemMetrics(SM_CXFIXEDFRAME), 260 + GetSystemMetrics(SM_CYFIXEDFRAME) + GetSystemMetrics(SM_CYCAPTION), HWND_DESKTOP, NULL, hInstance, NULL);
 
 	// Jailbreak button
 	nButton = CreateWindowEx(0, TEXT("BUTTON"), TEXT("Jailbreak"), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD, 20, 205, 138, 25, window, (HMENU) 1, NULL, NULL);
@@ -263,7 +267,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
 	SendMessage(subtitle, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
 	
 	// Copyright warning
-	copyright = CreateWindowEx(0, TEXT("STATIC"), TEXT("(c) 2009-2010 chronic-dev team (http://chronic-dev.org/blog/). Beware the copyright monster!"), WS_VISIBLE | WS_CHILD | SS_NOTIFY | SS_CENTER, 20, 236, 480, 13, window, (HMENU) 4, NULL, NULL);
+	copyright = CreateWindowEx(0, TEXT("STATIC"), TEXT("(c) 2011 Chronic-Dev team (http://chronic-dev.org/blog/). Beware the copyright monster!"), WS_VISIBLE | WS_CHILD | SS_NOTIFY | SS_CENTER, 20, 236, 480, 13, window, (HMENU) 4, NULL, NULL);
 	SendMessage(copyright, WM_SETFONT, (WPARAM) CreateFont(12, 0, 0, 0, FW_DONTCARE, FALSE, TRUE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
 	
 	
@@ -303,7 +307,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
 	SendMessage(enter, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), FALSE);
 
 	// donate button
-	hImage = (HBITMAP)LoadImage(GetModuleHandle(NULL), TEXT("donate"), IMAGE_BITMAP, 0, 0, 0);
+	//DONATE/hImage = (HBITMAP)LoadImage(GetModuleHandle(NULL), TEXT("donate"), IMAGE_BITMAP, 0, 0, 0);
 	
     // Show the window
 	CenterWindow(window);
@@ -336,6 +340,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		int xPos = GET_X_LPARAM(lParam); 
 		int yPos = GET_Y_LPARAM(lParam); 
 
+		/*DONATE/
 		if (xPos>=20 && xPos<=20+62 && yPos>=20 && yPos<=20+31) {
 			HINSTANCE hInstance = ShellExecute(
 										NULL,
@@ -346,12 +351,14 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 										SW_SHOWMAXIMIZED);
 			return 0;
 		} else {
+		*/
 			return DefWindowProc(hwnd, message, wParam, lParam);
-		}
+		//DONATE/}
 	}
 	case WM_PAINT: {
 		PAINTSTRUCT ps;
 		HDC hDC = BeginPaint(hwnd, &ps); 
+		/*DONATE/
 		SelectObject(hdcMem, hImage);
 		StretchBlt(
 			hDC,         // destination DC
@@ -365,6 +372,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 			62,                      // source bitmap width
 			31,                      // source bitmap height
 			SRCCOPY);       // raster operation
+		*/
 		EndPaint(hwnd, &ps);
 		return 0;
 	}
@@ -377,7 +385,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 			if (jbcomplete) PostQuitMessage(0);
 			else ToggleDFUTimers(TRUE);
 		} else if (LOWORD(wParam) == 4) {
-            MessageBox(hwnd, "By posixninja, pod2g, comex, AriX, DHowett, chpwn, chronic, Jaywalker, OPK, semaphore, westbaer, etc.\n\ngreenpois0n is (c) 2010 chronic dev team. All rights reserved.", "Credits", 64);
+            MessageBox(hwnd, "By AriX, chpwn, chronic, comex, DHowett, jan0, Jaywalker, OPK, pod2g, posixninja, semaphore, westbaer\n\nSpecial thanks to: chpwn, comex, geohot\n\ngreenpois0n is (c) 2011 Chronic-Dev team. All rights reserved.", "Credits", 64);
 	    }
         
         break;
