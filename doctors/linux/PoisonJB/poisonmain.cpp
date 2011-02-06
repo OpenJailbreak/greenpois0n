@@ -127,7 +127,7 @@ void PoisonMain::doJailbreak() {
         return;
     }
     ui->cmdJailbreak->setText("Exploiting...");
-    pois0n_inject();
+    pois0n_inject(NULL);
     pois0n_exit();
     ui->cmdJailbreak->setText("Done! Please wait.");
 }

@@ -458,7 +458,7 @@ int boot_ramdisk() {
 	debug("Setting kernel bootargs\n");
 	#ifdef DEBUG_SERIAL
 	error = irecv_send_command(client,
-			"go kernel bootargs rd=md0 -v serial=1");
+			"go kernel bootargs rd=md0 -v");
 	#endif
 
 	#ifndef DEBUG_SERIAL
@@ -509,7 +509,7 @@ int boot_tethered() {
 	
 	debug("Setting kernel bootargs\n");
 	#ifdef DEBUG_SERIAL
-	error = irecv_send_command(client, "go kernel bootargs -v serial=1 debug=0xa");
+	error = irecv_send_command(client, "go kernel bootargs -v debug=0xa");
 	#endif
 	#ifndef DEBUG_SERIAL
 	error = irecv_send_command(client, "go kernel bootargs -v debug=0xa");
@@ -857,7 +857,7 @@ int pois0n_inject(char *bootargs) {
 	}
 
 	debug("Reconnecting to device\n");
-	client = irecv_reconnect(client, 4);
+	client = irecv_reconnect(client, 10);
 	if (client == NULL) {
 		error("Unable to reconnect\n");
 		return -1;

@@ -1,0 +1,27 @@
+# payloads
+/syringe/include/payloads/
+/cyanide/payloads/
+
+#object files
+*.o
+
+#binaries
+/anthrax/src/launchd
+/cyanide/tools/bin2c
+/cyanide/tools/bin2c.exe
+/syringe/utilities/injectpois0n
+/syringe/utilities/injectpois0n.exe
+/syringe/utilities/loadibec
+/syringe/utilities/loadibec.exe
+/syringe/utilities/tetheredboot
+/syringe/utilities/tetheredboot.exe
+injectpois0n
+injectpois0n.exe
+/doctors/windows/greenpois0n.exe
+/doctors/windows/wingui.res
+
+# testing
+iBSS.n*ap
+iBoot.n*ap
+kernelcache*
+.irecovery

@@ -233,8 +233,6 @@
 			[self suicide];
 		}
 	}
-
-	[[[UIApplication sharedApplication] delegate] setReboot:YES];
 }
 
 - (void)extractPackage {
@@ -257,6 +255,7 @@
 }
 
 - (void)cleanUp {
+	[[[UIApplication sharedApplication] delegate] setReboot:YES];
 	notify_post("com.apple.mobile.application_installed");
 
 	[_myHud done];

@@ -160,7 +160,7 @@ void update_progress(double progress) {
             
             [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
             
-            int result = pois0n_inject();
+            int result = pois0n_inject(NULL);
             [progressIndicator setIndeterminate:YES];
             [progressIndicator stopAnimation:nil];
             

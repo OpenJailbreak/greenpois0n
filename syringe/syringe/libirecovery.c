@@ -387,7 +387,7 @@ irecv_error_t irecv_open(irecv_client_t* pclient) {
 				}
 
 				memset(client, '\0', sizeof(struct irecv_client));
-				client->interface = 0;
+				client->iface = 0;
 				client->handle = usb_handle;
 				client->mode = usb_descriptor.idProduct;
 				if (client->mode != kDfuMode) {
@@ -441,23 +441,23 @@ irecv_error_t irecv_set_configuration(irecv_client_t client, int configuration) 
 	return IRECV_E_SUCCESS;
 }
 
-irecv_error_t irecv_set_interface(irecv_client_t client, int interface, int alt_interface) {
+irecv_error_t irecv_set_interface(irecv_client_t client, int iface, int alt_iface) {
 	if (check_context(client) != IRECV_E_SUCCESS) return IRECV_E_NO_DEVICE;
 	
 #ifndef _WIN32
-	libusb_release_interface(client->handle, client->interface);
+	libusb_release_interface(client->handle, client->iface);
 
-	debug("Setting to interface %d:%d\n", interface, alt_interface);
-	if (libusb_claim_interface(client->handle, interface) < 0) {
+	debug("Setting to interface %d:%d\n", iface, alt_iface);
+	if (libusb_claim_interface(client->handle, iface) < 0) {
 		return IRECV_E_USB_INTERFACE;
 	}
 
-	if (libusb_set_interface_alt_setting(client->handle, interface, alt_interface) < 0) {
+	if (libusb_set_interface_alt_setting(client->handle, iface, alt_iface) < 0) {
 		return IRECV_E_USB_INTERFACE;
 	}
 
-	client->interface = interface;
-	client->alt_interface = alt_interface;
+	client->iface = iface;
+	client->alt_iface = alt_iface;
 #endif
 
 	return IRECV_E_SUCCESS;
@@ -565,7 +565,7 @@ irecv_error_t irecv_close(irecv_client_t client) {
 #ifndef _WIN32
 		if (client->handle != NULL) {
 			if (client->mode != kDfuMode) {
-				libusb_release_interface(client->handle, client->interface);
+				libusb_release_interface(client->handle, client->iface);
 			}
 			libusb_close(client->handle);
 			client->handle = NULL;

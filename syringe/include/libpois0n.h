@@ -32,7 +32,7 @@ LIBSYRINGE_EXPORT void pois0n_init();
 LIBSYRINGE_EXPORT void pois0n_set_callback(pois0n_callback callback, void* object);
 LIBSYRINGE_EXPORT int pois0n_is_ready();
 LIBSYRINGE_EXPORT int pois0n_is_compatible();
-LIBSYRINGE_EXPORT int pois0n_inject();
+LIBSYRINGE_EXPORT int pois0n_inject(char *bootargs);
 LIBSYRINGE_EXPORT int pois0n_injectonly();
 LIBSYRINGE_EXPORT char* pois0n_get_error();
 LIBSYRINGE_EXPORT void pois0n_exit();
