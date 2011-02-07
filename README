@@ -6,3 +6,4 @@ Remaining bugs to fix:
     - serial=1 is removed from boot-args
   * add a NOSERIAL build too
 
+* Verizon CMDA iPhone3,3: the BDID is now 6
