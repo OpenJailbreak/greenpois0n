@@ -15,6 +15,13 @@ Remaining bugs to fix:
 
 * Lepoard (10.5) has issues finding /usr/lib/libcurl.4.dylib
 
+* people with Verizon, Mac & RC5.4 reports the issue that the "Application kills itself", I also had a twitt about not using the aftermarket cable (?)
+
+* hacktivation
+
+* Windows 7 stability issues: shows iBSS white screen and say Failed. XP Compatible mode seems to do the trick.
+
+* sandbox issues with iBooks and DRM'd Books
 
 **********************************
 Fixed:
