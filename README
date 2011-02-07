@@ -1,0 +1,8 @@
+Remaining bugs to fix:
+
+* modify the build system so that we can do : make PRODUCTION=1
+  * in PRODUCTION builds :
+    - iBSS* iBoot* kernelcache* files have to be downloaded at each try. It'll fix lot of issues.
+    - serial=1 is removed from boot-args
+  * add a NOSERIAL build too
+
