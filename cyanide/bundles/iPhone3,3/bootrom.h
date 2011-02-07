@@ -1,5 +1,5 @@
 /**
-  * GreenPois0n Syringe - payloads.h
+  * GreenPois0n Cynanide - iPhone3,1/bootrom.h
   * Copyright (C) 2010 Chronic-Dev Team
   * Copyright (C) 2010 Joshua Hill
   *
@@ -17,32 +17,8 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PAYLOADS_H
-#define PAYLOADS_H
+#ifndef BOOTROM_H
+#define BOOTROM_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-#include "payloads/iBSS.k66ap.h"
-#include "payloads/iBSS.k48ap.h"
-#include "payloads/iBSS.n88ap.h"
-#include "payloads/iBSS.n90ap.h"
-#include "payloads/iBSS.n92ap.h"
-#include "payloads/iBSS.n72ap.h"
-#include "payloads/iBSS.n18ap.h"
-#include "payloads/iBSS.n81ap.h"
-#include "payloads/iBoot.k66ap.h"
-#include "payloads/iBoot.k48ap.h"
-#include "payloads/iBoot.n88ap.h"
-#include "payloads/iBoot.n90ap.h"
-#include "payloads/iBoot.n92ap.h"
-#include "payloads/iBoot.n72ap.h"
-#include "payloads/iBoot.n18ap.h"
-#include "payloads/iBoot.n81ap.h"
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+#endif // BOOTROM_H

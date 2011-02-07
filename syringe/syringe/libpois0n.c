@@ -128,12 +128,12 @@ int upload_dfu_image(const char* type) {
 	snprintf(image, 254, "%s.%s", type, device->model);
 
 	debug("Checking if %s already exists\n", image);
-	if (stat(image, &buf) != 0) {
+	//if (stat(image, &buf) != 0) {
 		if (fetch_dfu_image(type, image) < 0) {
 			error("Unable to upload DFU image\n");
 			return -1;
 		}
-	}
+	//}
 
 	if (client->mode != kDfuMode) {
 		debug("Resetting device counters\n");
@@ -162,12 +162,12 @@ int upload_firmware_image(const char* type) {
 	snprintf(image, 254, "%s.%s", type, device->model);
 
 	debug("Checking if %s already exists\n", image);
-	if (stat(image, &buf) != 0) {
+	//if (stat(image, &buf) != 0) {
 		if (fetch_firmware_image(type, image) < 0) {
 			error("Unable to upload firmware image\n");
 			return -1;
 		}
-	}
+	//}
 
 	debug("Resetting device counters\n");
 	error = irecv_reset_counters(client);
@@ -197,15 +197,8 @@ int upload_firmware_payload(const char* type) {
 		if (!strcmp(type, "iBSS")) {
 			payload = iBSS_k66ap;
 			size = sizeof(iBSS_k66ap);
-			debug("Loaded payload for iBSS on k66ap\n0");
+			debug("Loaded payload for iBSS on k66ap\n");
 		}
-		/*
-		 if(!strcmp(type, "iBEC")) {
-		 payload = iBEC_k66ap;
-		 size = sizeof(iBEC_k66ap);
-		 debug("Loaded payload for iBEC on k66ap\n");
-		 }
-		 */
 		if (!strcmp(type, "iBoot")) {
 			payload = iBoot_k66ap;
 			size = sizeof(iBoot_k66ap);
@@ -219,13 +212,6 @@ int upload_firmware_payload(const char* type) {
 			size = sizeof(iBSS_k48ap);
 			debug("Loaded payload for iBSS on k48ap\n0");
 		}
-		/*
-		 if(!strcmp(type, "iBEC")) {
-		 payload = iBEC_k48ap;
-		 size = sizeof(iBEC_k48ap);
-		 debug("Loaded payload for iBEC on k48ap\n");
-		 }
-		 */
 		if (!strcmp(type, "iBoot")) {
 			payload = iBoot_k48ap;
 			size = sizeof(iBoot_k48ap);
@@ -239,13 +225,6 @@ int upload_firmware_payload(const char* type) {
 			size = sizeof(iBSS_n88ap);
 			debug("Loaded payload for iBSS on n88ap\n");
 		}
-		/*
-		 if(!strcmp(type, "iBEC")) {
-		 payload = iBEC_n88ap;
-		 size = sizeof(iBEC_n88ap);
-		 debug("Loaded payload for iBEC on n88ap\n");
-		 }
-		 */
 		if (!strcmp(type, "iBoot")) {
 			payload = iBoot_n88ap;
 			size = sizeof(iBoot_n88ap);
@@ -259,17 +238,23 @@ int upload_firmware_payload(const char* type) {
 			size = sizeof(iBSS_n90ap);
 			debug("Loaded payload for iBSS on n90ap\n");
 		}
-		/*
-		 if(!strcmp(type, "iBEC")) {
-		 payload = iBEC_n90ap;
-		 size = sizeof(iBEC_n90ap);
-		 debug("Loaded payload for iBEC on n90ap\n");
-		 }
-		 */
 		if (!strcmp(type, "iBoot")) {
 			payload = iBoot_n90ap;
 			size = sizeof(iBoot_n90ap);
 			debug("Loaded payload for iBoot on n90ap\n");
+		}
+		break;
+
+	case DEVICE_IPHONE42:
+		if (!strcmp(type, "iBSS")) {
+			payload = iBSS_n92ap;
+			size = sizeof(iBSS_n92ap);
+			debug("Loaded payload for iBSS on n92ap\n");
+		}
+		if (!strcmp(type, "iBoot")) {
+			payload = iBoot_n92ap;
+			size = sizeof(iBoot_n92ap);
+			debug("Loaded payload for iBoot on n92ap\n");
 		}
 		break;
 
@@ -279,13 +264,6 @@ int upload_firmware_payload(const char* type) {
 			size = sizeof(iBSS_n72ap);
 			debug("Loaded payload for iBSS on n72ap\n");
 		}
-		/*
-		 if(!strcmp(type, "iBEC")) {
-		 payload = iBEC_n72ap;
-		 size = sizeof(iBEC_n72ap);
-		 debug("Loaded payload for iBEC on n72ap\n");
-		 }
-		 */
 		if (!strcmp(type, "iBoot")) {
 			payload = iBoot_n72ap;
 			size = sizeof(iBoot_n72ap);
@@ -299,13 +277,6 @@ int upload_firmware_payload(const char* type) {
 			size = sizeof(iBSS_n18ap);
 			debug("Loaded payload for iBSS on n18ap\n");
 		}
-		/*
-		 if(!strcmp(type, "iBEC")) {
-		 payload = iBEC_n18ap;
-		 size = sizeof(iBEC_n18ap);
-		 debug("Loaded payload for iBEC on n18ap\n");
-		 }
-		 */
 		if (!strcmp(type, "iBoot")) {
 			payload = iBoot_n18ap;
 			size = sizeof(iBoot_n18ap);
@@ -319,13 +290,6 @@ int upload_firmware_payload(const char* type) {
 			size = sizeof(iBSS_n81ap);
 			debug("Loaded payload for iBSS on n81ap\n");
 		}
-		/*
-		 if(!strcmp(type, "iBEC")) {
-		 payload = iBEC_n81ap;
-		 size = sizeof(iBEC_n81ap);
-		 debug("Loaded payload for iBEC on n81ap\n");
-		 }
-		 */
 		if (!strcmp(type, "iBoot")) {
 			payload = iBoot_n81ap;
 			size = sizeof(iBoot_n81ap);
@@ -398,12 +362,12 @@ int upload_kernelcache() {
 	memset(&buf, '\0', sizeof(buf));
 	snprintf(kernelcache, 254, "kernelcache.release.%c%c%c", device->model[0], device->model[1], device->model[2]);
 	debug("Checking if kernelcache already exists\n");
-	if (stat(kernelcache, &buf) != 0) {
+	//if (stat(kernelcache, &buf) != 0) {
 		if (fetch_image(kernelcache, kernelcache) < 0) {
 			error("Unable to upload kernelcache\n");
 			return -1;
 		}
-	}
+	//}
 
 	debug("Resetting device counters\n");
 	error = irecv_reset_counters(client);
