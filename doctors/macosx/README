@@ -1,4 +1,4 @@
-*** greenpois0n 1.0 RC5 ***
+*** greenpois0n 1.0 RC5.4 ***
 
 > Description of the software:
 
@@ -12,8 +12,11 @@
   - iPad 1G
   - iPhone 3Gs (all bootroms)
   - iPhone 4
-  - iPhone 4 Verizon (_not_tested_)
-  - ___AppleTV 2___ (support will be added in RC6)
+  - iPhone 4 Verizon
+
+> Changelog:
+
+- RC5.4: Verizon iPhone 4 is now supported ! 
 
 > Requirements (check this !)
 
@@ -67,7 +70,9 @@
   - semaphore   : @notcom
   - westbaer    : @westbaer
 
-  Greetings: chpwn, comex, geohot
+  Contributions: chpwn, comex, geohot
+
+  People who helped (thank you!): GreySyntax, iH8sn0w, LunchBox, pod3g, ven000m (if you're not here and you think you deserve, it's certainly a mistake, tell us)
 
 > Donations:
 
