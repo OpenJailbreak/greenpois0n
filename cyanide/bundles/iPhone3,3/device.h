@@ -1,5 +1,5 @@
 /**
-  * GreenPois0n Syringe - payloads.h
+  * GreenPois0n Cynanide - iPhone3,3/device.h
   * Copyright (C) 2010 Chronic-Dev Team
   * Copyright (C) 2010 Joshua Hill
   *
@@ -17,32 +17,18 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef PAYLOADS_H
-#define PAYLOADS_H
+#ifndef DEVICE_H
+#define DEVICE_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#define S5L8930X
+#define LOADADDR           0x41000000
+#define FRAMEBUFFER        0x5F700000
+#define FRAMEBUFFER_WIDTH  640
+#define FRAMEBUFFER_HEIGHT 960
+#define IBOOT_BASEADDR     0x5FF00000
+#define IBEC_BASEADDR      0x5FF00000
+#define IBSS_BASEADDR      0x84000000
+#define LLB_BASEADDR       0x84000000
+#define KERNEL_PATH        "/boot/System/Library/Caches/com.apple.kernelcaches/kernelcache"
 
-#include "payloads/iBSS.k66ap.h"
-#include "payloads/iBSS.k48ap.h"
-#include "payloads/iBSS.n88ap.h"
-#include "payloads/iBSS.n90ap.h"
-#include "payloads/iBSS.n92ap.h"
-#include "payloads/iBSS.n72ap.h"
-#include "payloads/iBSS.n18ap.h"
-#include "payloads/iBSS.n81ap.h"
-#include "payloads/iBoot.k66ap.h"
-#include "payloads/iBoot.k48ap.h"
-#include "payloads/iBoot.n88ap.h"
-#include "payloads/iBoot.n90ap.h"
-#include "payloads/iBoot.n92ap.h"
-#include "payloads/iBoot.n72ap.h"
-#include "payloads/iBoot.n18ap.h"
-#include "payloads/iBoot.n81ap.h"
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+#endif // DEVICE_H

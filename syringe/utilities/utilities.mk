@@ -15,7 +15,7 @@ ifeq ($(UNAME),Darwin)
 	# OS X
 	PLAT_CFLAGS = -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
 	PLAT_LIBRARIES = usb-1.0
-	PLAT_LDFLAGS = -framework CoreFoundation -framework IOKit -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-no_compact_linkedit
+	PLAT_LDFLAGS = -L/opt/local/lib -framework CoreFoundation -framework IOKit -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-no_compact_linkedit
 else
 	ifneq (,$(findstring MINGW32_NT,$(UNAME)))
 		# Win32
