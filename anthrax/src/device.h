@@ -49,9 +49,9 @@
 
 typedef struct {
 	int index;
-	char type[10];
+	char type[11];
 	char model[11];
-	char version[10];
+	char version[11];
 	//firmware_info_t* firmware;
 	enum {
 		GP_DEVICE_ARMV6, GP_DEVICE_ARMV7
