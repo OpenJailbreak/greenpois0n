@@ -1,0 +1,10 @@
+.theos
+obj
+*.deb
+_
+build
+blunt.*
+kevinbradley.*
+*.svn
+.svn*
+.DS_Store

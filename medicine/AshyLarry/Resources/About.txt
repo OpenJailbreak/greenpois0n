@@ -1,0 +1,7 @@
+greenpois0n version x.x
+
+	frappliance development: DHowett, westbaer, |bile|
+
+	exploit development: pod2g, posixninja
+	
+	special thanks: #awkwardtv @ moofspeak

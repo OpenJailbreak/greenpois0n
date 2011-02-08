@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>imageUrl</key>
+		<string>http://nitosoft.com/ATV2/gp/ssh.png</string>
+		<key>name</key>
+		<string>openSSH</string>
+		<key>displayName</key>
+		<string>openSSH</string>
+		<key>description</key>
+		<string>install SSH, need we say more?</string>
+		<key>url</key>
+		<string>http://nitosoft.com/ATV2/gp/ssh.tgz</string>
+		<key>version</key>
+		<string>3.0</string>
+	</dict>
+	<dict>
+		<key>imageUrl</key>
+		<string>http://nitosoft.com/ATV2/gp/gp.png</string>
+		<key>name</key>
+		<string>p0ison extras</string>
+		<key>displayName</key>
+		<string>p0ison extras</string>
+		<key>description</key>
+		<string>It&apos;s a Surprise</string>
+		<key>url</key>
+		<string>http://nitosoft.com/ATV2/gp/extras.tgz</string>
+		<key>version</key>
+		<string>4.2.0</string>
+	</dict>
+</array>
+</plist>

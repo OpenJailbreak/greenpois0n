@@ -41,6 +41,7 @@
 #include "modules/immutable.h"
 #include "modules/animate.h"
 #include "modules/fixkeybag.h"
+#include "modules/larry.h"
 
 //#define INSTALL_AFC2
 //#define INSTALL_FSTAB
@@ -119,11 +120,13 @@ int install_files(int device) {
 
 	    puts("Refreshing icon cache... ");
 	    parse_module_response(sachet_install());
-	}
 
+	} else if (device == DEVICE_ATV){
+		parse_module_response(larry_install());
+	}
 	// 4.2.1 Untethered Exploit
 	if(!strcmp(FW_BUILD_421, info.version) || !strcmp(info.version, "8C148a")
-			|| !strcmp(FW_BUILD_426, info.version)) {
+			|| !strcmp(FW_BUILD_426, info.version) || !strcmp(FW_APPLETV_421, info.version)) {
 		puts("Installing untethered exploit...\n");
 		parse_module_response(feedface_install());
 	}
