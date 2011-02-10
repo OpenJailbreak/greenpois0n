@@ -23,6 +23,10 @@ Remaining bugs to fix:
 
 * sandbox issues with iBooks and DRM'd Books
 
+* non working gpsPhone
+
+* lockdownd poping up a progress bar when Loader extracts cydia package on certain devices (certainly previously jailbroken devices updated to 4.2.1.)
+
 **********************************
 Fixed:
 
