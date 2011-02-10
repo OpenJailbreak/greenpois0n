@@ -22,7 +22,7 @@
 -(void)reboot
 {
 	int sysReturn = system([@"/sbin/reboot" UTF8String]);
-	NSTask *rebootTask = [NSTask launchedTaskWithLaunchPath:@"/sbin/reboot" arguments:nil];
+		//NSTask *rebootTask = [NSTask launchedTaskWithLaunchPath:@"/sbin/reboot" arguments:nil];
 }
 
 - (void)mrSelfDestruct
