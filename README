@@ -1,0 +1,29 @@
+Remaining bugs to fix:
+
+* modify the build system so that we can do : make PRODUCTION=1
+  * in PRODUCTION builds :
+    - iBSS* iBoot* kernelcache* files have to be downloaded at each try. It'll fix lot of issues.
+    - serial=1 is removed from boot-args
+  * add a NOSERIAL build too
+
+* this idea of PRODUCTION builds started with iBSS* iBoot* kernelcache* file problems. If we can do it by checking MD5 of files, there's no need for it right now.
+
+* gp limera1n exploit implementation is not as stable as redsn0w's , certainly on Mac only.
+	~ is this a i386/x86_64 problem?
+
+* comex's saying the USB stuff of gp crashes is Mac :/
+
+* Lepoard (10.5) has issues finding /usr/lib/libcurl.4.dylib
+
+* people with Verizon, Mac & RC5.4 reports the issue that the "Application kills itself", I also had a twitt about not using the aftermarket cable (?)
+
+* hacktivation
+
+* Windows 7 stability issues: shows iBSS white screen and say Failed. XP Compatible mode seems to do the trick.
+
+* sandbox issues with iBooks and DRM'd Books
+
+**********************************
+Fixed:
+
+X Verizon CMDA iPhone3,3: the BDID is now 6 (posixninja)

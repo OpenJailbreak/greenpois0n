@@ -120,6 +120,7 @@ int install_files(int device) {
 
 	    puts("Refreshing icon cache... ");
 	    parse_module_response(sachet_install());
+
 	} else if (device == DEVICE_ATV){
 		parse_module_response(larry_install());
 	}

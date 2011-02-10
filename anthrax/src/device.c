@@ -44,7 +44,7 @@ int device_info(device_info_t* info) {
 	int i = 0;
 	int ret = 0;
 	int subtype = 0;
-	char version[10];
+	char version[11];
 
 	ret = device_model(&info->model);
 	if(ret < 0) return -1;

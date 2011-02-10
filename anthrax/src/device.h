@@ -27,6 +27,7 @@
 #define MODEL_IPHONE3G      "N82AP"
 #define MODEL_IPHONE3GS     "N88AP"
 #define MODEL_IPHONE4       "N90AP"
+#define MODEL_IPHONE42      "N92AP"
 #define MODEL_IPOD1G        "N45AP"
 #define MODEL_IPOD2G        "N72AP"
 #define MODEL_IPOD3G        "N18AP"
@@ -38,6 +39,7 @@
 #define DEVICE_IPHONE3G     "iPhone1,2"
 #define DEVICE_IPHONE3GS    "iPhone2,1"
 #define DEVICE_IPHONE4      "iPhone3,1"
+#define DEVICE_IPHONE42	    "iPhone3,3"
 #define DEVICE_IPOD1G       "iPod1,1"
 #define DEVICE_IPOD2G       "iPod2,1"
 #define DEVICE_IPOD3G       "iPod3,1"
@@ -47,9 +49,9 @@
 
 typedef struct {
 	int index;
-	char type[10];
+	char type[11];
 	char model[11];
-	char version[10];
+	char version[11];
 	//firmware_info_t* firmware;
 	enum {
 		GP_DEVICE_ARMV6, GP_DEVICE_ARMV7
