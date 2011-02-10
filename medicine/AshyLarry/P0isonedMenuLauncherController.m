@@ -9,7 +9,7 @@
 #import "GPDownloadController.h"
 #import <Foundation/Foundation.h>
 
-#define kGPWebURL @"http://nitosoft.com/ATV2/gp/payloads.plist"
+#define kGPWebURL @"http://cache.saurik.com/greenpois0n/appletv.plist"
 
 @implementation P0isonedMenuLauncherController
 
