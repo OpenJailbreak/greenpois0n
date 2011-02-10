@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GPDownloadController.h"
-
+	//this is the size of the file right now 16721856
 @interface BRThemeInfo (SpecialAdditions)
 
 - (id)centeredParagraphTextAttributesGP;
@@ -455,7 +455,7 @@
     _gotLength += (long long) length;
     float percentage = 0.0f;
 
-    //NSLog( @"Got %u bytes, %lld total", length, _gotLength );
+		// NSLog( @"Got %u bytes, %lld total", length, _gotLength );
 
     // we'll handle the case where the NSURLResponse didn't include the
     // size of the source file
@@ -494,7 +494,7 @@
     _totalLength = 0;
     _gotLength = 0;
 
-   // NSLog( @"Got response for new download, length = %lld", [response expectedContentLength] );
+    NSLog( @"Got response for new download, length = %lld", [response expectedContentLength] );
 
     if ( [response expectedContentLength] != NSURLResponseUnknownLength )
     {
@@ -503,15 +503,15 @@
     }
     else
     {
-        // an arbitrary number -- one megabyte
-        [_progressBar setMaxValue: 1024.0f * 1024.0f];
+        // the tar size of the tgz file, no idea why it isnt getting expectedContentLength properly, did some creative logging and this is the value that ended up being the final for the tgz file i have hosted.
+        [_progressBar setMaxValue: 38072320];
     }
 }
 
 - (BOOL) download: (NSURLDownload *) download
    shouldDecodeSourceDataOfMIMEType: (NSString *) encodingType
 {
-    return NO;
+    return YES;
 }
 
 - (void) download: (NSURLDownload *) download

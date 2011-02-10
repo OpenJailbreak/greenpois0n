@@ -5,7 +5,7 @@ all:
 	@echo "Building Mac OS X GUI"
 	mkdir -p greenpois0n.app/Contents/MacOS
 	$(CC) $(CFLAGS) $(LDFLAGS) main.m appFunctions.m -o greenpois0n.app/Contents/MacOS/greenpois0n
-	install_name_tool -change /usr/local/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.dylib greenpois0n.app/Contents/MacOS/greenpois0n
+	install_name_tool -change /opt/local/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.dylib greenpois0n.app/Contents/MacOS/greenpois0n
 	
 clean:
 	@echo "Cleaning Mac OS X GUI"
