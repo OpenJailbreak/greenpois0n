@@ -3,6 +3,18 @@
 #import <Foundation/Foundation.h>
 #import "GPDownloadController.h"
 
+/*
+ this is the size of the file right now 16721856, however the progress bar code needs the full file size (tar file, not tgz file) to display progress properly
+ 
+ [NSURLResponse expectedContentLength] is coming up w/ -1 for tgz files, and putting in 16721856 was still erratic as a progress bar so we use the value 38072320 if -1 comes
+ 
+ back, this seems to make the progress bar act appropriately
+ 
+ 
+ */
+
+#define TAR_FILE_SIZE 38072320
+
 @interface BRThemeInfo (SpecialAdditions)
 
 - (id)centeredParagraphTextAttributesGP;
@@ -455,7 +467,7 @@
     _gotLength += (long long) length;
     float percentage = 0.0f;
 
-    //NSLog( @"Got %u bytes, %lld total", length, _gotLength );
+		// NSLog( @"Got %u bytes, %lld total", length, _gotLength );
 
     // we'll handle the case where the NSURLResponse didn't include the
     // size of the source file
@@ -494,7 +506,7 @@
     _totalLength = 0;
     _gotLength = 0;
 
-   // NSLog( @"Got response for new download, length = %lld", [response expectedContentLength] );
+    NSLog( @"Got response for new download, length = %lld", [response expectedContentLength] );
 
     if ( [response expectedContentLength] != NSURLResponseUnknownLength )
     {
@@ -503,15 +515,15 @@
     }
     else
     {
-        // an arbitrary number -- one megabyte
-        [_progressBar setMaxValue: 1024.0f * 1024.0f];
+        // the tar size of the tgz file, no idea why it isnt getting expectedContentLength properly, did some creative logging and this is the value that ended up being the final for the tgz file i have hosted.
+        [_progressBar setMaxValue: TAR_FILE_SIZE];
     }
 }
 
 - (BOOL) download: (NSURLDownload *) download
    shouldDecodeSourceDataOfMIMEType: (NSString *) encodingType
 {
-    return NO;
+    return YES;
 }
 
 - (void) download: (NSURLDownload *) download
@@ -601,7 +613,7 @@
 - (int)rebootSystem
 {
 	NSString *command =  @"/usr/bin/pHelper reboot 2";
-	NSLog(@"command: %@", command);
+		//NSLog(@"command: %@", command);
 	int sysReturn = system([command UTF8String]);
 	return sysReturn;
 }

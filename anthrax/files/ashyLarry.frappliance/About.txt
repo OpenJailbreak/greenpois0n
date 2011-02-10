@@ -1,7 +1,9 @@
-greenpois0n version x.x
+greenpois0n rc6
 
 	frappliance development: DHowett, westbaer, |bile|
 
-	exploit development: pod2g, posixninja
+	exploit development: pod2g, posixninja, jan0
 	
 	special thanks: #awkwardtv @ moofspeak
+	
+	© chronic-dev team

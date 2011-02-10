@@ -8,8 +8,8 @@ all:
 	make -C syringe
 	cp -a syringe/utilities/injectpois0n ./injectpois0n
 	
-	#make -C doctors
-	#mkdir -p ./staging/doctor
+	make -C doctors
+	mkdir -p ./staging/doctor
 
 clean:
 	make clean -C cyanide
