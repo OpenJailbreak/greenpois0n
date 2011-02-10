@@ -601,7 +601,7 @@
 - (int)rebootSystem
 {
 	NSString *command =  @"/usr/bin/pHelper reboot 2";
-	NSLog(@"command: %@", command);
+		//NSLog(@"command: %@", command);
 	int sysReturn = system([command UTF8String]);
 	return sysReturn;
 }
