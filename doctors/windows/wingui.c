@@ -247,7 +247,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
 	InitCommonControlsEx(&icex);
 
     // Main window
-    window = CreateWindowEx(0, szClassName, TEXT("greenpois0n RC5"), WS_OVERLAPPED | WS_SYSMENU | SS_OWNERDRAW, CW_USEDEFAULT, CW_USEDEFAULT, 520 + GetSystemMetrics(SM_CXFIXEDFRAME), 260 + GetSystemMetrics(SM_CYFIXEDFRAME) + GetSystemMetrics(SM_CYCAPTION), HWND_DESKTOP, NULL, hInstance, NULL);
+    window = CreateWindowEx(0, szClassName, TEXT("greenpois0n RC6"), WS_OVERLAPPED | WS_SYSMENU | SS_OWNERDRAW, CW_USEDEFAULT, CW_USEDEFAULT, 520 + GetSystemMetrics(SM_CXFIXEDFRAME), 260 + GetSystemMetrics(SM_CYFIXEDFRAME) + GetSystemMetrics(SM_CYCAPTION), HWND_DESKTOP, NULL, hInstance, NULL);
 
 	// Jailbreak button
 	nButton = CreateWindowEx(0, TEXT("BUTTON"), TEXT("Jailbreak"), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD, 20, 205, 138, 25, window, (HMENU) 1, NULL, NULL);
@@ -385,7 +385,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 			if (jbcomplete) PostQuitMessage(0);
 			else ToggleDFUTimers(TRUE);
 		} else if (LOWORD(wParam) == 4) {
-            MessageBox(hwnd, "By AriX, chpwn, chronic, comex, DHowett, jan0, Jaywalker, OPK, pod2g, posixninja, semaphore, westbaer\n\nSpecial thanks to: chpwn, comex, geohot\n\ngreenpois0n is (c) 2011 Chronic-Dev team. All rights reserved.", "Credits", 64);
+            MessageBox(hwnd, "By AriX, |bile|, chronic, DHowett, jan0, Jaywalker, OPK, pod2g, posixninja, semaphore, westbaer\n\nSpecial thanks to: chpwn, comex, geohot\n\ngreenpois0n is (c) 2011 Chronic-Dev team. All rights reserved.", "Credits", 64);
 	    }
         
         break;
