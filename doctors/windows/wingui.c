@@ -247,7 +247,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
 	InitCommonControlsEx(&icex);
 
     // Main window
-    window = CreateWindowEx(0, szClassName, TEXT("greenpois0n RC5"), WS_OVERLAPPED | WS_SYSMENU | SS_OWNERDRAW, CW_USEDEFAULT, CW_USEDEFAULT, 520 + GetSystemMetrics(SM_CXFIXEDFRAME), 260 + GetSystemMetrics(SM_CYFIXEDFRAME) + GetSystemMetrics(SM_CYCAPTION), HWND_DESKTOP, NULL, hInstance, NULL);
+    window = CreateWindowEx(0, szClassName, TEXT("greenpois0n RC6"), WS_OVERLAPPED | WS_SYSMENU | SS_OWNERDRAW, CW_USEDEFAULT, CW_USEDEFAULT, 520 + GetSystemMetrics(SM_CXFIXEDFRAME), 260 + GetSystemMetrics(SM_CYFIXEDFRAME) + GetSystemMetrics(SM_CYCAPTION), HWND_DESKTOP, NULL, hInstance, NULL);
 
 	// Jailbreak button
 	nButton = CreateWindowEx(0, TEXT("BUTTON"), TEXT("Jailbreak"), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD, 20, 205, 138, 25, window, (HMENU) 1, NULL, NULL);
