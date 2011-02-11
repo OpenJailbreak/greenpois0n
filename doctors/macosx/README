@@ -13,10 +13,12 @@
   - iPhone 3Gs (all bootroms)
   - iPhone 4
   - iPhone 4 Verizon
+  - AppleTV 2G
 
 > Changelog:
 
 - RC5.4: Verizon iPhone 4 is now supported ! 
+- RC6: AppleTV 2G support!
 
 > Requirements (check this !)
 
@@ -45,6 +47,19 @@
   6. the device will reboot normally
   7. start the Loader application (green icon on the SpringBoard), and follow instructions to install Cydia
 
+> AppleTV Instructions
+
+  1. restore to 4.2.1
+  2. quit iTunes
+  3. unplug USB
+  4. plug in USB and wait a few seconds (light should blink at a consistent speed)
+  5. plug in power cable
+  6. put AppleTV in DFU (hold MENU + PLAY/PAUSE on an Aluminum AppleTV remote for 7 seconds, the light will start blinking very rapidly, and will slow upon release)
+  7. open greenpois0n.app
+  8. press jailbreak
+  9. upon competition the light will blink in a unique pattern that will last approximately one minute and 45 seconds
+ 10. once the light is solid it should be safe to unplug USB and plug in HDMI
+
 > In case of troubles
 
   1. try to start greenpois0n from a terminal : sudo ./<path to greenpois0n.app>/Contents/MacOS/greenpois0n
@@ -70,7 +85,7 @@
   - semaphore   : @notcom
   - westbaer    : @westbaer
 
-  Contributions: chpwn, comex, geohot
+  Contributions: chpwn, comex, geohot, |bile|
 
   People who helped (thank you!): GreySyntax, iH8sn0w, LunchBox, pod3g, ven000m (if you're not here and you think you deserve, it's certainly a mistake, tell us)
 
