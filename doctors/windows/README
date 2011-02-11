@@ -1,4 +1,4 @@
-*** greenpois0n 1.0 RC5 ***
+*** greenpois0n 1.0 RC6 ***
 
 > Description of the software:
 
@@ -13,23 +13,25 @@
   - iPhone 3Gs (all bootroms)
   - iPhone 4
   - iPhone 4 Verizon
+  - Apple TV 2
 
 > Changelog:
 
+  - RC6: Apple TV 2 support, fixed emulators compatibility issues with greenpois0n
   - RC5.4: Verizon iPhone 4 is now supported !
 
 > Requirements (check this !)
 
   - a supported device (see above)
-  - the device should run iOS 4.2.1. Please check on the device in the Settings -> General -> About page.
+  - the device should run iOS 4.2.1 (4.2.6 for iPhone 4 Verizon). Please check on the device in the Settings -> General -> About page.
     If your device is running an older version, please upgrade iOS first using iTunes.
-    *** If you want to SIM Unlock, preserve your baseband using TinyUmbrella ***
+    *** If you want to SIM Unlock, preserve your baseband using TinyUmbrella (iPhone 4 only) or PwnageTool ***
   - at least Windows XP
   - a working internet connection
 
 > Notes (checks this also !)
 
-  - if your device is jailbroken with iPhone Dev Team's Monte, please restore to fresh 4.2.1. first
+  - if your device is jailbroken with iPhone Dev Team's Monte, please restore the device using iTunes first.
   - if Cydia doesn't show up after Loader, you may need to reboot the device
   - this version of greenpois0n doesn't include a patched activation system. You'll need to activate your device using iTunes
   - WE DO NOT SUPPORT PIRACY !
@@ -57,6 +59,7 @@
 
   Chronic-Dev Team (follow us on twitter):
   - AriX        : @AriX
+  - |bile|      : @nitoTV
   - chronic     : @chronic
   - DHowett     : @DHowett
   - jan0        : @0naj
@@ -69,7 +72,7 @@
 
   Contributions: chpwn, comex, geohot
 
-  People who helped (thank you!): GreySyntax, iH8sn0w, LunchBox, pod3g, ven000m (if you're not here and you think you deserve, it's certainly a mistake, tell us)
+  People who helped (thank you!): GreySyntax, iH8sn0w, LunchBox, pod3g, ven000m, zodttd
 
 > Donations:
 
