@@ -25,13 +25,13 @@
   - a supported device (see above)
   - the device should run iOS 4.2.1 (4.2.6 for iPhone 4 Verizon). Please check on the device in the Settings -> General -> About page.
     If your device is running an older version, please upgrade iOS first using iTunes.
-    *** If you want to SIM Unlock, preserve your baseband using TinyUmbrella ***
+    *** If you want to SIM Unlock, preserve your baseband using TinyUmbrella (iPhone 4 only) or PwnageTool ***
   - at least Windows XP
   - a working internet connection
 
 > Notes (checks this also !)
 
-  - if your device is jailbroken with iPhone Dev Team's Monte, please restore to fresh 4.2.1. first
+  - if your device is jailbroken with iPhone Dev Team's Monte, please restore the device using iTunes first.
   - if Cydia doesn't show up after Loader, you may need to reboot the device
   - this version of greenpois0n doesn't include a patched activation system. You'll need to activate your device using iTunes
   - WE DO NOT SUPPORT PIRACY !
