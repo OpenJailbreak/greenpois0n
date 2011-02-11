@@ -385,7 +385,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 			if (jbcomplete) PostQuitMessage(0);
 			else ToggleDFUTimers(TRUE);
 		} else if (LOWORD(wParam) == 4) {
-            MessageBox(hwnd, "By AriX, |bile|, chpwn, chronic, DHowett, jan0, Jaywalker, OPK, pod2g, posixninja, semaphore, westbaer\n\nSpecial thanks to: chpwn, comex, geohot\n\ngreenpois0n is (c) 2011 Chronic-Dev team. All rights reserved.", "Credits", 64);
+            MessageBox(hwnd, "By AriX, |bile|, chronic, DHowett, jan0, Jaywalker, OPK, pod2g, posixninja, semaphore, westbaer\n\nSpecial thanks to: chpwn, comex, geohot\n\ngreenpois0n is (c) 2011 Chronic-Dev team. All rights reserved.", "Credits", 64);
 	    }
         
         break;
