@@ -235,7 +235,7 @@ void update_progress(double progress) {
 
 - (void)appleTVCheck
 {
-	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"Are you jailbreaking an AppleTV?" defaultButton:@"No" alternateButton:@"Yes" otherButton:nil informativeTextWithFormat:@"If you are jailbreaking an AppleTV, please choose yes before continuing"];
+	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"Are you jailbreaking an AppleTV?" defaultButton:@"No" alternateButton:@"Yes" otherButton:nil informativeTextWithFormat:@"If you are jailbreaking an AppleTV, please choose yes before continuing.\n\nNOTE: it takes approximately 40 seconds after 'Complete!' for the ramdisk to finish on an AppleTV jailbreak. \n\nPlease don't unplug the USB cable until then."];
 	int button = [startupAlert runModal];
 	
 	switch (button) {
