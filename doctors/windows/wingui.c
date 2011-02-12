@@ -35,12 +35,23 @@ int dfutimer = 0;
 int dfuphase = 0;
 int dfucountdown = 0;
 
+int atvmode =0;
+
 LPCSTR dfutext[] = {
-	"Get ready to start",
+	"Get ready to start (3 sec)",
 	"Press and hold the sleep button (2 sec)",
 	"Continue holding sleep; press and hold home (10 sec)",
 	"Release sleep button; continue holding home (15 sec)"
 };
+int dfutexttime[] = { 3, 2, 10, 15 };
+
+LPCSTR dfutextATV[] = {
+	"Plug AppleTV in to USB (7 sec)",
+	"Plug in power adapter (3 sec)",
+	"Press and hold MENU and PLAY/PAUSE (7 sec)",
+	"Release both buttons"
+};
+int dfutexttimeATV[] = { 7, 3, 7, 0 };
 
 LRESULT CALLBACK WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 char *szClassName = TEXT("WindowsApp");
@@ -148,7 +159,12 @@ void ToggleDFUTimers(BOOL show) {
 		UpdateWindow(window);
 		UpdateWindow(group);
 		
-		dfucountdown = 4;
+		if (atvmode) {
+			dfucountdown = dfutexttimeATV[0];
+		} else {
+			dfucountdown = dfutexttime[0];
+		}
+		dfucountdown++;
 		dfuphase = DFU_PHASE_READY;
 		dfutimer = SetTimer(window, DFU_TIMER_ID, 1000, NULL);
 		UpdateDFUStatusText();
@@ -274,22 +290,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
 	// DFU group box
 	group = CreateWindowEx(0, TEXT("BUTTON"), TEXT(""), BS_GROUPBOX | WS_VISIBLE | WS_CHILD, 20, 70, 480, 125, window, NULL, NULL, NULL);
 
-	// Label #1
-	first = CreateWindowEx(0, TEXT("STATIC"), dfutext[0], WS_VISIBLE | WS_CHILD | SS_CENTER, 5, 20, 370, 17, group, NULL, NULL, NULL);
-	SendMessage(first, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
-
-	// Label #2
-	second = CreateWindowEx(0, TEXT("STATIC"), dfutext[1], WS_VISIBLE | WS_CHILD | SS_CENTER, 5, 45, 370, 17, group, NULL, NULL, NULL);
-	SendMessage(second, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
-
-	// Label #3
-	third = CreateWindowEx(0, TEXT("STATIC"), dfutext[2], WS_VISIBLE | WS_CHILD | SS_CENTER, 5, 70, 370, 17, group, NULL, NULL, NULL);
-	SendMessage(third, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
-
-	// Label #4
-	fourth = CreateWindowEx(0, TEXT("STATIC"), dfutext[3], WS_VISIBLE | WS_CHILD | SS_CENTER, 5, 95, 370, 17, group, NULL, NULL, NULL);
-	SendMessage(fourth, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
-
 	// Countdown timer
 	counter = CreateWindowEx(0, TEXT("STATIC"), TEXT(""), WS_VISIBLE | WS_CHILD | SS_CENTER, 390, 15, 60, 60, group, NULL, NULL, NULL);
     SendMessage(counter, WM_SETFONT, (WPARAM) CreateFont(64, 0, 0, 0, FW_EXTRALIGHT, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
@@ -312,10 +312,34 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
     // Show the window
 	CenterWindow(window);
     ShowWindow(window, nFunsterStil);
-
+	
 	UpdateJailbreakStatus();
 	ToggleDFUTimers(FALSE);
-    
+	
+	int ret = MessageBox(window, "If you are jailbreaking an AppleTV, please choose yes before continuing", "Are you jailbreaking an AppleTV?", MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2);
+	if (ret == IDYES) atvmode = 1;
+	
+	// Label #1
+	const char* dfulabel;
+	if (atvmode) dfulabel = dfutextATV[0]; else dfulabel = dfutext[0];
+	first = CreateWindowEx(0, TEXT("STATIC"), dfulabel, WS_CHILD | SS_CENTER, 5, 20, 370, 17, group, NULL, NULL, NULL);
+	SendMessage(first, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
+
+	// Label #2
+	if (atvmode) dfulabel = dfutextATV[1]; else dfulabel = dfutext[1];
+	second = CreateWindowEx(0, TEXT("STATIC"), dfulabel, WS_CHILD | SS_CENTER, 5, 45, 370, 17, group, NULL, NULL, NULL);
+	SendMessage(second, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
+
+	// Label #3
+	if (atvmode) dfulabel = dfutextATV[2]; else dfulabel = dfutext[2];
+	third = CreateWindowEx(0, TEXT("STATIC"), dfulabel, WS_CHILD | SS_CENTER, 5, 70, 370, 17, group, NULL, NULL, NULL);
+	SendMessage(third, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
+
+	// Label #4
+	if (atvmode) dfulabel = dfutextATV[3]; else dfulabel = dfutext[3];
+	fourth = CreateWindowEx(0, TEXT("STATIC"), dfulabel, WS_CHILD | SS_CENTER, 5, 95, 370, 17, group, NULL, NULL, NULL);
+	SendMessage(fourth, WM_SETFONT, (WPARAM) CreateFont(14, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT("Tahoma")), TRUE);
+	
     // Run the main runloop.
     while(MessageLoop(TRUE));
     
@@ -326,14 +350,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
     return 0;
 }
 
+/*DONATE/
 HDC hdcMem = NULL;
+*/
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message) {
 	case WM_CREATE: {
+		/*DONATE/
 		HDC hDC = GetDC(window);
 		hdcMem = CreateCompatibleDC(hDC); // hDC is a DC structure supplied by Win32API
+		*/
 		return 0;
 	}
 	case WM_LBUTTONDOWN: {
@@ -408,12 +436,10 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 					ToggleDFUTimers(FALSE);
 				} else {
 					dfuphase += 1;
-					if (dfuphase == DFU_PHASE_POWER) {
-						dfucountdown = 2;
-					} else if (dfuphase == DFU_PHASE_BOTH) {
-						dfucountdown = 10;
-					} else if (dfuphase == DFU_PHASE_HOME) {
-						dfucountdown = 15;
+					if (atvmode) {
+						dfucountdown = dfutexttimeATV[dfuphase - 1];
+					} else {
+						dfucountdown = dfutexttime[dfuphase - 1];
 					}
 				}
 			}
