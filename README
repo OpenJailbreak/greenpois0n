@@ -23,7 +23,11 @@ Remaining bugs to fix:
 
 * sandbox issues with iBooks and DRM'd Books
 
+* lockdownd poping up a progress bar when Loader extracts cydia package on certain devices (certainly previously jailbroken devices updated to 4.2.1.)
+
 **********************************
 Fixed:
 
 X Verizon CMDA iPhone3,3: the BDID is now 6 (posixninja)
+X non working gpsPhone (thanks to jan0)
+X AppleTV2 support (|bile|)
