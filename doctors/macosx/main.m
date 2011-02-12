@@ -139,7 +139,7 @@ void update_progress(double progress) {
 	} else {
 		[secondsLabel setStringValue:@"10"];
 		if (appletv == true)
-			[secondsLabel setStringValue:@"0"];
+			[secondsLabel setStringValue:@"2"];
 		[thirdLabel setFont:[NSFont fontWithName:@"Lucida Grande" size:12.0]];
 		[fourthLabel setFont:[NSFont fontWithName:@"Lucida Grande Bold" size:12.0]];
 		[self performSelector:@selector(stage5) withObject:nil afterDelay:1.0];
