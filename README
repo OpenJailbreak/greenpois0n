@@ -25,6 +25,14 @@ Remaining bugs to fix:
 
 * lockdownd poping up a progress bar when Loader extracts cydia package on certain devices (certainly previously jailbroken devices updated to 4.2.1.)
 
+* Remarks on AppleTV DFU instructions:
+  iH8sn0w: Alright, when greenpois0n is done booting the ramdisk for the Apple TV, it needs power to continue executing the ramdisk. But greenpois0n says that the Jailbreak is complete. So people will unplug the usb to the apple tv which will interrupt the ramdisk executing.
+  iH8sn0w: Its not like an iDevice where you see the actual progress on a display.
+  iH8sn0w: nor does the Apple TV have a battery 
+
+* AppleTV no Apple showing on boot issue:
+  iH8sn0w: One odd thing though is that the apple logo doesnt pop up anymore on boot
+
 **********************************
 Fixed:
 
