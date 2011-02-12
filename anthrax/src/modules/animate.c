@@ -34,8 +34,8 @@ int animate_start() {
 	ret = device_info(&info);
 	if(ret < 0) return -1;
 
-	// Don't play animation is this is an iPad
-	if(strcmp(info.model, "iPad1,1")) {
+	// Don't play animation is this is an iPad or AppleTV
+	if(strcmp(info.model, DEVICE_IPAD1G) && strcmp(info.model, DEVICE_APPLETV2)) {
 		unlink("/mnt/usr/bin/animate");sync();
 		puts("- Installing animate binary\n");
 		ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);sync();
@@ -43,7 +43,6 @@ int animate_start() {
 
 		puts("- Launching animate in background\n");
 		ret = fsexec(animate, cache_env, true);
-		//ret = fsexec(animate2, cache_env, false);
 		if (ret < 0) return -1;
 	}
 
