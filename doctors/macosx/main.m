@@ -235,16 +235,16 @@ void update_progress(double progress) {
 
 - (void)appleTVCheck
 {
-	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"Are you jailbreaking an AppleTV?" defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:@"If you are jailbreaking an AppleTV, please choose yes before continuing"];
+	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"Are you jailbreaking an AppleTV?" defaultButton:@"No" alternateButton:@"Yes" otherButton:nil informativeTextWithFormat:@"If you are jailbreaking an AppleTV, please choose yes before continuing"];
 	int button = [startupAlert runModal];
 	
 	switch (button) {
-		case 0: //more info
+		case 1: //more info
 			
 			appletv = false;
 			break;
 			
-		case 1: //okay
+		case 0: //okay
 			appletv = true;
 			[self appletvafy];
 			break;
