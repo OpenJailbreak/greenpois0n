@@ -3,6 +3,7 @@
 //  greenpois0n
 //
 //  Created by Ari Weinstein on 7/02/09.
+//	Modified for AppleTV goodness by |bile| on 2/12/11
 //  Copyright Squish Software 2009. All rights reserved.
 //
 
@@ -32,6 +33,7 @@ BOOL reset = false;
 BOOL stop = false;
 BOOL jailbreaking = false;
 BOOL complete = false;
+BOOL appletv = false;
 
 void update_progress(double progress) {
 	if(progressIndicator) {
@@ -73,6 +75,8 @@ void update_progress(double progress) {
 	[[secondsTextLabel animator] setAlphaValue:1.0];
 	
 	[secondsLabel setStringValue:@"5"];
+	if (appletv == true)
+		[secondsLabel setStringValue:@"7"];
 	[firstLabel setFont:[NSFont fontWithName:@"Lucida Grande Bold" size:12.0]];
 	[self performSelector:@selector(stage2) withObject:nil afterDelay:1.0];
 	[NSThread detachNewThreadSelector:@selector(check) toTarget:self withObject:nil];
@@ -112,6 +116,8 @@ void update_progress(double progress) {
 		[self performSelector:@selector(stage3) withObject:nil afterDelay:1.0];
 	} else {
 		[secondsLabel setStringValue:@"10"];
+		if (appletv == true)
+			[secondsLabel setStringValue:@"7"];
 		[secondLabel setFont:[NSFont fontWithName:@"Lucida Grande" size:12.0]];
 		[thirdLabel setFont:[NSFont fontWithName:@"Lucida Grande Bold" size:12.0]];
 		[self performSelector:@selector(stage4) withObject:nil afterDelay:1.0];
@@ -132,6 +138,8 @@ void update_progress(double progress) {
 		[self performSelector:@selector(stage4) withObject:nil afterDelay:1.0];
 	} else {
 		[secondsLabel setStringValue:@"10"];
+		if (appletv == true)
+			[secondsLabel setStringValue:@"0"];
 		[thirdLabel setFont:[NSFont fontWithName:@"Lucida Grande" size:12.0]];
 		[fourthLabel setFont:[NSFont fontWithName:@"Lucida Grande Bold" size:12.0]];
 		[self performSelector:@selector(stage5) withObject:nil afterDelay:1.0];
@@ -223,6 +231,43 @@ void update_progress(double progress) {
         [jailbreakButton setTitle:@"Try Again?"];
         [progressIndicator stopAnimation:nil];
     }
+}
+
+- (void)appleTVCheck
+{
+	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"Are you jailbreaking an AppleTV?" defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:@"If you are jailbreaking an AppleTV, please choose yes before continuing"];
+	int button = [startupAlert runModal];
+	
+	switch (button) {
+		case 0: //more info
+			
+			appletv = false;
+			break;
+			
+		case 1: //okay
+			appletv = true;
+			[self appletvafy];
+			break;
+			
+			
+	}
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	
+
+	[self appleTVCheck];
+	
+}
+
+- (void)appletvafy
+{
+	[firstLabel setStringValue:@"Plug AppleTV in to USB"];
+	[secondLabel setStringValue:@"Plug in power adapter"];
+	[thirdLabel setStringValue:@"Press and hold MENU and PLAY/PAUSE"];
+	[fourthLabel setStringValue:@"Release both buttons"];
+	
+	
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
