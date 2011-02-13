@@ -150,6 +150,7 @@ void update_progress(double progress) {
 
 - (void)atvRamdiskTimer
 {
+	[jailbreakButton setEnabled:NO];
 	[[greenpois0nLogo animator] setAlphaValue:0.0];
     [[secondsLabel animator] setAlphaValue:1.0];
     [[secondsTextLabel animator] setAlphaValue:1.0];
@@ -159,6 +160,7 @@ void update_progress(double progress) {
 		[secondsLabel setStringValue:[NSString stringWithFormat:@"%d", current-1]];
 		[self performSelector:@selector(atvRamdiskTimer) withObject:nil afterDelay:1.0];
 	} else {
+		[jailbreakButton setEnabled:YES];
 		complete = true;
 		jailbreaking = false;
 		stop = true;
