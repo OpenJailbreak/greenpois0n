@@ -146,6 +146,27 @@ void update_progress(double progress) {
 	}
 }
 
+- (void)atvRamdiskTimer
+{
+	[[greenpois0nLogo animator] setAlphaValue:0.0];
+    [[secondsLabel animator] setAlphaValue:1.0];
+    [[secondsTextLabel animator] setAlphaValue:1.0];
+	
+	int current = [[secondsLabel stringValue] intValue];
+	if (current != 1) {
+		[secondsLabel setStringValue:[NSString stringWithFormat:@"%d", current-1]];
+		[self performSelector:@selector(atvRamdiskTimer) withObject:nil afterDelay:1.0];
+	} else {
+		complete = true;
+		jailbreaking = false;
+		stop = true;
+		[[greenpois0nLogo animator] setAlphaValue:1.0];
+		[[secondsLabel animator] setAlphaValue:0.0];
+		[[secondsTextLabel animator] setAlphaValue:0.0];
+		[jailbreakButton setTitle:@"Complete!"];
+	}
+}
+
 - (void)check {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
@@ -173,10 +194,28 @@ void update_progress(double progress) {
             [progressIndicator stopAnimation:nil];
             
             if (result == 0) {
-                [jailbreakButton setTitle:@"Complete!"];
-                complete = true;
-                jailbreaking = false;
-                stop = true;
+				
+				
+				if (appletv == true)
+				{
+					[[greenpois0nLogo animator] setAlphaValue:0.0];
+					[[secondsLabel animator] setAlphaValue:1.0];
+					[[secondsTextLabel animator] setAlphaValue:1.0];
+					[secondsLabel setStringValue:@"45"];
+					 [jailbreakButton setTitle:@"Running ramdisk"];
+						[self performSelectorOnMainThread:@selector(atvRamdiskTimer) withObject:nil waitUntilDone:NO];
+						//[self atvRamdiskTimer];
+				} else {
+					complete = true;
+					jailbreaking = false;
+					stop = true;
+					   [jailbreakButton setTitle:@"Complete!"];
+					
+				}
+				
+             
+               
+				
             } else {
                 complete = false;
                 stop = false;
