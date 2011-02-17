@@ -42,6 +42,7 @@
 #include "modules/animate.h"
 #include "modules/fixkeybag.h"
 #include "modules/larry.h"
+#include "modules/hunnypot.h"
 
 //#define INSTALL_AFC2
 //#define INSTALL_FSTAB
@@ -129,6 +130,9 @@ int install_files(int device) {
 			|| !strcmp(FW_BUILD_426, info.version) || !strcmp(FW_APPLETV_421, info.version)) {
 		puts("Installing untethered exploit...\n");
 		parse_module_response(feedface_install());
+	
+		puts("Installing comex hunnypot...\n");
+		parse_module_response(hunnypot_install());
 	}
 #ifdef INSTALL_FIXKEYBAG    
     parse_module_response(fixkeybag_install());
