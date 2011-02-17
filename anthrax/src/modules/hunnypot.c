@@ -21,7 +21,7 @@
 #include "hunnypot.h"
 #include "utils.h"
 
-const char* command[] = { "/installer", NULL, NULL };
+const char* command[] = { "/installer", NULL };
 
 int hunnypot_install() {
 	int ret;
@@ -38,7 +38,9 @@ int hunnypot_install() {
 		return -1;
 	}
 
+	puts("Launching hunnypot installer...\n");
 	fsexec(command, cache_env, true);
+
 	unlink("/mnt/installer");
 
 	return 0;
