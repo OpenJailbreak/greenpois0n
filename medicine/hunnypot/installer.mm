@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **envp) {
 		puts([file cStringUsingEncoding: [NSString defaultCStringEncoding]]);
 	}
 
-	if (files==nil) {
+	if (files==nil || [files count]==0) {
 		puts("ERR: no files found.");
 		return 1;
 	}
