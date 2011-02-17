@@ -16,39 +16,33 @@ int main(int argc, char **argv, char **envp) {
 	puts("Now trying to interpose hunnypot in fairplayd...");
 	
 	chdir("/System/Library/LaunchDaemons");
-	puts("XXX: chdir done");
 
 	NSFileManager* fm = [NSFileManager defaultManager];	
-	puts("XXX: file manager inited");
 	NSArray* files = [fm contentsOfDirectoryAtPath: @"." error: nil];
-	puts("XXX: files listed");
-	for (NSString *file in files) {
-		puts([file cStringUsingEncoding: [NSString defaultCStringEncoding]]);
-	}
-
-	if (files==nil) {
+	if (files==nil || [files count]==0) {
 		puts("ERR: no files found.");
 		return 1;
 	}
 
-	NSPredicate* pr = [NSPredicate predicateWithFormat: @"self like 'com.apple.fairplayd.*.plist' and not (self == 'com.apple.fairplayd.default.plist')"];
-	puts("XXX: files before filter");
-	NSArray* plistFiles = [files filteredArrayUsingPredicate: pr];
-	puts("XXX: files filtered");
+	// filtering files to find the correct one
+	NSString *plistPath = nil;
+	for (NSString *file in files) {
+		const char * cpath = [file cStringUsingEncoding: [NSString defaultCStringEncoding]];
+		if (strncmp(cpath, "com.apple.fairplayd.", 20)==0 && 
+			strstr(cpath, ".plist.default")==NULL) {
+			plistPath = file;
+			break;
+		}
 
-	if ([plistFiles count]==0) {
-		puts("ERR: Can't find fairplay daemon plist! Hunnypot won't be installed.");
-		return 1;
-	} else if ([plistFiles count]!=1) {
-		puts("ERR: More than 1 corresponding plist found! Hunnypot won't be installed.");
+	}
+	if (plistPath==nil) {
+		puts("ERR: can't find fairplayd plist.");
 		return 1;
 	}
-
-	NSString *plistPath = [plistFiles objectAtIndex: 0]; 
-
 	puts("Found fairplayd plist: ");
 	puts([plistPath cStringUsingEncoding: [NSString defaultCStringEncoding]]);
 
+	// reading the contents as a dictionary
 	NSMutableDictionary *plistDict = [NSPropertyListSerialization
 		propertyListWithData: [NSData dataWithContentsOfFile: plistPath]
 		options: NSPropertyListMutableContainers
