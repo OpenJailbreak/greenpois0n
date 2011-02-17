@@ -44,12 +44,8 @@
 #include "modules/larry.h"
 #include "modules/hunnypot.h"
 
-//#define INSTALL_AFC2
-//#define INSTALL_FSTAB
-//#define INSTALL_LOADER
-//#define INSTALL_HACKTIVATION
-//#define INSTALL_PF2
-//#define INSTALL_FEEDFACE
+#define DEBUG 1
+
 #define INSTALL_FIXKEYBAG
 
 #define DEVICE_UNK 0
@@ -95,10 +91,11 @@ int install_files(int device) {
 	puts("Subtype = ");info.cpusubtype == GP_DEVICE_ARMV6 ? puts("ARMv6\n") : puts("ARMv7\n");
 
 	puts("Starting boot animation...");
+#ifndef DEBUG
 	if (animate_start() != 0) {
 		puts("Or maybe not... Moving on....");
 	}
-
+#endif
 	puts("Installing fstab... ");
 	parse_module_response(fstab_install());
 
@@ -159,30 +156,6 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("\n\n\n\n\n");
 	puts("Pois0nDisk - by Chronic-Dev Team\n");
 
-	/*
-	puts("Checking device model...\n");
-	ret = device_model(&model);
-	if(ret < 0) return -1;
-	if(!strcmp(model, DEVICE_APPLETV2)) {
-		strncpy(root_disk, "/dev/rdisk0s1s1");
-		strncpy(user_disk, "/dev/rdisk0s1s2");
-		//fsck[2] = "/dev/rdisk0s1s1";
-		//fsck_user[2] = "/dev/rdisk0s1s2";
-	}
-	else if(!strcmp(model, DEVICE_IPOD2G)) {
-		strncpy(root_disk, "/dev/rdisk0s1");
-		strncpy(user_disk, "/dev/rdisk0s2");
-		//fsck[2] = "/dev/rdisk0s1";
-		//fsck_user[2] = "/dev/rdisk0s2";
-	}
-	else {
-		strncpy(root_disk, "/dev/rdisk0s1");
-		strncpy(user_disk, "/dev/rdisk0s2s1");
-		//fsck[2] = "/dev/rdisk0s1";
-		//fsck_user[2] = "/dev/rdisk0s2s1";
-	}
-	*/
-
 	puts("Mounting filesystem...\n");
 	if (hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_RDONLY) != 0) {
 		if (hfs_mount("/dev/disk0s1s1", "/mnt", MNT_ROOTFS | MNT_RDONLY) != 0) {
@@ -224,8 +197,10 @@ int main(int argc, char* argv[], char* env[]) {
 		ret = hfs_mount("/dev/disk0s1", "/mnt", MNT_ROOTFS | MNT_UPDATE);
 	}
 
+#ifndef DEBUG
 	puts("Starting boot animation\n");
 	animate_start();
+#endif
 
 	puts("Checking user filesystem...\n");
 	if(dev == DEVICE_ATV) {
@@ -272,19 +247,19 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("Installing files...\n");
 	if (install_files(dev) != 0) {
 		puts("Failed to install files!\n");
-		//animate_stop();
 		unmount("/mnt/private/var2", 0);
 		rmdir("/mnt/private/var2");
 		unmount("/mnt/dev", 0);
 		unmount("/mnt", 0);
 		return -1;
 	}
-	//animate_stop();
 	puts("Installation complete\n");
 	sync();
 
+#ifndef DEBUG
 	puts("Stopping boot animation\n");
 	animate_stop();
+#endif
 
 	puts("Unmounting disks...\n");
 	rmdir("/mnt/private/var2");
@@ -297,7 +272,8 @@ int main(int argc, char* argv[], char* env[]) {
 
 	puts("Rebooting device...\n");
 	close(console);
+#ifndef DEBUG
 	reboot(1);
-
+#endif
 	return 0;
 }
