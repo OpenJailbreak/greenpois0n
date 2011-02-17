@@ -44,7 +44,7 @@
 #include "modules/larry.h"
 #include "modules/hunnypot.h"
 
-#define DEBUG 1
+//#define DEBUG 1
 
 #define INSTALL_FIXKEYBAG
 
