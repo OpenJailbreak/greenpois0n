@@ -20,6 +20,21 @@
 		};
 /* End PBXAggregateTarget section */
 
+/* Begin PBXBuildFile section */
+		325435F9130BB14C002E7C34 /* pHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3220AF8012F2A42300D08CF2 /* pHelper.m */; };
+		325435FA130BB152002E7C34 /* pHelperClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 3220AF8212F2A42300D08CF2 /* pHelperClass.m */; };
+		325435FB130BB155002E7C34 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87B07CC9126C127E00C8C44D /* main.mm */; };
+		325435FC130BB156002E7C34 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 87B07CCA126C127E00C8C44D /* Makefile */; };
+		325435FD130BB159002E7C34 /* ashyLarryAppliance.mm in Sources */ = {isa = PBXBuildFile; fileRef = 87FF3E4D12646F9B001906CD /* ashyLarryAppliance.mm */; };
+		325435FE130BB15D002E7C34 /* CPlusFunctions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8717EF3C12680E9A00960192 /* CPlusFunctions.mm */; };
+		325435FF130BB160002E7C34 /* P0isonedMenuLauncherController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8717D4ED12666E8B00960192 /* P0isonedMenuLauncherController.m */; };
+		32543600130BB164002E7C34 /* GPDownloadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8717E8DF1266F96600960192 /* GPDownloadController.m */; };
+		32543601130BB165002E7C34 /* GPProgressBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8717E8EB1266F9D400960192 /* GPProgressBarControl.m */; };
+		32543602130BB16D002E7C34 /* GPMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 8717E3801266C36B00960192 /* GPMedia.m */; };
+		32543603130BB16E002E7C34 /* GPMediaPreview.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8717E3821266C36B00960192 /* GPMediaPreview.mm */; };
+		3254362B130BB212002E7C34 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8717D7391266779600960192 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		3220AF7E12F2A42300D08CF2 /* fakeroot */ = {isa = PBXFileReference; lastKnownFileType = file; path = fakeroot; sourceTree = "<group>"; };
 		3220AF7F12F2A42300D08CF2 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -580,6 +595,8 @@
 		3220B1C812F2A42400D08CF2 /* preference_bundle.nic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = preference_bundle.nic; sourceTree = "<group>"; };
 		3220B1C912F2A42400D08CF2 /* tool.nic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tool.nic; sourceTree = "<group>"; };
 		3220B1CA12F2A42400D08CF2 /* tweak.nic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tweak.nic; sourceTree = "<group>"; };
+		325435CF130BB0EF002E7C34 /* autoCompleteLaziness.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = autoCompleteLaziness.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		325435D1130BB0EF002E7C34 /* autoCompleteLaziness-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "autoCompleteLaziness-Info.plist"; sourceTree = "<group>"; };
 		8717D4EC12666E8B00960192 /* P0isonedMenuLauncherController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P0isonedMenuLauncherController.h; sourceTree = "<group>"; };
 		8717D4ED12666E8B00960192 /* P0isonedMenuLauncherController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P0isonedMenuLauncherController.m; sourceTree = "<group>"; };
 		8717D7391266779600960192 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1065,6 +1082,17 @@
 		87FF3E4D12646F9B001906CD /* ashyLarryAppliance.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ashyLarryAppliance.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		325435CD130BB0EF002E7C34 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3254362B130BB212002E7C34 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
 		08FB7794FE84155DC02AAC07 /* nitoTV_2 */ = {
 			isa = PBXGroup;
@@ -1078,6 +1106,8 @@
 				8717E3A31266C61D00960192 /* Makefile */,
 				8717E6E31266F09E00960192 /* BackRow */,
 				8717D7391266779600960192 /* Foundation.framework */,
+				325435D0130BB0EF002E7C34 /* Products */,
+				325435D1130BB0EF002E7C34 /* autoCompleteLaziness-Info.plist */,
 			);
 			name = nitoTV_2;
 			sourceTree = "<group>";
@@ -1896,6 +1926,14 @@
 			path = iphone;
 			sourceTree = "<group>";
 		};
+		325435D0130BB0EF002E7C34 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				325435CF130BB0EF002E7C34 /* autoCompleteLaziness.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		8717E3751266C35B00960192 /* Metadata */ = {
 			isa = PBXGroup;
 			children = (
@@ -2430,6 +2468,26 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXNativeTarget section */
+		325435CE130BB0EF002E7C34 /* autoCompleteLaziness */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 325435D4130BB0F0002E7C34 /* Build configuration list for PBXNativeTarget "autoCompleteLaziness" */;
+			buildPhases = (
+				325435CB130BB0EF002E7C34 /* Resources */,
+				325435CC130BB0EF002E7C34 /* Sources */,
+				325435CD130BB0EF002E7C34 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = autoCompleteLaziness;
+			productName = autoCompleteLaziness;
+			productReference = 325435CF130BB0EF002E7C34 /* autoCompleteLaziness.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
@@ -2447,13 +2505,25 @@
 				German,
 			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* nitoTV_2 */;
+			productRefGroup = 325435D0130BB0EF002E7C34 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				87A31AC71269A1C100F44939 /* ashyLarry */,
+				325435CE130BB0EF002E7C34 /* autoCompleteLaziness */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		325435CB130BB0EF002E7C34 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		87A31AC61269A1C100F44939 /* ShellScript */ = {
@@ -2472,6 +2542,27 @@
 		};
 /* End PBXShellScriptBuildPhase section */
 
+/* Begin PBXSourcesBuildPhase section */
+		325435CC130BB0EF002E7C34 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				325435F9130BB14C002E7C34 /* pHelper.m in Sources */,
+				325435FA130BB152002E7C34 /* pHelperClass.m in Sources */,
+				325435FB130BB155002E7C34 /* main.mm in Sources */,
+				325435FC130BB156002E7C34 /* Makefile in Sources */,
+				325435FD130BB159002E7C34 /* ashyLarryAppliance.mm in Sources */,
+				325435FE130BB15D002E7C34 /* CPlusFunctions.mm in Sources */,
+				325435FF130BB160002E7C34 /* P0isonedMenuLauncherController.m in Sources */,
+				32543600130BB164002E7C34 /* GPDownloadController.m in Sources */,
+				32543601130BB165002E7C34 /* GPProgressBarControl.m in Sources */,
+				32543602130BB16D002E7C34 /* GPMedia.m in Sources */,
+				32543603130BB16E002E7C34 /* GPMediaPreview.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
 /* Begin XCBuildConfiguration section */
 		1DEB919408733D9F0010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2489,7 +2580,58 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos4.2;
+			};
+			name = Release;
+		};
+		325435D2130BB0F0002E7C34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "autoCompleteLaziness-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = autoCompleteLaziness;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		325435D3130BB0F0002E7C34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "autoCompleteLaziness-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = autoCompleteLaziness;
+				SDKROOT = macosx10.6;
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -2510,6 +2652,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = ashyLarry;
+				SDKROOT = iphoneos4.2;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -2522,6 +2665,15 @@
 			buildConfigurations = (
 				1DEB919408733D9F0010E9CD /* Debug */,
 				1DEB919508733D9F0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		325435D4130BB0F0002E7C34 /* Build configuration list for PBXNativeTarget "autoCompleteLaziness" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				325435D2130BB0F0002E7C34 /* Debug */,
+				325435D3130BB0F0002E7C34 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

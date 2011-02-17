@@ -23,7 +23,8 @@ int main (int argc, const char * argv[]) {
 		NSString *path = [NSString stringWithUTF8String:argv[0]];
 		NSString *option = [NSString stringWithUTF8String:argv[i]];
 		NSString *value = [NSString stringWithUTF8String:argv[i+1]];
-			//NSLog(@"path: %@", path);
+		int index = [[NSString stringWithUTF8String:argv[i+2]] intValue];
+			NSLog(@"index: %i", index);
 			//	NSLog(@"option: %@", option);
 	
 		pHelperClass *phc = [[pHelperClass alloc] init];
@@ -46,7 +47,14 @@ int main (int argc, const char * argv[]) {
 			[phc release];
 			phc = nil;
 			return 0;
+		} else if ([option isEqualToString:@"autoInstall"]){
+			NSLog(@"should autoInstall: %@",value );
+			int termStatus = [phc autoInstallFile:value atIndex:index];
+			[phc release];
+			phc = nil;
+			return termStatus;
 		}
+		
 		
 	
 	}

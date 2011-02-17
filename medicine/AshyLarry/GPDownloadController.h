@@ -30,8 +30,11 @@
 	NSFileHandle *logHandle;
 	BOOL installCompleted;
 	id _parentController;
-	
+	int					downloadIndex;
+
 }
+
+@property (readwrite, assign) int downloadIndex;
 - (id)parentController;
 - (void)setParentController:(id)value;
 - (NSFileHandle *)logHandle;

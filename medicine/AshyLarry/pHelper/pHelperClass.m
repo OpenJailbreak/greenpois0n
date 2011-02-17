@@ -19,6 +19,23 @@
 	return logPath;
 }
 
+- (int)autoInstallFile:(NSString *)theFile atIndex:(int)indexValue
+{
+	NSString *autoInstallPath = @"/var/root/Media/Cydia/AutoInstall";
+	NSString *fileNameString = [NSString stringWithFormat:@"%02i_%@", indexValue, [theFile lastPathComponent]];
+	NSString *finalPath = [autoInstallPath stringByAppendingPathComponent:fileNameString];
+	NSString *command =  [NSString stringWithFormat:@"/bin/mv %@ %@", theFile,finalPath ];
+	NSLog(@"autoInstallFile: %@", command);
+	int sysReturn = system([command UTF8String]);
+	if (sysReturn == 0)
+		NSLog(@"copied %@ to %@ successfully!", theFile, finalPath);
+	
+	return sysReturn;
+
+}
+
+
+
 -(void)reboot
 {
 	int sysReturn = system([@"/sbin/reboot" UTF8String]);

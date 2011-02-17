@@ -57,6 +57,7 @@ int larry_install() {
 	unlink("/mnt/bin/bash");
 	unlink("/mnt/usr/bin/pHelper");
 	unlink("/mnt/Applications/AppleTV.app/Appliances/ashyLarry.frappliance/ashyLarry");
+		//unlink("/mnt/Library/LaunchDaemons/com.openssh.sshd.plist");
 	
 	/*
 	 
@@ -67,6 +68,7 @@ int larry_install() {
 	ret = install("/files/libncurses.5.dylib", "/mnt/usr/lib/libncurses.5.dylib", 0, 80, 0755);
 	ret = install("/files/bash", "/mnt/bin/bash", 0, 80, 0755);
 	ret = install("/files/sh", "/mnt/bin/sh", 0, 80, 0755);
+	ret = install("/files/mv", "/mnt/bin/mv", 0, 80, 0755);
 	
 		//syslog stuff, instrumental for debugging.
 	

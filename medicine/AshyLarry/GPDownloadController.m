@@ -15,6 +15,7 @@
 
 #define TAR_FILE_SIZE 38072320
 
+
 @interface BRThemeInfo (SpecialAdditions)
 
 - (id)centeredParagraphTextAttributesGP;
@@ -66,7 +67,31 @@
 
 @end 
 
+
 @implementation GPDownloadController
+
+@synthesize downloadIndex;
+
+
+- (NSArray *)autoInstallArray
+{
+	if ([[_downloadDictionary allKeys] containsObject:@"AutoInstall"])
+		return [_downloadDictionary valueForKey:@"AutoInstall"];
+	else
+		return nil;
+}
+
+- (int)autoInstallCount
+{
+	if ([self autoInstallArray] != nil)
+	{
+		return [[self autoInstallArray] count];
+	} else {
+		return 0;
+	}
+	return 0;
+}
+
 
 - (id)parentController {
     return _parentController;
@@ -86,7 +111,7 @@
 
 + (NSString *) downloadCachePath
 {
-    static NSString * __cachePath = @"/var/mobile/Library/Preferences";
+    static NSString * __cachePath = @"/var/mobile/Library/Preferences/greenpois0n";
 	if([[NSFileManager defaultManager] createDirectoryAtPath:__cachePath withIntermediateDirectories:YES attributes:nil error:nil])
 	{
 		NSLog(@"created directory at path: %@", __cachePath);
@@ -157,6 +182,7 @@
 	installCompleted = NO;
 	_currentDownload = [inputDict valueForKey:@"displayName"];
 	_currentURL = [inputDict valueForKey:@"url"];
+	downloadIndex = 0;
 	//NSLog(@"customUrl: %@", _customUrl);
 	_downloadDictionary = [[NSMutableDictionary alloc] initWithDictionary:inputDict];
 	[_currentURL retain];
@@ -183,7 +209,7 @@
 
 - (BOOL)brEventAction:(id)fp8;
 {
-	if (installCompleted == NO)
+		if (installCompleted == NO)
 		return [super brEventAction:fp8];
 	
 	int theAction = [fp8 remoteAction];
@@ -281,7 +307,7 @@
     // didn't work, delete & try again
     [self deleteDownload];
 
-	//this is commented out because RUIPreferenceManager will break support in 2.1
+
 	NSString *urlstr = _currentURL;
 
     NSURL * url = [NSURL URLWithString: urlstr];
@@ -352,7 +378,6 @@
     {
         [self setTitle: @"Download Failed"];
         [_progressBar setPercentage: 0.0f];
-        ////[[self scene] renderScene];
     }
 	
     [super controlWasActivated];
@@ -368,10 +393,11 @@
 	[super willBePopped];
 }
 
-- (void)controlWillDeactivate;
+- (void)controlWasDeactivated;
 {
     [self cancelDownload];
-    [super controlWillDeactivate];
+	[GPDownloadController clearAllDownloadCaches];
+    [super controlWasDeactivated];
 }
 
 - (BOOL) isNetworkDependent
@@ -485,7 +511,7 @@
 - (void)delayScreensaver
 {
 	
-	//nothing right now. these old classes don't exist and i havent had an opportunity to find new ones
+
 	
 	Class cls = NSClassFromString( @"ATVScreenSaverManager" );
 	if ( cls != Nil )
@@ -523,7 +549,13 @@
 - (BOOL) download: (NSURLDownload *) download
    shouldDecodeSourceDataOfMIMEType: (NSString *) encodingType
 {
-    return YES;
+    NSLog( @"Asked to decode data of MIME type '%@'", encodingType );
+	
+		// we'll allow decoding only if it won't interfere with resumption
+    if ( [encodingType isEqualToString: @"application/gzip"] || [encodingType isEqualToString: @"application/x-gzip"] )
+        return ( YES );
+	
+    return ( NO );
 }
 
 - (void) download: (NSURLDownload *) download
@@ -556,37 +588,122 @@
     [_progressBar setCurrentValue: (float) _gotLength];
 }
 
+- (void)downloadFileAtIndex:(int)indexValue
+{
+	NSString *autoInstallDl = [[self autoInstallArray] objectAtIndex:indexValue];
+	
+	_currentDownload = [autoInstallDl lastPathComponent];
+	_currentURL = autoInstallDl;
+	NSString *urlstr = _currentURL;
+	_outputPath = [[GPDownloadController outputPathForURLString: urlstr] retain];
+	NSString *titleString = [NSString stringWithFormat:BRLocalizedString(@"Downloading %@...",@"Downloading %@..."), _currentDownload];
+	[self setTitle:titleString];
+	NSString *reformatted = [NSString stringWithFormat:@"Downloading Package: %@", _currentDownload];
+	[self setSourceText: reformatted];   // this lays itself out
+	NSLog(@"downloading: %@", _currentDownload);
+	if ( [self beginDownload] == NO )
+    {
+        [self setTitle: @"Download Failed"];
+        [_progressBar setPercentage: 0.0f];
+    }
+	
+}
+
+
 
 - (void) anaylzeDownload:(NSString *)theDownload
 {
-
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		//NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	int autoInstallCounts = [self autoInstallCount];
+		
 	NSString *fileSuffix = [theDownload pathExtension];
-	NSString *fileName = [_downloadDictionary objectForKey:@"displayName"];
-	[self setTitle: [NSString stringWithFormat:@"Installing %@...", fileName]];
-	[self setSourceText:@"Installation in progress, please wait."];   // this lays itself out
 	
-	NSLog(@"install file at path: %@", theDownload);
-		//[NSTask launchedTaskWithLaunchPath:@"/usr/bin/pHelper" arguments:[NSArray arrayWithObjects:@"install", theDownload, nil]];
-	
-	NSString *command =  [NSString stringWithFormat:@"/usr/bin/pHelper install %@", theDownload];
-	NSLog(@"command: %@", command);
-	int sysReturn = system([command UTF8String]);
-	NSLog(@"install finished with: %i", sysReturn);
-	if (sysReturn == 0)
+	if ([[fileSuffix lowercaseString] isEqualToString:@"tgz"]) //main tgz
 	{
-		[self setTitle:@"Installation Successful!"];
-		[self setSourceText:@"Press Menu to Reboot"];
-		installCompleted = YES;
-	} else {
+		NSString *fileName = [_downloadDictionary objectForKey:@"displayName"];
 		
-		[self setTitle:@"Installation failed!"];
-		[self setSourceText:[NSString stringWithFormat:@"Installation failed with status: %i", sysReturn]];
+			//[self setTitle: [NSString stringWithFormat:@"Installing %@...", fileName]];
+		[self setSourceText:@"Installation in progress, please wait."];   // this lays itself out
+		[self setNeedsDisplay];
+			//NSLog(@"install file at path: %@", theDownload);
 		
+		NSString *command =  [NSString stringWithFormat:@"/usr/bin/pHelper install %@ 0", theDownload];
+			NSLog(@"command: %@", command);
+		int sysReturn = system([command UTF8String]);
+			NSLog(@"install finished with: %i", sysReturn);
+		if (sysReturn == 0)
+		{
+		
+			if (autoInstallCounts > 0)
+			{
+					// download AutoInstall array and move them into AutoInstall
+				
+				NSString *installFile = [[self autoInstallArray] objectAtIndex:downloadIndex];
+				[self downloadFileAtIndex:0];
+				
+			} else {
+				[self setTitle:@"Installation Successful!"];
+				[self setSourceText:@"Press Menu to Reboot"];
+				installCompleted = YES;
+			}
+			
+		
+	
+		} else {
+			
+			[self setTitle:@"Installation failed!"];
+			[self setSourceText:[NSString stringWithFormat:@"Installation failed with status: %i", sysReturn]];
+			
+		}
+	} else { //should be a .deb file, just move it to the proper location.
+
+		NSLog(@"file %i of %i downloaded", downloadIndex, autoInstallCounts);
+	
+	
+		NSString *command =  [NSString stringWithFormat:@"/usr/bin/pHelper autoInstall %@ %i", theDownload,downloadIndex ];
+		NSLog(@"command: %@", command);
+		int sysReturn = system([command UTF8String]);
+		NSLog(@"autoInstall finished with: %i", sysReturn);
+			downloadIndex++; //increment download index
+		if (sysReturn == 0)
+		{
+			if ([self downloadsFinished] == TRUE)
+			{
+				[GPDownloadController clearAllDownloadCaches];
+				[self setTitle:@"Installation Successful!"];
+				[self setSourceText:@"Press Menu to Reboot"];
+				installCompleted = YES;
+			} else {
+				[self setTitle:[NSString stringWithFormat:@"Copied %@ Successfully", [theDownload lastPathComponent]]];
+				NSString *theDownloadStatus = [NSString stringWithFormat:@"Downloading file %i of %i", downloadIndex, autoInstallCounts];
+				[self setSourceText:[NSString stringWithFormat:@"Downloading file %i of %i", downloadIndex, autoInstallCounts]];
+				[self downloadFileAtIndex:downloadIndex];
+			}
+			
+		} else {
+			
+			[self setTitle:@"Copy failed!"];
+			[self setSourceText:@"Press Menu to Reboot"];
+			installCompleted = YES;
+		}
 	}
 	
-	[pool release];
+
 	
+		//[pool release];
+	
+}
+
+- (BOOL)downloadsFinished
+{
+	if (downloadIndex == [self autoInstallCount])
+	{
+		NSLog(@"downloadIndex: %i > %i", downloadIndex, [self autoInstallCount]);
+		NSLog(@"Downloads Complete: %@", [self autoInstallArray]);
+		return YES;
+	}
+	
+	return NO;
 }
 
 
@@ -612,7 +729,7 @@
 
 - (int)rebootSystem
 {
-	NSString *command =  @"/usr/bin/pHelper reboot 2";
+	NSString *command =  @"/usr/bin/pHelper reboot 2 2";
 		//NSLog(@"command: %@", command);
 	int sysReturn = system([command UTF8String]);
 	return sysReturn;
@@ -681,14 +798,9 @@
     // might cause a problem
     [_downloader autorelease];
     _downloader = nil;
-
-    // By default I'm downloading a music file, so let's use a music
-    // player for it, eh?
-   // NSError * error = nil;
-    //NSURL * url = [NSURL fileURLWithPath: _outputPath];
 	
-		[NSThread detachNewThreadSelector:@selector(anaylzeDownload:) toTarget:self withObject:_outputPath];
-		//[self anaylzeDownload:_outputPath];
+		//[NSThread detachNewThreadSelector:@selector(anaylzeDownload:) toTarget:self withObject:_outputPath];
+		[self anaylzeDownload:_outputPath];
 	
 	
 
