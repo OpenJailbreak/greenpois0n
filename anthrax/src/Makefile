@@ -27,7 +27,7 @@ TARGETS = $(LAUNCHD_TARGET)
 
 # Setupp objects for launchd
 LAUNCHD_TARGET = launchd
-LAUNCHD_OBJECTS = launchd.o syscalls.o utils.o device.o firmware.o modules/feedface.o modules/pf2.o modules/fstab.o modules/afc2.o modules/hacktivation.o modules/loader.o modules/capable.o modules/sachet.o modules/immutable.o modules/animate.o modules/fixkeybag.o modules/larry.o
+LAUNCHD_OBJECTS = launchd.o syscalls.o utils.o device.o firmware.o modules/feedface.o modules/pf2.o modules/fstab.o modules/afc2.o modules/hacktivation.o modules/loader.o modules/capable.o modules/sachet.o modules/immutable.o modules/animate.o modules/fixkeybag.o modules/larry.o modules/hunnypot.o
 LAUNCHD_CFLAGS = -arch armv6 -isysroot=$(SDK) -I$(SDK)/usr/include -I. -static -nostartfiles -nodefaultlibs -nostdlib -Wl,-e,_main
 LAUNCHD_LDFLAGS = 
 
