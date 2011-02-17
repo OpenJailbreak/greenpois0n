@@ -1,4 +1,4 @@
-*** greenpois0n 1.0 RC6 ***
+*** greenpois0n 1.0 RC6.1 ***
 
 > Description of the software:
 
@@ -17,6 +17,7 @@
 
 > Changelog:
 
+  - RC6.1: comex 'hunnypot' iBooks fix, don't overwrite animate if it already exist
   - RC6: Apple TV 2 support, fixed emulators compatibility issues with greenpois0n
   - RC5.4: Verizon iPhone 4 is now supported !
 
