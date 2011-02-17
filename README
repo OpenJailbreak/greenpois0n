@@ -21,8 +21,6 @@ Remaining bugs to fix:
 
 * Windows 7 stability issues: shows iBSS white screen and say Failed. XP Compatible mode seems to do the trick.
 
-* sandbox issues with iBooks and DRM'd Books
-
 * lockdownd poping up a progress bar when Loader extracts cydia package on certain devices (certainly previously jailbroken devices updated to 4.2.1.)
 
 * Remarks on AppleTV DFU instructions:
@@ -33,9 +31,12 @@ Remaining bugs to fix:
 * AppleTV no Apple showing on boot issue:
   iH8sn0w: One odd thing though is that the apple logo doesnt pop up anymore on boot
 
+* pod2g: I can't get why animate_start() is called multiple times in launchd.c
+
 **********************************
 Fixed:
 
 X Verizon CMDA iPhone3,3: the BDID is now 6 (posixninja)
 X non working gpsPhone (thanks to jan0)
 X AppleTV2 support (|bile|)
+X sandbox issues with iBooks and DRM'd Books
