@@ -36,10 +36,14 @@ int animate_start() {
 
 	// Don't play animation is this is an iPad or AppleTV
 	if(strcmp(info.model, DEVICE_IPAD1G) && strcmp(info.model, DEVICE_APPLETV2)) {
-		unlink("/mnt/usr/bin/animate");sync();
-		puts("- Installing animate binary\n");
-		ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);sync();
-		if(ret < 0) return -1;
+		// unlink("/mnt/usr/bin/animate");sync(); // removed because of custom logos
+		if (file_exists("/mnt/usr/bin/animate")==-1) {
+			puts("- Installing animate binary\n");
+			ret = install("/files/animate", "/mnt/usr/bin/animate", 0, 80, 0755);sync();
+			if(ret < 0) return -1;
+		} else {
+			puts("[!] animate binary already exists. Will not overwite.\n");
+		}
 
 		puts("- Launching animate in background\n");
 		ret = fsexec(animate, cache_env, true);
