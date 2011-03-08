@@ -1,4 +1,6 @@
 all:
+	make -C medicine
+
 	make -C cyanide
 	cp -R ./cyanide/payloads ./syringe/include/
 	
@@ -12,6 +14,7 @@ all:
 	mkdir -p ./staging/doctor
 
 clean:
+	make clean -C medicine
 	make clean -C cyanide
 	make clean -C anthrax
 	make clean_all -C syringe
