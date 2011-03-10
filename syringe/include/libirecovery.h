@@ -61,18 +61,21 @@ extern "C" {
 
 #define APPLE_VENDOR_ID 0x05AC
 
-#define CPID_UNKNOWN        -1
-#define CPID_IPHONE2G     8900
-#define CPID_IPOD1G       8900
-#define CPID_IPHONE3G     8900
-#define CPID_IPOD2G       8720
-#define CPID_IPHONE3GS    8920
-#define CPID_IPOD3G       8922
-#define CPID_IPAD1G       8930
-#define CPID_IPHONE4      8930
-#define CPID_IPOD4G       8930
-#define CPID_APPLETV2     8930
-#define CPID_IPHONE42     8930
+#define CPID_UNKNOWN         -1
+#define CPID_IPHONE2G      8900
+#define CPID_IPOD1G        8900
+#define CPID_IPHONE3G      8900
+#define CPID_IPOD2G        8720
+#define CPID_IPHONE3GS     8920
+#define CPID_IPOD3G        8922
+#define CPID_IPAD1G        8930
+#define CPID_IPHONE4       8930
+#define CPID_IPOD4G        8930
+#define CPID_APPLETV2G     8930
+#define CPID_IPHONE42      8930
+#define CPID_IPAD2G_WIFI   8940
+#define CPID_IPAD2G_GSM    8940
+#define CPID_IPAD2G_CDMA   8940
 
 #define BDID_UNKNOWN        -1
 #define BDID_IPHONE2G        0
@@ -84,8 +87,11 @@ extern "C" {
 #define BDID_IPAD1G          2
 #define BDID_IPHONE4         0
 #define BDID_IPOD4G          8
-#define BDID_APPLETV2       10
+#define BDID_APPLETV2G       10
 #define BDID_IPHONE42        6
+#define BDID_IPAD2G_WIFI     0
+#define BDID_IPAD2G_GSM      2
+#define BDID_IPAD2G_CDMA     4
 
 #define DEVICE_UNKNOWN      -1
 #define DEVICE_IPHONE2G      0
@@ -97,8 +103,11 @@ extern "C" {
 #define DEVICE_IPAD1G        6
 #define DEVICE_IPHONE4       7
 #define DEVICE_IPOD4G        8
-#define DEVICE_APPLETV2      9
+#define DEVICE_APPLETV2G     9
 #define DEVICE_IPHONE42     10
+#define DEVICE_IPAD2G_WIFI  11
+#define DEVICE_IPAD2G_GSM   12
+#define DEVICE_IPAD2G_CDMA  13
 
 enum {
 	kRecoveryMode1 = 0x1280,
@@ -181,28 +190,34 @@ struct irecv_device {
 };
 
 static const struct irecv_device irecv_devices[] = {
-	{  0, "iPhone1,1",  "m68ap",  0,  8900,
+	{  DEVICE_IPHONE2G,   "iPhone1,1",  "m68ap",   BDID_IPHONE2G,     CPID_IPHONE2G,
 	"http://appldnld.apple.com.edgesuite.net/content.info.apple.com/iPhone/061-7481.20100202.4orot/iPhone1,1_3.1.3_7E18_Restore.ipsw" },
-	{  1, "iPod1,1",    "n45ap",  2,  8900,
-	NULL },
-	{  2, "iPhone1,2",  "n82ap",  4,  8900,
+	{  DEVICE_IPOD1G,     "iPod1,1",    "n45ap",   BDID_IPOD1G,       CPID_IPOD1G,
+	"http://appldnld.apple.com.edgesuite.net/content.info.apple.com/iPod/SBML/osx/bundles/061-4841.20080714.bgy8O/iPod1,1_1.1.5_4B1_Restore.ipsw" },
+	{  DEVICE_IPHONE3G,   "iPhone1,2",  "n82ap",   BDID_IPHONE3G,     CPID_IPHONE3G,
 	"http://appldnld.apple.com/iPhone4/061-9853.20101122.Vfgt5/iPhone1,2_4.2.1_8C148_Restore.ipsw" },
-	{  3, "iPod2,1",    "n72ap",  0,  8720,
+	{  DEVICE_IPOD2G,     "iPod2,1",    "n72ap",   BDID_IPOD2G,       CPID_IPOD2G,
 	"http://appldnld.apple.com/iPhone4/061-9855.20101122.Lrft6/iPod2,1_4.2.1_8C148_Restore.ipsw" },
-	{  4, "iPhone2,1",  "n88ap",  0,  8920,
-	"http://appldnld.apple.com/iPhone4/061-9895.20101122.Cdew2/iPhone2,1_4.2.1_8C148a_Restore.ipsw" },
-	{  5, "iPod3,1",    "n18ap",  2,  8922,
-	"http://appldnld.apple.com/iPhone4/061-9860.20101122.Xsde3/iPod3,1_4.2.1_8C148_Restore.ipsw" },
-	{  6, "iPad1,1",    "k48ap",  2,  8930,
-	"http://appldnld.apple.com/iPad/061-9857.20101122.VGthy/iPad1,1_4.2.1_8C148_Restore.ipsw" },
-	{  7, "iPhone3,1",  "n90ap",  0,  8930,
-	"http://appldnld.apple.com/iPhone4/061-9858.20101122.Er456/iPhone3,1_4.2.1_8C148_Restore.ipsw" },
-	{  8, "iPod4,1",    "n81ap",  8,  8930,
-	"http://appldnld.apple.com/iPhone4/061-9859.20101122.$erft/iPod4,1_4.2.1_8C148_Restore.ipsw" },
-	{  9, "AppleTV2,1", "k66ap", 10,  8930,
-	"http://appldnld.apple.com/AppleTV/061-9978.20101214.gmabr/AppleTV2,1_4.2.1_8C154_Restore.ipsw" },
-	{ 10, "iPhone3,3",  "n92ap",  6,  8930,
+	{  DEVICE_IPHONE3GS,  "iPhone2,1",  "n88ap",   BDID_IPHONE3GS,    CPID_IPHONE3GS,
+	"http://appldnld.apple.com/iPhone4/041-0328.20110311.Lkhy6/iPhone2,1_4.3_8F190_Restore.ipsw" },
+	{  DEVICE_IPOD3G,     "iPod3,1",    "n18ap",   BDID_IPOD3G,       CPID_IPOD3G,
+	"http://appldnld.apple.com/iPhone4/061-8366.20110311.Fr45t/iPod3,1_4.3_8F190_Restore.ipsw" },
+	{  DEVICE_IPAD1G,     "iPad1,1",    "k48ap",   BDID_IPAD1G,       CPID_IPAD1G,
+	"http://appldnld.apple.com/iPhone4/041-0329.20110311.Cvfre/iPad1,1_4.3_8F190_Restore.ipsw" },
+	{  DEVICE_IPHONE4,    "iPhone3,1",  "n90ap",   BDID_IPHONE4,      CPID_IPHONE4,
+	"http://appldnld.apple.com/iPhone4/041-0330.20110311.Cswe3/iPhone3,1_4.3_8F190_Restore.ipsw" },
+	{  DEVICE_IPOD4G,     "iPod4,1",    "n81ap",   BDID_IPOD4G,       CPID_IPOD4G,
+	"http://appldnld.apple.com/iPhone4/061-9588.20110311.GtP7y/iPod4,1_4.3_8F190_Restore.ipsw" },
+	{  DEVICE_APPLETV2G,   "AppleTV2,1", "k66ap",   BDID_APPLETV2G,    CPID_APPLETV2G,
+	"http://appldnld.apple.com/AppleTV/061-9584.20110308.Cxdew/AppleTV2,1_4.3_8F191m_Restore.ipsw" },
+	{ DEVICE_IPHONE42,    "iPhone3,3",  "n92ap",   BDID_IPHONE42,     CPID_IPHONE42,
 	"http://appldnld.apple.com/iPhone4/041-0177.20110131.Pyvrz/iPhone3,3_4.2.6_8E200_Restore.ipsw" },
+	{ DEVICE_IPAD2G_WIFI, "iPad2,1",    "k93ap",   BDID_IPAD2G_WIFI,  CPID_IPAD2G_WIFI,
+	"http://appldnld.apple.com/iPhone4/041-0368.20110311.SwtHr/iPad2,1_4.3_8F191_Restore.ipsw" },
+	{ DEVICE_IPAD2G_GSM,  "iPad2,2",    "k94ap",   BDID_IPAD2G_GSM,   CPID_IPAD2G_GSM,
+	"http://appldnld.apple.com/iPhone4/041-0369.20110311.Xzsew/iPad2,2_4.3_8F191_Restore.ipsw" },
+	{ DEVICE_IPAD2G_CDMA, "iPad2,3",    "k95ap",   BDID_IPAD2G_CDMA,  CPID_IPAD2G_CDMA,
+	"http://appldnld.apple.com/iPhone4/041-0334.20110311Plgt5/iPad2,3_4.3_8F191_Restore.ipsw" },
 	{ -1,  NULL,        NULL,   -1,    -1,
 	NULL }
 };

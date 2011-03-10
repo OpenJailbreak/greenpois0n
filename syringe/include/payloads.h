@@ -32,6 +32,9 @@ extern "C" {
 #include "payloads/iBSS.n72ap.h"
 #include "payloads/iBSS.n18ap.h"
 #include "payloads/iBSS.n81ap.h"
+#include "payloads/iBSS.k93ap.h"
+#include "payloads/iBSS.k94ap.h"
+#include "payloads/iBSS.k95ap.h"
 #include "payloads/iBoot.k66ap.h"
 #include "payloads/iBoot.k48ap.h"
 #include "payloads/iBoot.n88ap.h"
@@ -40,6 +43,9 @@ extern "C" {
 #include "payloads/iBoot.n72ap.h"
 #include "payloads/iBoot.n18ap.h"
 #include "payloads/iBoot.n81ap.h"
+#include "payloads/iBoot.k93ap.h"
+#include "payloads/iBoot.k94ap.h"
+#include "payloads/iBoot.k95ap.h"
 
 #ifdef __cplusplus
 }

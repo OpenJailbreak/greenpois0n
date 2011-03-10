@@ -193,7 +193,7 @@ int upload_firmware_payload(const char* type) {
 	irecv_error_t error = IRECV_E_SUCCESS;
 
 	switch (device->index) {
-	case DEVICE_APPLETV2:
+	case DEVICE_APPLETV2G:
 		if (!strcmp(type, "iBSS")) {
 			payload = iBSS_k66ap;
 			size = sizeof(iBSS_k66ap);
@@ -295,6 +295,48 @@ int upload_firmware_payload(const char* type) {
 			size = sizeof(iBoot_n81ap);
 			debug("Loaded payload for iBoot on n81ap\n");
 		}
+		break;
+
+	case DEVICE_IPAD2G_WIFI:
+		if (!strcmp(type, "iBSS")) {
+			payload = iBSS_k93ap;
+			size = sizeof(iBSS_k93ap);
+			debug("Loaded payload for iBSS on k93ap\n");
+		}
+		if (!strcmp(type, "iBoot")) {
+			payload = iBoot_k93ap;
+			size = sizeof(iBoot_k93ap);
+			debug("Loaded payload for iBoot on k93ap\n");
+		}
+		break;
+
+	case DEVICE_IPAD2G_GSM:
+		if (!strcmp(type, "iBSS")) {
+			payload = iBSS_k94ap;
+			size = sizeof(iBSS_k94ap);
+			debug("Loaded payload for iBSS on k94ap\n");
+		}
+		if (!strcmp(type, "iBoot")) {
+			payload = iBoot_k94ap;
+			size = sizeof(iBoot_k94ap);
+			debug("Loaded payload for iBoot on k94ap\n");
+		}
+		break;
+
+	case DEVICE_IPAD2G_CDMA:
+		if (!strcmp(type, "iBSS")) {
+			payload = iBSS_k95ap;
+			size = sizeof(iBSS_k95ap);
+			debug("Loaded payload for iBSS on k95ap\n");
+		}
+		if (!strcmp(type, "iBoot")) {
+			payload = iBoot_k95ap;
+			size = sizeof(iBoot_k95ap);
+			debug("Loaded payload for iBoot on k95ap\n");
+		}
+		break;
+
+	default:
 		break;
 	}
 

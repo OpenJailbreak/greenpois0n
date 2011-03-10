@@ -1200,8 +1200,8 @@ irecv_error_t irecv_get_device(irecv_client_t client, irecv_device_t* device) {
 			device_id = DEVICE_IPOD4G;
 			break;
 
-		case BDID_APPLETV2:
-			device_id = DEVICE_APPLETV2;
+		case BDID_APPLETV2G:
+			device_id = DEVICE_APPLETV2G;
 			break;
 
 		default:
@@ -1209,6 +1209,30 @@ irecv_error_t irecv_get_device(irecv_client_t client, irecv_device_t* device) {
 			break;
 		}
 		break;
+
+		case CPID_IPAD2G_WIFI:
+			if (irecv_get_bdid(client, &bdid) < 0) {
+				break;
+			}
+
+			switch (bdid) {
+			case BDID_IPAD2G_WIFI:
+				device_id = DEVICE_IPAD2G_WIFI;
+				break;
+
+			case BDID_IPAD2G_GSM:
+				device_id = DEVICE_IPAD2G_GSM;
+				break;
+
+			case BDID_IPAD2G_CDMA:
+				device_id = DEVICE_IPAD2G_CDMA;
+				break;
+
+			default:
+				device_id = DEVICE_UNKNOWN;
+				break;
+			}
+			break;
 
 	default:
 		device_id = DEVICE_UNKNOWN;
