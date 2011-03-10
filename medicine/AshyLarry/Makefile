@@ -18,3 +18,8 @@ after-ashyLarry-stage::
 	$(FAKEROOT) chmod 6755 $(FW_STAGING_DIR)/usr/bin/pHelper
 	cp -R $(FW_STAGING_DIR)/Applications/Lowtide.app/Appliances/* ../../anthrax/files/
 	cp -R $(FW_STAGING_DIR)/usr/bin/* ../../anthrax/files/
+	mkdir -p $(FW_STAGING_DIR)/Applications/AppleTV.app/Appliances; ln -f -s /Applications/Lowtide.app/Appliances/ashyLarry.frappliance $(FW_STAGING_DIR)/Applications/AppleTV.app/Appliances/
+	
+
+after-install::
+	install.exec "killall -9 AppleTV"

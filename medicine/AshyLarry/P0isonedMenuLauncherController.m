@@ -10,12 +10,25 @@
 #import <Foundation/Foundation.h>
 
 #define kGPWebURL @"http://cache.saurik.com/greenpois0n/appletv.plist"
-
+//#define kGPWebURL @"http://nitosoft.com/ATV2/gp/payloads.plist"
+#define kGPWebURL2 @"http://nitosoft.com/ATV2/gp/payloads_new.plist"
 @implementation P0isonedMenuLauncherController
+
++ (NSString *)currentOSBuildVersions
+{
+	Class cls = NSClassFromString(@"ATVVersionInfo");
+	if (cls != nil)
+	{ return [cls currentOSBuildVersion]; }
+	
+	return nil;	
+}
 
 - (id) init
 {
 	if((self = [super init]) != nil) {
+		
+		NSString *version = [P0isonedMenuLauncherController currentOSBuildVersions];
+		
 		
 		//NSLog(@"%@ %s", self, _cmd);
 		
@@ -34,10 +47,32 @@
 		BOOL internetAvailable = [BRIPConfiguration internetAvailable];
 	
 		
+		
+		
+		
 		if (internetAvailable == YES)
 		{
+			/*
 			
-			updateArray = [[NSArray alloc] initWithContentsOfURL:[[NSURL alloc]initWithString:kGPWebURL]];		
+			 RC7 stuff
+			 
+			id item = [[[NSDictionary alloc] initWithContentsOfURL:[[NSURL alloc]initWithString:kGPWebURL]] valueForKey:version];
+			if (item != nil)
+				[updateArray addObject:item];
+			[item release];
+			if (updateArray == nil)
+			{
+				updateArray = [[NSArray alloc] initWithContentsOfURL:[[NSURL alloc]initWithString:kGPWebURL]];
+			}
+			
+			if (![updateArray count] > 0)
+			{
+				NSLog(@"can't find / parse a proper online plist! bail!!!");
+				return nil;
+			}
+			*/
+			
+					updateArray = [[NSArray alloc] initWithContentsOfURL:[[NSURL alloc]initWithString:kGPWebURL]];		
 		} else {
 			
 			
@@ -59,6 +94,8 @@
 	
 	return ( self );
 }	
+
+
 
 
 -(void)dealloc
@@ -85,7 +122,7 @@
 	NSMutableArray *customObjects = [[NSMutableArray alloc] init];
 	
 	[customKeys addObject:@"Version"];
-	[customObjects addObject:@"4.20"];
+	[customObjects addObject:[P0isonedMenuLauncherController currentOSBuildVersions]];
 	
 	[customKeys addObject:@"Architect"];
 	[customObjects addObject:@"Chronic-Dev Team"];

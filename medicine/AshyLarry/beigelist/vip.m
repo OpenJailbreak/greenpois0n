@@ -4,7 +4,7 @@
 	//
 	//  Created by Brandon Holland on 10-09-30.
 	//  Copyright 2010 whatanutbar. All rights reserved.
-	//
+	//  Updated by Kevin Bradley on 02-12-11 for mutliple OS support
 
 @interface _VIPAppliance : BRBaseAppliance
 

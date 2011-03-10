@@ -5,5 +5,5 @@
 	NSFileHandle *logHandle;
 	
 }
-
+- (int)autoInstallFile:(NSString *)theFile;
 @end
