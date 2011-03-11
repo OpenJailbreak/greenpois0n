@@ -2,6 +2,7 @@
   * GreenPois0n Syringe - libirecovery.h
   * Copyright (C) 2010 Chronic-Dev Team
   * Copyright (C) 2010 Joshua Hill
+  * Copyright (C) 2008-2011 Nicolas Haunold
   * Portions Copyright (C) 2010 Ricky Taylor
   *
   * This program is free software: you can redistribute it and/or modify
@@ -248,6 +249,9 @@ LIBIRECOVERY_EXPORT irecv_error_t irecv_set_interface(irecv_client_t client, int
 LIBIRECOVERY_EXPORT irecv_error_t irecv_get_cpid(irecv_client_t client, unsigned int* cpid);
 LIBIRECOVERY_EXPORT irecv_error_t irecv_get_bdid(irecv_client_t client, unsigned int* bdid);
 LIBIRECOVERY_EXPORT irecv_error_t irecv_get_ecid(irecv_client_t client, unsigned long long* ecid);
+LIBIRECOVERY_EXPORT irecv_error_t irecv_get_srnm(irecv_client_t client, unsigned char* srnm);
+LIBIRECOVERY_EXPORT irecv_error_t irecv_get_imei(irecv_client_t client, unsigned char* imei);
+
 LIBIRECOVERY_EXPORT void irecv_hexdump(unsigned char* buf, unsigned int len, unsigned int addr);
 
 LIBIRECOVERY_EXPORT void irecv_init();
