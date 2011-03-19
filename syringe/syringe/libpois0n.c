@@ -448,7 +448,7 @@ int upload_ibec_payload() {
 int boot_ramdisk() {
 	irecv_error_t error = IRECV_E_SUCCESS;
 
-	debug("Preparing to upload ramdisk\n");
+	debug("BOOT: Preparing to upload ramdisk\n");
 	if (upload_ramdisk() < 0) {
 		error("Unable to upload ramdisk\n");
 		return -1;
@@ -516,7 +516,7 @@ int boot_ramdisk() {
 int boot_tethered() {
 	irecv_error_t error = IRECV_E_SUCCESS;
 
-	debug("Preparing to upload ramdisk\n");
+	debug("TETHERED: Preparing to upload ramdisk\n");
 	if (upload_ramdisk() < 0) {
 		error("Unable to upload ramdisk\n");
 		return -1;
@@ -541,6 +541,22 @@ int boot_tethered() {
 		pois0n_set_error("Unable to set kernel bootargs\n");
 		return -1;
 	}
+
+//4.3 bug - it seems if the devicetree is not loaded the one from nand is used and this causes bad things to happen...
+//semaphore: Added for 4.3 ramdisk booting - devicetree seems to be needed for the ramdisk to run on 4.3
+    debug("Preparing to upload devicetree\n");
+    if (upload_devicetree() < 0) {
+        error("Unable to upload devicetree\n");
+        return -1;
+    }
+
+    debug("Loading devicetree\n");
+    error = irecv_send_command(client, "go devicetree");
+    if(error != IRECV_E_SUCCESS) {
+        pois0n_set_error("Unable to load devicetree\n");
+        return -1;
+    }
+//End 4.3 bug
 
 	debug("Preparing to upload kernelcache\n");
 	if (upload_kernelcache() < 0) {
