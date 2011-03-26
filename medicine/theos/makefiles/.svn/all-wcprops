@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/theos/!svn/ver/411/trunk/makefiles
+END
+bundle.mk
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/theos/!svn/ver/361/trunk/makefiles/bundle.mk
+END
+null.mk
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/theos/!svn/ver/361/trunk/makefiles/null.mk
+END
+tweak.mk
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/theos/!svn/ver/361/trunk/makefiles/tweak.mk
+END
+tool.mk
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/theos/!svn/ver/361/trunk/makefiles/tool.mk
+END
+subproject.mk
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/theos/!svn/ver/361/trunk/makefiles/subproject.mk
+END
+aggregate.mk
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/theos/!svn/ver/361/trunk/makefiles/aggregate.mk
+END
+common.mk
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/theos/!svn/ver/411/trunk/makefiles/common.mk
+END
+rules.mk
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/theos/!svn/ver/401/trunk/makefiles/rules.mk
+END
+package.mk
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/theos/!svn/ver/411/trunk/makefiles/package.mk
+END
+framework.mk
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/theos/!svn/ver/361/trunk/makefiles/framework.mk
+END
+stage.mk
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/theos/!svn/ver/390/trunk/makefiles/stage.mk
+END
+application.mk
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/theos/!svn/ver/361/trunk/makefiles/application.mk
+END
+legacy.mk
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/theos/!svn/ver/404/trunk/makefiles/legacy.mk
+END
+library.mk
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/theos/!svn/ver/361/trunk/makefiles/library.mk
+END
+messages.mk
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/theos/!svn/ver/375/trunk/makefiles/messages.mk
+END

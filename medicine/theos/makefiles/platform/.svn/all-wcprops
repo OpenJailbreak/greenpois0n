@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/theos/!svn/ver/398/trunk/makefiles/platform
+END
+Linux.mk
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/theos/!svn/ver/361/trunk/makefiles/platform/Linux.mk
+END
+Darwin-arm.mk
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/theos/!svn/ver/361/trunk/makefiles/platform/Darwin-arm.mk
+END
+Darwin.mk
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/theos/!svn/ver/398/trunk/makefiles/platform/Darwin.mk
+END

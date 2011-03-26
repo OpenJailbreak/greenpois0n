@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ###
  
-SDKVER = 4.2
+SDKVER = 4.3
 PLATFORM = /Developer/Platforms/iPhoneOS.platform
 SDK = $(PLATFORM)/Developer/SDKs/iPhoneOS$(SDKVER).sdk
 CC = $(PLATFORM)/Developer/usr/bin/gcc-4.2

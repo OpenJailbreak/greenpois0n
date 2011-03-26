@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/theos/!svn/ver/393/trunk/makefiles/targets/Linux
+END
+linux.mk
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/theos/!svn/ver/361/trunk/makefiles/targets/Linux/linux.mk
+END
+iphone.mk
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/theos/!svn/ver/393/trunk/makefiles/targets/Linux/iphone.mk
+END
+native.mk
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/theos/!svn/ver/253/trunk/makefiles/targets/Linux/native.mk
+END

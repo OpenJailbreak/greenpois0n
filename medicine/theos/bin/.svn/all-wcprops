@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/theos/!svn/ver/409/trunk/bin
+END
+install.copyFile
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/theos/!svn/ver/361/trunk/bin/install.copyFile
+END
+deb_build_num.sh
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/theos/!svn/ver/281/trunk/bin/deb_build_num.sh
+END
+fakeroot.sh
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/theos/!svn/ver/356/trunk/bin/fakeroot.sh
+END
+install.mergeDir
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/theos/!svn/ver/284/trunk/bin/install.mergeDir
+END
+logify.pl
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/theos/!svn/ver/281/trunk/bin/logify.pl
+END
+nic.pl
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/theos/!svn/ver/322/trunk/bin/nic.pl
+END
+denicify.pl
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/theos/!svn/ver/311/trunk/bin/denicify.pl
+END
+bootstrap.sh
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/theos/!svn/ver/386/trunk/bin/bootstrap.sh
+END
+vercmp.pl
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/theos/!svn/ver/378/trunk/bin/vercmp.pl
+END
+install.exec
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/theos/!svn/ver/361/trunk/bin/install.exec
+END
+package_version.sh
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/theos/!svn/ver/409/trunk/bin/package_version.sh
+END
+nicify.pl
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/theos/!svn/ver/309/trunk/bin/nicify.pl
+END
+plistkey.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/theos/!svn/ver/281/trunk/bin/plistkey.py
+END
+logos.pl
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/theos/!svn/ver/395/trunk/bin/logos.pl
+END

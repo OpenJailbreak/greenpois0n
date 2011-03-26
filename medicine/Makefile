@@ -11,8 +11,8 @@ all:
 	make -C capable
 	cp ./capable/obj/capable ../anthrax/files/
 
-	make -C fixkeybag
-	cp ./fixkeybag/fixkeybag ../anthrax/files/
+	#make -C fixkeybag
+	#cp ./fixkeybag/fixkeybag ../anthrax/files/
 
 	#make -C hacktivate 
 
@@ -47,8 +47,8 @@ clean:
 	make clean -C capable
 	rm -rf ../anthrax/files/capable
 
-	make clean -C fixkeybag
-	rm -rf ../anthrax/files/fixkeybag
+	#make clean -C fixkeybag
+	#rm -rf ../anthrax/files/fixkeybag
 
 	make clean -C hunnypot
 	rm -rf ../anthrax/files/hunnypot/installer

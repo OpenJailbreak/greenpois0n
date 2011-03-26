@@ -1,5 +1,5 @@
-CFLAGS=-I../../syringe/include -I/opt/local/include -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-LDFLAGS=-L../../syringe/syringe -L/opt/local/lib -lsyringe -lcurl -lz -framework CoreFoundation -framework IOKit -framework Cocoa -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-no_compact_linkedit
+CFLAGS=-I../../syringe/include -I/opt/local/include -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
+LDFLAGS=-L../../syringe/syringe -L/opt/local/lib -lsyringe -lcurl -lz -framework CoreFoundation -framework IOKit -framework Cocoa -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
 
 all:
 	@echo "Building Mac OS X GUI"

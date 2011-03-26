@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/theos/!svn/ver/382/trunk/makefiles/targets/Darwin-arm
+END
+iphone.mk
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/theos/!svn/ver/382/trunk/makefiles/targets/Darwin-arm/iphone.mk
+END
+native.mk
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/theos/!svn/ver/253/trunk/makefiles/targets/Darwin-arm/native.mk
+END

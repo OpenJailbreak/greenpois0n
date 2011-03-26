@@ -1,0 +1,40 @@
+10
+
+dir
+411
+http://svn.howett.net/svn/theos/trunk/makefiles/targets
+http://svn.howett.net/svn/theos
+
+
+
+2011-03-24T02:16:57.831959Z
+411
+dhowett
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4410221e-0ddf-4ce3-99c0-2db6c0dbc727
+
+Linux
+dir
+
+Darwin-arm
+dir
+
+Darwin
+dir
+
+_common
+dir
+
