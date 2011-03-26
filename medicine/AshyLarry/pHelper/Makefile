@@ -1,6 +1,6 @@
 GO_EASY_ON_ME=1
 FW_DEVICE_IP=apple-tv.local
-export SDKVERSION=4.2
+export SDKVERSION=4.3
 TOOL_NAME := pHelper
 pHelper_FILES = pHelper.m pHelperClass.m
 pHelper_PACKAGE_TARGET_DIR = /usr/bin
