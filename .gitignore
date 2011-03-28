@@ -59,3 +59,4 @@ build/
 control
 libimobiledevice-1.0.4/
 unneeded/
+gprc5.xcodeproj/*.pbxuser
