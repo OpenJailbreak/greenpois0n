@@ -2,6 +2,7 @@
   * GreenPois0n Syringe - libirecovery.c
   * Copyright (C) 2010 Chronic-Dev Team
   * Copyright (C) 2010 Joshua Hill
+  * Copyright (C) 2008-2011 Nicolas Haunold
   *
   * This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -893,6 +894,46 @@ irecv_error_t irecv_get_ecid(irecv_client_t client, unsigned long long* ecid) {
 	return IRECV_E_SUCCESS;
 }
 
+
+irecv_error_t irecv_get_srnm(irecv_client_t client, unsigned char* srnm) {
+	if (check_context(client) != IRECV_E_SUCCESS) return IRECV_E_NO_DEVICE;
+
+	char* srnmp;
+	char* srnm_string = strstr(client->serial, "SRNM:[");
+	if(srnm_string == NULL) {
+		srnm = NULL;
+		return IRECV_E_UNKNOWN_ERROR;
+	}
+
+	sscanf(srnm_string, "SRNM:[%s]", srnm);
+	srnmp = strrchr(srnm, ']');
+	if(srnmp != NULL) {
+		*srnmp = '\0';
+	}
+
+	return IRECV_E_SUCCESS;
+}
+
+irecv_error_t irecv_get_imei(irecv_client_t client, unsigned char* imei) {
+	if (check_context(client) != IRECV_E_SUCCESS) return IRECV_E_NO_DEVICE;
+
+	char* imeip;
+	char* imei_string = strstr(client->serial, "IMEI:[");
+	if (imei_string == NULL) {
+		*imei = 0;
+		return IRECV_E_UNKNOWN_ERROR;
+	}
+
+
+	sscanf(imei_string, "IMEI:[%s]", imei);
+	imeip = strrchr(imei, ']');
+	if(imeip != NULL) {
+		*imeip = '\0';
+	}
+
+	return IRECV_E_SUCCESS;
+}
+
 irecv_error_t irecv_send_exploit(irecv_client_t client) {
 	if (check_context(client) != IRECV_E_SUCCESS) return IRECV_E_NO_DEVICE;
 	irecv_control_transfer(client, 0x21, 2, 0, 0, NULL, 0, 1000);
@@ -1200,8 +1241,8 @@ irecv_error_t irecv_get_device(irecv_client_t client, irecv_device_t* device) {
 			device_id = DEVICE_IPOD4G;
 			break;
 
-		case BDID_APPLETV2:
-			device_id = DEVICE_APPLETV2;
+		case BDID_APPLETV2G:
+			device_id = DEVICE_APPLETV2G;
 			break;
 
 		default:
@@ -1209,6 +1250,30 @@ irecv_error_t irecv_get_device(irecv_client_t client, irecv_device_t* device) {
 			break;
 		}
 		break;
+
+		case CPID_IPAD2G_WIFI:
+			if (irecv_get_bdid(client, &bdid) < 0) {
+				break;
+			}
+
+			switch (bdid) {
+			case BDID_IPAD2G_WIFI:
+				device_id = DEVICE_IPAD2G_WIFI;
+				break;
+
+			case BDID_IPAD2G_GSM:
+				device_id = DEVICE_IPAD2G_GSM;
+				break;
+
+			case BDID_IPAD2G_CDMA:
+				device_id = DEVICE_IPAD2G_CDMA;
+				break;
+
+			default:
+				device_id = DEVICE_UNKNOWN;
+				break;
+			}
+			break;
 
 	default:
 		device_id = DEVICE_UNKNOWN;

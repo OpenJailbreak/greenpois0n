@@ -22,9 +22,9 @@ PLAT_PREMADE_OBJECTS =
 include ../platform.mk
 ifeq ($(UNAME),Darwin)
 	# OS X
-	PLAT_CFLAGS = -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+	PLAT_CFLAGS = -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
 	PLAT_LIBRARIES =
-	LDFLAGS = -L/opt/local/lib -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk -Wl,-no_compact_linkedit
+	LDFLAGS = -L/opt/local/lib -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
 	ADDOBJ = ../lib-static/macosx/libusb-1.0.a
 else
 	ifneq (,$(findstring MINGW32_NT,$(UNAME)))

@@ -1,5 +1,5 @@
 GO_EASY_ON_ME=1
-SYSROOT := /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.2.sdk
+SYSROOT:=/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.3.sdk
 include ../theos/makefiles/common.mk
 
 LIBRARY_NAME = wactivate

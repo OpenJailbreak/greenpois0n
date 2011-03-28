@@ -11,8 +11,8 @@ all:
 	make -C capable
 	cp ./capable/obj/capable ../anthrax/files/
 
-	make -C fixkeybag
-	cp ./fixkeybag/fixkeybag ../anthrax/files/
+	#make -C fixkeybag
+	#cp ./fixkeybag/fixkeybag ../anthrax/files/
 
 	#make -C hacktivate 
 
@@ -36,7 +36,7 @@ all:
 clean:
 
 	make clean -C afc2add
-	rm ../anthrax/files/afc2add
+	rm -rf ../anthrax/files/afc2add
 
 	make clean -C ashyLarry
 	rm -rf ../anthrax/files/0.frappliance
@@ -45,19 +45,19 @@ clean:
 	rm -rf ../anthrax/files/pHelper
 
 	make clean -C capable
-	rm ../anthrax/files/capable
+	rm -rf ../anthrax/files/capable
 
-	make clean -C fixkeybag
-	rm ../anthrax/files/fixkeybag
+	#make clean -C fixkeybag
+	#rm -rf ../anthrax/files/fixkeybag
 
 	make clean -C hunnypot
-	rm ../anthrax/files/hunnypot/installer
+	rm -rf ../anthrax/files/hunnypot/installer
 
 	make clean -C immutable
-	rm ../anthrax/files/immutable
+	rm -rf ../anthrax/files/immutable
 
 	make clean -C loader
 	rm -rf ../anthrax/files/Loader.app
 
 	make clean -C sachet
-	rm ../anthrax/files/sachet
+	rm -rf ../anthrax/files/sachet
