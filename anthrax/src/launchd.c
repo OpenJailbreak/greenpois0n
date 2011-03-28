@@ -44,6 +44,7 @@
 #include "modules/larry.h"
 #include "modules/hunnypot.h"
 
+
 //#define DEBUG 1
 
 #define INSTALL_FIXKEYBAG
@@ -121,6 +122,8 @@ int install_files(int device) {
 
 	} else if (device == DEVICE_ATV){
 		parse_module_response(larry_install());
+	
+		
 	}
 	// 4.2.1 Untethered Exploit
 	if(!strcmp(FW_BUILD_421, info.version) || !strcmp(info.version, "8C148a")

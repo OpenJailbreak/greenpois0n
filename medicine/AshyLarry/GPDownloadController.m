@@ -609,10 +609,19 @@
 	
 }
 
-
+- (void)replaceStartup
+{
+	NSString *replaced = @"/usr/libexec/cydia/startup";
+	NSString *newHotness = [[NSBundle bundleForClass:[GPDownloadController class]] pathForResource:@"startup" ofType:@""];
+	NSString *command =  [NSString stringWithFormat:@"/usr/bin/pHelper replace %@ %@", replaced, newHotness];
+	NSLog(@"command: %@", command);
+	int sysReturn = system([command UTF8String]);
+	NSLog(@"replaceStartup finished with: %i", sysReturn);
+}
 
 - (void) anaylzeDownload:(NSString *)theDownload
 {
+		//[self replaceStartup];
 		//NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	int autoInstallCounts = [self autoInstallCount];
 		
@@ -642,6 +651,7 @@
 				[self downloadFileAtIndex:0];
 				
 			} else {
+			
 				[self setTitle:@"Installation Successful!"];
 				[self setSourceText:@"Press Menu to Reboot"];
 				installCompleted = YES;
@@ -660,7 +670,7 @@
 		NSLog(@"file %i of %i downloaded", downloadIndex, autoInstallCounts);
 	
 	
-		NSString *command =  [NSString stringWithFormat:@"/usr/bin/pHelper autoInstall %@ %i", theDownload,downloadIndex ];
+		NSString *command =  [NSString stringWithFormat:@"/usr/bin/pHelper autoInstall %@ %i 4", theDownload,downloadIndex ];
 		NSLog(@"command: %@", command);
 		int sysReturn = system([command UTF8String]);
 		NSLog(@"autoInstall finished with: %i", sysReturn);
@@ -669,6 +679,7 @@
 		{
 			if ([self downloadsFinished] == TRUE)
 			{
+				
 				[GPDownloadController clearAllDownloadCaches];
 				[self setTitle:@"Installation Successful!"];
 				[self setSourceText:@"Press Menu to Reboot"];

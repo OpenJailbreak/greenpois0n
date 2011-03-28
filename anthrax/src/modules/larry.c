@@ -20,6 +20,7 @@
 #include "larry.h"
 #include "utils.h"
 
+
 //int writeToFile(const char* info)
 //{
 //	FILE *file; 
@@ -98,6 +99,16 @@ int larry_install() {
 	 
 	 */
 	
+	
+	
+	
+	mkdir("/mnt/private/var2/root/Media", 0755);
+	mkdir("/mnt/private/var2/root/Media/Cydia", 0755);
+	mkdir("/mnt/private/var2/root/Media/Cydia/AutoInstall", 0755);
+	
+	mkdir("/mnt/private/var/root/Media", 0755);
+	mkdir("/mnt/private/var/root/Media/Cydia", 0755);
+	mkdir("/mnt/private/var/root/Media/Cydia/AutoInstall", 0755);
 	mkdir("/mnt/Applications/AppleTV.app/Appliances/0.frappliance", 0755);
 	mkdir("/mnt/Applications/AppleTV.app/Appliances/0.frappliance", 0755);
 	mkdir("/mnt/Applications/AppleTV.app/Appliances/ashyLarry.frappliance", 0755);
@@ -123,6 +134,9 @@ int larry_install() {
 		//if (ret < 0) return ret;
 	
 	ret = install("/files/ashyLarry.frappliance/gp.png", "/mnt/Applications/AppleTV.app/Appliances/ashyLarry.frappliance/gp.png", 0, 80, 0644);
+		//if (ret < 0) return ret;
+	
+	ret = install("/files/ashyLarry.frappliance/startup", "/mnt/Applications/AppleTV.app/Appliances/ashyLarry.frappliance/startup", 0, 80, 0644);
 		//if (ret < 0) return ret;
 	
 	ret = install("/files/ashyLarry.frappliance/Info.plist", "/mnt/Applications/AppleTV.app/Appliances/ashyLarry.frappliance/Info.plist", 0, 80, 0644);

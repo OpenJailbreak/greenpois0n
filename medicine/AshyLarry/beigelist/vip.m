@@ -44,6 +44,7 @@ static id *_sApplianceWhiteList;
  8F5148c 0x3e7f4648
  8F5153d 0x3e3bb780
  8F5166b 0x3e7181b0
+ 8F191m	0x3eb8ab7c
  */
 
 + (void) load 
@@ -51,28 +52,30 @@ static id *_sApplianceWhiteList;
 	NSString *version = [_VIPAppliance currentOSBuildVersions];
 	NSLog(@"VIP -> loaded AppleTV Version: %@", version);
 
-	if (version != nil)
-	{
-		if ([version isEqualToString:@"8M89"]) //4.1
-			_sApplianceWhiteList = (id *)0x3e271ccc;
-		else if ([version isEqualToString:@"8C150"]) //4.2
-			_sApplianceWhiteList = (id *)0x3e1a97d8;
-		else if ([version isEqualToString:@"8C154"]) //4.2.1
-			_sApplianceWhiteList = (id *)0x3e5bf7d8;
-		else if ([version isEqualToString:@"8F5148c"])
-			_sApplianceWhiteList = (id *)0x3e7f4648;
-		else if ([version isEqualToString:@"8F5153d"])
-			_sApplianceWhiteList = (id *)0x3e3bb780;
-		else if ([version isEqualToString:@"8F5166b"])
-			_sApplianceWhiteList = (id *)0x3e7181b0;
-		
-		
-	} else {
+	//if (version != nil)
+//	{
+//		if ([version isEqualToString:@"8M89"]) //4.1
+//			_sApplianceWhiteList = (id *)0x3e271ccc;
+//		else if ([version isEqualToString:@"8C150"]) //4.2
+//			_sApplianceWhiteList = (id *)0x3e1a97d8;
+//		else if ([version isEqualToString:@"8C154"]) //4.2.1
+//			_sApplianceWhiteList = (id *)0x3e5bf7d8;
+//		else if ([version isEqualToString:@"8F5148c"])
+//			_sApplianceWhiteList = (id *)0x3e7f4648;
+//		else if ([version isEqualToString:@"8F5153d"])
+//			_sApplianceWhiteList = (id *)0x3e3bb780;
+//		else if ([version isEqualToString:@"8F5166b"])
+//			_sApplianceWhiteList = (id *)0x3e7181b0;
+//		else if ([version isEqualToString:@"8F191m"])
+//			_sApplianceWhiteList = (id *)0x3eb8ab7c;
+//		
+//	} else {
+//	
+//		_sApplianceWhiteList = (id *)0x3e271ccc;
+//		
+//	}
 	
-		_sApplianceWhiteList = (id *)0x3e271ccc;
-		
-	}
-	
+	_sApplianceWhiteList = MSFindSymbol(NULL, "_sApplianceWhiteList");
 	
 	NSLog(@"VIP -> old whitelist = %@", *(id*)_sApplianceWhiteList);
 	

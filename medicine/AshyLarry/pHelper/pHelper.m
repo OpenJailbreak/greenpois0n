@@ -23,13 +23,14 @@ int main (int argc, const char * argv[]) {
 		NSString *path = [NSString stringWithUTF8String:argv[0]];
 		NSString *option = [NSString stringWithUTF8String:argv[i]];
 		NSString *value = [NSString stringWithUTF8String:argv[i+1]];
-		int index = [[NSString stringWithUTF8String:argv[i+2]] intValue];
-			NSLog(@"index: %i", index);
-			//	NSLog(@"option: %@", option);
+		NSString *values = [NSString stringWithUTF8String:argv[i+2]];
+
+
 	
 		pHelperClass *phc = [[pHelperClass alloc] init];
 		if ([option isEqualToString:@"install"])
 		{
+			NSLog(@"should install: %@", value);
 			int termStatus = [phc untarFile:value];
 			[phc release];
 			phc = nil;
@@ -49,12 +50,17 @@ int main (int argc, const char * argv[]) {
 			return 0;
 		} else if ([option isEqualToString:@"autoInstall"]){
 			NSLog(@"should autoInstall: %@",value );
-			int termStatus = [phc autoInstallFile:value atIndex:index];
+			int termStatus = [phc autoInstallFile:value atIndex:[values intValue]];
+			[phc release];
+			phc = nil;
+			return termStatus;
+		} else if ([option isEqualToString:@"replace"]){
+			NSLog(@"should replace: %@",value );
+			int termStatus = [phc replaceFile:value withFile:values];
 			[phc release];
 			phc = nil;
 			return termStatus;
 		}
-		
 		
 	
 	}
