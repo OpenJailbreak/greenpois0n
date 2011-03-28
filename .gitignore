@@ -46,6 +46,7 @@ medicine/*/_/
 # misc
 
 */ramdisk.h
+syringe/include/resources/ramdisk.h
 doctors/macosx/greenpois0n.app/Contents/MacOS
 *.DS_Store
 .DS_Store

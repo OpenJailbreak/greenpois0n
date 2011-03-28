@@ -5,6 +5,7 @@ all:
 	cp -R ./cyanide/payloads ./syringe/include/
 	
 	make -C anthrax
+	mkdir -p ./syringe/include/resources/
 	cp ./anthrax/ramdisk.h ./syringe/include/resources/
 	
 	make -C syringe
