@@ -25,3 +25,27 @@ iBSS.n*ap
 iBoot.n*ap
 kernelcache*
 .irecovery
+
+# anthrax medicine
+
+
+anthrax/files/*.frappliance
+anthrax/files/Loader.app
+anthrax/files/afc2add
+anthrax/files/capable
+anthrax/files/pHelper
+anthrax/files/sachet
+anthrax/files/wuntar
+anthrax/files/immutable
+anthrax/files/hunnypot/installer
+anthrax/ramdisk.dmg
+anthrax/ramdisk.img3
+medicine/*/obj
+medicine/*/_/
+
+# misc
+
+*/ramdisk.h
+doctors/macosx/greenpois0n.app/Contents/MacOS
+*.DS_Store
+.DS_Store
