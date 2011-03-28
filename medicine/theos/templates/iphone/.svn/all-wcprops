@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/theos/!svn/ver/397/trunk/templates/iphone
+END
+preference_bundle.nic
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/theos/!svn/ver/361/trunk/templates/iphone/preference_bundle.nic
+END
+tweak.nic
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/theos/!svn/ver/397/trunk/templates/iphone/tweak.nic
+END
+tool.nic
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/theos/!svn/ver/361/trunk/templates/iphone/tool.nic
+END
+application.nic
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/theos/!svn/ver/361/trunk/templates/iphone/application.nic
+END
+library.nic
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/theos/!svn/ver/361/trunk/templates/iphone/library.nic
+END

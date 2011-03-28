@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/theos/!svn/ver/395/trunk/bin/lib/Logos
+END
+BaseStaticClassGroup.pm
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/theos/!svn/ver/335/trunk/bin/lib/Logos/BaseStaticClassGroup.pm
+END
+BaseSubclass.pm
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/theos/!svn/ver/335/trunk/bin/lib/Logos/BaseSubclass.pm
+END
+BaseMethod.pm
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/theos/!svn/ver/395/trunk/bin/lib/Logos/BaseMethod.pm
+END
+Group.pm
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/theos/!svn/ver/395/trunk/bin/lib/Logos/Group.pm
+END
+BaseClass.pm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/theos/!svn/ver/335/trunk/bin/lib/Logos/BaseClass.pm
+END
+Ivar.pm
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/theos/!svn/ver/281/trunk/bin/lib/Logos/Ivar.pm
+END

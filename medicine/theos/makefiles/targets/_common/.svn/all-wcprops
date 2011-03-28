@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/theos/!svn/ver/411/trunk/makefiles/targets/_common
+END
+install_deb_local.mk
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/theos/!svn/ver/411/trunk/makefiles/targets/_common/install_deb_local.mk
+END
+install_deb_remote.mk
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/theos/!svn/ver/411/trunk/makefiles/targets/_common/install_deb_remote.mk
+END
+linux.mk
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/theos/!svn/ver/292/trunk/makefiles/targets/_common/linux.mk
+END
+darwin.mk
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/theos/!svn/ver/377/trunk/makefiles/targets/_common/darwin.mk
+END

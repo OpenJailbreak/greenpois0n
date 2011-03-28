@@ -1,0 +1,21 @@
+APPLICATION_NAME := $(strip $(APPLICATION_NAME))
+
+ifeq ($(_THEOS_RULES_LOADED),)
+include $(THEOS_MAKE_PATH)/rules.mk
+endif
+
+internal-all:: $(APPLICATION_NAME:=.all.application.variables);
+
+internal-stage:: $(APPLICATION_NAME:=.stage.application.variables);
+
+# Maybe, disabled for further discussion
+# install.exec "uicache"
+internal-after-install::
+
+APPLICATIONS_WITH_SUBPROJECTS = $(strip $(foreach application,$(APPLICATION_NAME),$(patsubst %,$(application),$($(application)_SUBPROJECTS))))
+ifneq ($(APPLICATIONS_WITH_SUBPROJECTS),)
+internal-clean:: $(APPLICATIONS_WITH_SUBPROJECTS:=.clean.application.subprojects)
+endif
+
+$(APPLICATION_NAME):
+	@$(MAKE) --no-print-directory --no-keep-going $@.all.application.variables

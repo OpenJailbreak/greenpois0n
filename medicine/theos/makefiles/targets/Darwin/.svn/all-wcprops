@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/theos/!svn/ver/400/trunk/makefiles/targets/Darwin
+END
+macosx.mk
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/theos/!svn/ver/372/trunk/makefiles/targets/Darwin/macosx.mk
+END
+simulator.mk
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/theos/!svn/ver/379/trunk/makefiles/targets/Darwin/simulator.mk
+END
+iphone.mk
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/theos/!svn/ver/400/trunk/makefiles/targets/Darwin/iphone.mk
+END
+native.mk
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/theos/!svn/ver/253/trunk/makefiles/targets/Darwin/native.mk
+END
