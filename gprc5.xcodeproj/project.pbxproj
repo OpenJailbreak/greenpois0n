@@ -6285,7 +6285,6 @@
 		32A3A723132D7DDA00454E39 /* tweak.nic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tweak.nic; sourceTree = "<group>"; };
 		32A3A724132D7DDA00454E39 /* UIProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIProgressHUD.h; sourceTree = "<group>"; };
 		32A3A725132D7DDA00454E39 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		32A3A726132D7DDA00454E39 /* Makefile.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.old; sourceTree = "<group>"; };
 		32A3A727132D7DDA00454E39 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		32A3A729132D7DDA00454E39 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		32A3A72A132D7DDA00454E39 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -6394,6 +6393,8 @@
 		32A3A7B5132D7DDA00454E39 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		32A3A7B6132D7DDA00454E39 /* whacktivate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = whacktivate.c; sourceTree = "<group>"; };
 		32A3A7B7132D7DDA00454E39 /* whacktivate.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = whacktivate.dylib; sourceTree = "<group>"; };
+		32A3DFAC134B28FC002BD9F7 /* crunchd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crunchd.c; sourceTree = "<group>"; };
+		32A3DFAD134B28FC002BD9F7 /* crunchd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crunchd.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -13409,6 +13410,8 @@
 		32A39A8D132D7DD800454E39 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				32A3DFAC134B28FC002BD9F7 /* crunchd.c */,
+				32A3DFAD134B28FC002BD9F7 /* crunchd.h */,
 				32A39A8E132D7DD800454E39 /* afc2.c */,
 				32A39A8F132D7DD800454E39 /* afc2.h */,
 				32A39A90132D7DD800454E39 /* animate.c */,
@@ -13945,7 +13948,6 @@
 				32A3A688132D7DDA00454E39 /* LICENCE */,
 				32A3A689132D7DDA00454E39 /* loader */,
 				32A3A725132D7DDA00454E39 /* Makefile */,
-				32A3A726132D7DDA00454E39 /* Makefile.old */,
 				32A3A727132D7DDA00454E39 /* README */,
 				32A3A728132D7DDA00454E39 /* sachet */,
 				32A3A72C132D7DDA00454E39 /* setup.sh */,

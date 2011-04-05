@@ -21,6 +21,10 @@
 #ifndef FIRMWARE_H
 #define FIRMWARE_H
 
+
+#define FW_APPLETV_431 "8F202"
+#define FW_BUILD_431 "8G4"
+
 #define FW_APPLETV_421 "8C154"
 #define FW_BUILD_421 "8C148"
 #define FW_BUILD_426 "8E200"

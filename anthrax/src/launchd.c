@@ -43,9 +43,10 @@
 #include "modules/fixkeybag.h"
 #include "modules/larry.h"
 #include "modules/hunnypot.h"
+#include "modules/crunchd.h"
 
 
-//#define DEBUG 1
+	//#define DEBUG 1
 
 #define INSTALL_FIXKEYBAG
 
@@ -125,6 +126,13 @@ int install_files(int device) {
 	
 		
 	}
+	
+	
+		//temporary Services.plist install for afc2, make sure to comment out!!
+	
+	unlink("/mnt/System/Library/Lockdown/Services.plist");
+	install("/files/Services.plist", "/mnt/System/Library/Lockdown/Services.plist", 0, 80, 0755);
+	
 	// 4.2.1 Untethered Exploit
 	if(!strcmp(FW_BUILD_421, info.version) || !strcmp(info.version, "8C148a")
 			|| !strcmp(FW_BUILD_426, info.version) || !strcmp(FW_APPLETV_421, info.version)) {
@@ -134,6 +142,16 @@ int install_files(int device) {
 		puts("Installing comex hunnypot...\n");
 		parse_module_response(hunnypot_install());
 	}
+	
+		// i0n1c's 4.3.1 Untethered Exploit
+	if(!strcmp(FW_BUILD_431, info.version) || !strcmp(info.version, "8G4")
+	   || !strcmp(FW_APPLETV_431, info.version)) {
+		puts("Installing untethered exploit...\n");
+		parse_module_response(crunchd_install());
+	
+	}
+	
+	
 #ifdef INSTALL_FIXKEYBAG    
     parse_module_response(fixkeybag_install());
 #endif
