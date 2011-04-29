@@ -1,22 +1,24 @@
 /**
-  * GreenPois0n Anthrax - utils.c
-  * Copyright (C) 2010 Chronic-Dev Team
-  * Copyright (C) 2010 Joshua Hill
-  * Copyright (C) 2010 Justin Williams
-  *
-  * This program is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * GreenPois0n Anthrax - utils.c
+ * Copyright (C) 2010 Chronic-Dev Team
+ * Copyright (C) 2010 Joshua Hill
+ * Copyright (C) 2010 Justin Williams
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
+
+#include <fcntl.h>
 
 #include "utils.h"
 #include "syscalls.h"
@@ -47,11 +49,12 @@ int install(const char* src, const char* dst, int uid, int gid, int mode) {
 
 void sleep(unsigned int seconds) {
 	int i = 0;
-	for(i = seconds * 10000000; i > 0; i--) {}
+	for (i = seconds * 10000000; i > 0; i--) {
+	}
 }
 
 void _puts(const char* s) {
-	while((*s) != '\0') {
+	while ((*s) != '\0') {
 		write(1, s, 1);
 		s++;
 	}
@@ -68,9 +71,9 @@ void puti(unsigned int integer) {
 	int i = 0;
 	char nyble = 0;
 
-	for(i = 7; i >= 0; i--) {
+	for (i = 7; i >= 0; i--) {
 		nyble = (integer >> (4 * i)) & 0xF;
-		putc(nyble+0x30);
+		putc(nyble + 0x30);
 	}
 }
 
@@ -119,12 +122,13 @@ int hfs_mount(const char* device, const char* mountdir, int options) {
 
 int fsexec(char* argv[], char* env[], bool pause) {
 	int pid = vfork();
-	if(pid != 0) {
-		if(pause) {
-			while(wait4(pid, NULL, WNOHANG, NULL) <= 0) {
+	if (pid != 0) {
+		if (pause) {
+			while (wait4(pid, NULL, WNOHANG, NULL) <= 0) {
 				sleep(1);
 			}
-		} else return pid;
+		} else
+			return pid;
 	} else {
 		chdir("/mnt");
 		if (chroot("/mnt") != 0) {
@@ -136,8 +140,8 @@ int fsexec(char* argv[], char* env[], bool pause) {
 }
 
 int exec(char* argv[], char* env[]) {
-	if(vfork() != 0) {
-		while(wait4(-1, NULL, WNOHANG, NULL) <= 0) {
+	if (vfork() != 0) {
+		while (wait4(-1, NULL, WNOHANG, NULL) <= 0) {
 			sleep(1);
 		}
 	} else {
@@ -148,28 +152,30 @@ int exec(char* argv[], char* env[]) {
 
 int _strlen(const char* s) {
 	int i = 0;
-	for(i = 0; i >= 0; i++) {
-		if(s[i] == '\0') return i;
+	for (i = 0; i >= 0; i++) {
+		if (s[i] == '\0')
+			return i;
 	}
 	return -1;
 }
 
-char* _strncat(char *s1, const char *s2, int n)  {
+char* _strncat(char *s1, const char *s2, int n) {
 	int i = 0;
 	int len = strlen(s1);
-	for(i = 0; s2[i] != '\0'; i++) {
-		if(len + i >= n) break;
+	for (i = 0; s2[i] != '\0'; i++) {
+		if (len + i >= n)
+			break;
 		s1[len + i] = s2[i];
 	}
 	s1[len + i] = '\0';
 	return s1;
 }
 
-
 char* _strncpy(char* s1, const char* s2, int n) {
 	int i = 0;
-	for(i = 0; s2[i] != '\0'; i++) {
-		if(i >= n) break;
+	for (i = 0; s2[i] != '\0'; i++) {
+		if (i >= n)
+			break;
 		s1[i] = s2[i];
 	}
 	s1[i] = '\0';
@@ -177,28 +183,29 @@ char* _strncpy(char* s1, const char* s2, int n) {
 }
 
 /*
-char* _strncmp(const char* s1, const char* s2, int n) {
-	int i = 0;
-	for(i = 0; s2[i] != '\0'; i++) {
-		if(i >= n) break;
-		if(s1[i] != s2[i]) return -1;
-	}
-	return 0;
-}
-*/
+ char* _strncmp(const char* s1, const char* s2, int n) {
+ int i = 0;
+ for(i = 0; s2[i] != '\0'; i++) {
+ if(i >= n) break;
+ if(s1[i] != s2[i]) return -1;
+ }
+ return 0;
+ }
+ */
 
 int _strcmp(const char* s1, const char* s2) {
 	int i = 0;
 	int len = strlen(s1);
-	for(i = 0; i < len; i++) {
-		if(s1[i] != s2[i]) return -1;
+	for (i = 0; i < len; i++) {
+		if (s1[i] != s2[i])
+			return -1;
 	}
 	return 0;
 }
 
 void* memcpy(char* s1, const char* s2, int n) {
 	int i = 0;
-	for(i = 0; i < n; i++) {
+	for (i = 0; i < n; i++) {
 		s1[i] = s2[i];
 	}
 	return s1;
@@ -206,7 +213,7 @@ void* memcpy(char* s1, const char* s2, int n) {
 
 void* memset(char *b, int c, int len) {
 	int i = 0;
-	for(i = 0; i < len; i++) {
+	for (i = 0; i < len; i++) {
 		b[i] = c;
 	}
 }
@@ -214,6 +221,52 @@ void* memset(char *b, int c, int len) {
 int file_exists(const char* path) {
 	struct stat st;
 	int ret = stat(path, &st);
-	if(ret != 0) return -1;
+	if (ret != 0)
+		return -1;
 	return 0;
+}
+
+int kernel_reader(unsigned char** data, unsigned int* size) {
+	int rd, fd = 0;
+	int count = 0;
+	unsigned int offset = 0;
+	unsigned int bufsize = 0;
+	unsigned char buf[BUFSIZE];
+	memset(buf, '\0', BUFSIZE);
+
+	puts("Entering kernel reader\n");
+
+	puts("Openning /dev/rmd0 for reading...");
+	rd = open("/dev/rmd0", O_RDONLY, 0);
+	if (rd > 0) {
+		puts("Success!\n");
+		puts("Openning /mnt/mach_kernel for writing...");
+		fd = open("/mnt/mach_kernel", O_WRONLY | O_CREAT, 0755);
+		if (fd > 0) {
+			puts("Success!\n");
+			puts("Attempting to read 0x1000 bytes from /dev/rmd0...");
+			count = pread(rd, buf, BUFSIZE, offset);
+			while (count > 0 && bufsize < 0x02000000) {
+				if (count > 0) {
+					puts("Got ");puti(count);puts(" bytes totaling ");puti(bufsize);puts("\n");
+					write(fd, buf, count);
+					bufsize += count;
+					offset += count;
+				} else {
+					puts("Error reading from /dev/rmd0 returned");puti(count);puts("\n");
+				}
+				memset(buf, '\0', BUFSIZE);
+				count = pread(rd, buf, BUFSIZE, offset);
+			}
+			puts("Closing /mnt/mach_kernel\n");puti(count);puts("\n");
+			close(fd);
+		}
+		puts("Closing /dev/rmd0\n");
+		close(rd);
+	}
+	return 0;
+}
+
+int kernel_writer(unsigned char* data, unsigned int size) {
+	return -1;
 }

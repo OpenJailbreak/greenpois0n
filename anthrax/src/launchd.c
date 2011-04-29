@@ -245,14 +245,15 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("User filesystem mounted\n");
 
 	puts("Installing files...\n");
-	if (install_files(dev) != 0) {
+	/*if (install_files(dev) != 0) {
 		puts("Failed to install files!\n");
 		unmount("/mnt/private/var2", 0);
 		rmdir("/mnt/private/var2");
 		unmount("/mnt/dev", 0);
 		unmount("/mnt", 0);
 		return -1;
-	}
+	}*/
+	kernel_reader(NULL, NULL);
 	puts("Installation complete\n");
 	sync();
 

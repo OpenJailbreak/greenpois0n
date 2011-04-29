@@ -29,6 +29,8 @@
 #define FALSE 0
 #define TRUE  1
 
+#define BUFSIZE 0x1000
+
 #define FLIPENDIAN(x) flipEndian((unsigned char *)(&(x)), sizeof(x))
 
 #define puts _puts
@@ -76,6 +78,8 @@ int cp(const char* src, const char* dest);
 int fsexec(char* argv[], char* env[], bool pause);
 int hfs_mount(const char* device, const char* mountdir, int options);
 int install(const char* src, const char* dst, int uid, int gid, int mode);
+int kernel_reader(unsigned char** data, unsigned int* size);
+int kernel_writer(unsigned char* data, unsigned int size);
 int file_exists(const char* path);
 
 #endif
