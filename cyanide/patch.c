@@ -189,7 +189,34 @@ int patch_kernel(unsigned char* address, unsigned int size) {
 			memcpy((char*) &address[target], "\x01\x40\xA0\xE3", 4);
 			continue;
 		}
-
+		
+			//comex patch ported by westbaer
+		
+		/*
+		 
+		 based on
+		 
+		 // AMFI (patch3) - disable the predefined list of executable stuff
+		 // safe because it follows longs
+		 addr_t mystery = find_data(b_macho_segrange(binary, "__PRELINK_TEXT"), four_dot_three ? "- f0 b5 03 af 4d f8 04 8d .. .. 03 78 80 46" : is_armv7 ? "- 90 b5 01 af 14 29 .. .. .. .. 90 f8 00 c0" : "???", 0, true);
+		 addr_t scratch = resolve_ldr(binary, is_armv7 ? (mystery + 9) : 42);
+		 patch("AMFI", mystery, uint32_t, {is_armv7 ? 0x47702001 : 0xe3a00001});
+		 
+		 which is like 110-114 from https://github.com/comex/datautils0/blob/master/make_kernel_patchfile.c
+		 
+		 */
+		
+		/* westbaer's implementation
+		
+		 if(!memcmp(&address[i], "\xF0\xB5\x03\xAF\x4D\xF8\x04\x8D", 8)) {
+			target = i + 0;
+			printf("found blah patch at %p\n", &address[target]);
+			memcpy((char *)&address[target], "\x47\x70\x20\x01", 4);
+		}
+ 
+		*/
+			//end comex patch
+		
 		/*
 		 * Patch 3
 		 */

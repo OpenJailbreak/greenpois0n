@@ -9,9 +9,12 @@
 #import "GPDownloadController.h"
 #import <Foundation/Foundation.h>
 
-#define kGPWebURL @"http://cache.saurik.com/greenpois0n/appletv.plist"
-//#define kGPWebURL @"http://nitosoft.com/ATV2/gp/payloads.plist"
-#define kGPWebURL2 @"http://nitosoft.com/ATV2/gp/payloads_new.plist"
+
+	//FIXME: right now to work in 4.3.x i need to provide a slimmer payload with updated debian files for hte autoinstall, this will probably need to be changed on sauriks end for deployment because i dont know if my server will handle the load.
+
+	//#define kGPWebURL @"http://cache.saurik.com/greenpois0n/appletv.plist"
+	#define kGPWebURL @"http://nitosoft.com/ATV2/gp/payloads.plist"
+	//#define kGPWebURL2 @"http://nitosoft.com/ATV2/gp/payloads_new.plist"
 @implementation P0isonedMenuLauncherController
 
 + (NSString *)currentOSBuildVersions

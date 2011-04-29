@@ -21,7 +21,21 @@
 
 - (int)autoInstallFile:(NSString *)theFile atIndex:(int)indexValue
 {
+	NSLog(@"autoInstallFIle: %@ atINdex:%i", theFile, indexValue);
+	
 	NSString *autoInstallPath = @"/var/root/Media/Cydia/AutoInstall";
+	if (![[NSFileManager defaultManager] fileExistsAtPath:autoInstallPath])
+	{
+		NSString *mkdir =  [NSString stringWithFormat:@"/bin/mkdir -p %@", autoInstallPath ];
+		int returns = system([mkdir UTF8String]);
+		if (returns == 0)
+		{
+				NSLog(@"%@ run successfully", mkdir);
+		} else {
+			NSLog(@"%@ failed!!!", mkdir);
+		}
+	
+	}
 	NSString *fileNameString = [NSString stringWithFormat:@"%02i_%@", indexValue, [theFile lastPathComponent]];
 	NSString *finalPath = [autoInstallPath stringByAppendingPathComponent:fileNameString];
 	NSString *command =  [NSString stringWithFormat:@"/bin/mv %@ %@", theFile,finalPath ];
@@ -34,7 +48,21 @@
 
 }
 
-
+- (int)replaceFile:(NSString *)oldFile withFile:(NSString *)newFile
+{
+	NSFileManager *man = [NSFileManager defaultManager];
+	[man removeFileAtPath:oldFile handler:nil];
+	if ([man copyPath:newFile toPath:oldFile handler:nil])
+	{
+		NSLog(@"%@ replaced with %@ successfully!\n", oldFile, newFile);
+		[self makeExecutable:oldFile];
+		return 0;
+	}
+	
+	NSLog(@"replace fail");
+	return -1;
+	
+}
 
 -(void)reboot
 {
@@ -42,8 +70,23 @@
 		//NSTask *rebootTask = [NSTask launchedTaskWithLaunchPath:@"/sbin/reboot" arguments:nil];
 }
 
+- (void)editStartup
+{
+	NSString *startup = @"/usr/libexec/cydia/startup";
+	NSMutableString *strings = [[NSMutableString alloc] initWithContentsOfFile:startup encoding:NSUTF8StringEncoding error:nil];
+	[strings replaceOccurrencesOfString:@"rm -f \"${debs[@]}\""
+							 withString:@"rm -f \"${debs[@]}\"\nkillall -9 AppleTV"
+								options:NSLiteralSearch
+								  range:NSMakeRange(0, [strings length])];
+	[strings writeToFile:startup atomically:YES encoding:NSUTF8StringEncoding error:nil];
+	[strings release];
+	[self makeExecutable:startup];
+}
+
 - (void)mrSelfDestruct
 {
+	[self editStartup];
+		//return;
 	NSFileManager *man = [NSFileManager defaultManager];
 	NSString *zero = @"/Applications/Lowtide.app/Appliances/0.frappliance";
 	NSString *ashyToClassy = @"/Applications/Lowtide.app/Appliances/ashyLarry.frappliance";
@@ -59,6 +102,7 @@
 
 - (int)untarFile:(NSString *)theFile
 {
+		//[self patchAppleTV];
 		//[NSTask launchedTaskWithLaunchPath:@"/usr/bin/wuntar" arguments:[NSArray arrayWithObjects:@"/", theFile, nil]];
 		//return 0;
 		NSString *command =  [NSString stringWithFormat:@"/usr/bin/wuntar %@ /", theFile];
@@ -73,8 +117,9 @@
 - (int)makeExecutable:(NSString *)theFile
 {
 	
-	NSString *command =  [NSString stringWithFormat:@"/bin/chmod +x", theFile];
-	int sysReturn = system([command UTF8String]);
+	NSString *commands =  [NSString stringWithFormat:@"/bin/chmod +x %@", theFile];
+	NSLog(@"makeExe: %@", commands);
+	int sysReturn = system([commands UTF8String]);
 	NSLog(@"makeExecutable finished with: %i", sysReturn);
 	return sysReturn;
 
@@ -82,7 +127,8 @@
 
 - (int)patchAppleTV
 {
-	int patchStatus = [self patchFile:@"/Applications/AppleTV.app/AppleTV" withPatch:@"/usr/bin/421.patch" endMD5:nil];
+	[[NSFileManager defaultManager] createFileAtPath:@"/var/root/Media/Cydia/AutoInstall/testing" contents:nil attributes:nil];
+	int patchStatus = [self patchFile:@"/Applications/AppleTV.app/AppleTV" withPatch:@"/usr/bin/AppleTV8F202.patch" endMD5:nil];
 	if (patchStatus == 0)
 	{
 		[[NSFileManager defaultManager] createFileAtPath:@"/Applications/AppleTV.app/.patched" contents:nil attributes:nil];
@@ -115,12 +161,12 @@
 					NSLog(@"%@ patched and replaced successfully!!", patchFile);
 					if ([[patchFile lastPathComponent] isEqualToString:@"AppleTV"])
 					{
-							//NSLog(@"AppleTV +x");
+							NSLog(@"AppleTV +x");
 						[self makeExecutable:patchFile];
 					}
 					if ([[patchFile lastPathComponent] isEqualToString:@"Lowtide"])
 					{
-							//NSLog(@"Lowtide +x");
+							NSLog(@"Lowtide +x");
 						[self makeExecutable:patchFile];
 					}
 					return 0;

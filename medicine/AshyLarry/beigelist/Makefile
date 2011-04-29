@@ -3,7 +3,7 @@ SYSROOT:=/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.3.sdk
 include theos/makefiles/common.mk
 
 BUNDLE_NAME = 0
-0_FILES = vip.m
+0_FILES = vip.m nlist.cpp
 0_INSTALL_PATH = /Applications/Lowtide.app/Appliances
 0_BUNDLE_EXTENSION = frappliance
 0_LDFLAGS = -undefined dynamic_lookup #-L$(FW_PROJECT_DIR) -lBackRow

@@ -25,3 +25,38 @@ iBSS.n*ap
 iBoot.n*ap
 kernelcache*
 .irecovery
+
+# anthrax medicine
+
+
+anthrax/files/*.frappliance
+anthrax/files/Loader.app
+anthrax/files/afc2add
+anthrax/files/capable
+anthrax/files/pHelper
+anthrax/files/sachet
+anthrax/files/wuntar
+anthrax/files/immutable
+anthrax/files/hunnypot/installer
+anthrax/ramdisk.dmg
+anthrax/ramdisk.img3
+medicine/*/obj
+medicine/*/_/
+
+# misc
+
+doctors/macosx/greenpois0n.app/Contents/MacOS
+*.DS_Store
+.DS_Store
+medicine/whacktivate/whacktivate.dylib
+
+# random local ones for |bile| because im getting annoyed at them…
+
+Payload
+anthrax/template_og.dmg
+build.sh
+build/
+control
+libimobiledevice-1.0.4/
+unneeded/
+gprc5.xcodeproj/*.pbxuser
