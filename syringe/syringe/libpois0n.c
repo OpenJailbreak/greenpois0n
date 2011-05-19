@@ -470,11 +470,11 @@ int boot_ramdisk() {
 
 	debug("Setting kernel bootargs\n");
 	#ifdef DEBUG_SERIAL
-	error = irecv_send_command(client, "go kernel bootargs rd=md0 -v serial=1 debug=0xa");
+	error = irecv_send_command(client, "go kernel bootargs rd=md0 -v serial=1 debug=0xa amfi_allow_any_signature=1");
 	#endif
 
 	#ifndef DEBUG_SERIAL
-	error = irecv_send_command(client, "go kernel bootargs rd=md0 -v");
+	error = irecv_send_command(client, "go kernel bootargs rd=md0 -v amfi_allow_any_signature=1");
 	#endif
 
 	if (error != IRECV_E_SUCCESS) {
@@ -544,10 +544,10 @@ int boot_tethered() {
 	
 	debug("Setting kernel bootargs\n");
 	#ifdef DEBUG_SERIAL
-	error = irecv_send_command(client, "go kernel bootargs -v serial=1 debug=0xa");
+	error = irecv_send_command(client, "go kernel bootargs -v serial=1 debug=0xa amfi_allow_any_signature=1");
 	#endif
 	#ifndef DEBUG_SERIAL
-	error = irecv_send_command(client, "go kernel bootargs -v");
+	error = irecv_send_command(client, "go kernel bootargs -v amfi_allow_any_signature=1");
 	#endif
 
 	if (error != IRECV_E_SUCCESS) {

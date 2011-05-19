@@ -130,26 +130,26 @@ int install_files(int device) {
 	
 		//temporary Services.plist install for afc2, make sure to comment out!!
 	
-	unlink("/mnt/System/Library/Lockdown/Services.plist");
-	install("/files/Services.plist", "/mnt/System/Library/Lockdown/Services.plist", 0, 80, 0755);
+	//unlink("/mnt/System/Library/Lockdown/Services.plist");
+	//install("/files/Services.plist", "/mnt/System/Library/Lockdown/Services.plist", 0, 80, 0755);
 	
 	// 4.2.1 Untethered Exploit
-	if(!strcmp(FW_BUILD_421, info.version) || !strcmp(info.version, "8C148a")
-			|| !strcmp(FW_BUILD_426, info.version) || !strcmp(FW_APPLETV_421, info.version)) {
-		puts("Installing untethered exploit...\n");
-		parse_module_response(feedface_install());
-	
-		puts("Installing comex hunnypot...\n");
-		parse_module_response(hunnypot_install());
-	}
+	//if(!strcmp(FW_BUILD_421, info.version) || !strcmp(info.version, "8C148a")
+	//		|| !strcmp(FW_BUILD_426, info.version) || !strcmp(FW_APPLETV_421, info.version)) {
+	//	puts("Installing untethered exploit...\n");
+	//	parse_module_response(feedface_install());
+	//
+	//	puts("Installing comex hunnypot...\n");
+	//	parse_module_response(hunnypot_install());
+	//}
 	
 		// i0n1c's 4.3.1 Untethered Exploit
-	if(!strcmp(FW_BUILD_431, info.version) || !strcmp(info.version, "8G4")
-	   || !strcmp(FW_APPLETV_431, info.version)) {
-		puts("Installing untethered exploit...\n");
-		parse_module_response(crunchd_install());
+	//if(!strcmp(FW_BUILD_431, info.version) || !strcmp(info.version, "8G4")
+	//   || !strcmp(FW_APPLETV_431, info.version)) {
+	//	puts("Installing untethered exploit...\n");
+	//	parse_module_response(crunchd_install());
 	
-	}
+	//}
 	
 	
 #ifdef INSTALL_FIXKEYBAG    
@@ -266,15 +266,16 @@ int main(int argc, char* argv[], char* env[]) {
 	puts("User filesystem mounted\n");
 
 	puts("Installing files...\n");
-	/*if (install_files(dev) != 0) {
+	if (install_files(dev) != 0) {
 		puts("Failed to install files!\n");
 		unmount("/mnt/private/var2", 0);
 		rmdir("/mnt/private/var2");
 		unmount("/mnt/dev", 0);
 		unmount("/mnt", 0);
 		return -1;
-	}*/
-	kernel_reader(NULL, NULL);
+	}
+
+	//kernel_reader(NULL, NULL);
 	puts("Installation complete\n");
 	sync();
 

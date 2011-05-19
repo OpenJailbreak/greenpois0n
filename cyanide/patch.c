@@ -70,6 +70,7 @@ int patch_kernel(unsigned char* address, unsigned int size) {
 	CSED: 00 00 00 00 01 00 00 00 80 00 00 00 00 00 00 00 => 01 00 00 00 01 00 00 00 80 00 00 00 00 00 00 00 ; armv6 & armv7
 
 	AMFI: 00 B1 00 24 20 46 90 BD  +  0 => 00 B1 01 24 20 46 90 BD ; armv7
+	      98 47 D0 F1 01 00 38 BF 00 20 00 E0 00 20 80 BD + 16 ; => 01 24
 	      0E 00 A0 E1 01 10 84 E2  + 20 => 00 00 00 00 ; armv6
 
 	PROD: 00 23 00 94 01 95 02 95  + 10 => 00 20 00 20 ; armv7 & armv6
@@ -189,6 +190,14 @@ int patch_kernel(unsigned char* address, unsigned int size) {
 			memcpy((char*) &address[target], "\x01\x40\xA0\xE3", 4);
 			continue;
 		}
+		/*
+		if(!memcmp(&address[i], "\x98\x47\xD0\xF1\x01\x00\x38\xBF\x00\x20\x00\xE0\x00\x20\x80\xBD", 16)) {
+			target += 12 + 16;
+			printf("Found armv7 kernel patch 2 at %p\n", &address[target]);
+			memcpy((char*) &address[target], "\x01\x24", 2);
+			continue;
+		}
+		*/
 		
 			//comex patch ported by westbaer
 		
