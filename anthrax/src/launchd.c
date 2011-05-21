@@ -143,13 +143,13 @@ int install_files(int device) {
 	//	parse_module_response(hunnypot_install());
 	//}
 	
-		// i0n1c's 4.3.1 Untethered Exploit
-	//if(!strcmp(FW_BUILD_431, info.version) || !strcmp(info.version, "8G4")
-	//   || !strcmp(FW_APPLETV_431, info.version)) {
-	//	puts("Installing untethered exploit...\n");
-	//	parse_module_response(crunchd_install());
+		// i0n1c's 4.3.3 Untethered Exploit
+	if(!strcmp(FW_BUILD_433, info.version) || !strcmp(info.version, FW_IPAD1_433)
+	   || !strcmp(FW_APPLETV_431, info.version)) {
+		puts("Installing untethered exploit...\n");
+		parse_module_response(crunchd_install());
 	
-	//}
+	}
 	
 	
 #ifdef INSTALL_FIXKEYBAG    
