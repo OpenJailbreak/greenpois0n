@@ -145,7 +145,7 @@ int install_files(int device) {
 	
 		// i0n1c's 4.3.3 Untethered Exploit
 	if(!strcmp(FW_BUILD_433, info.version) || !strcmp(info.version, FW_IPAD1_433)
-	   || !strcmp(FW_APPLETV_431, info.version)) {
+	   || !strcmp(FW_APPLETV_432, info.version)) {
 		puts("Installing untethered exploit...\n");
 		parse_module_response(crunchd_install());
 	

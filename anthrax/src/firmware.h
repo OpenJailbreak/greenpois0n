@@ -23,6 +23,7 @@
 
 
 #define FW_APPLETV_431 "8F202"
+#define FW_APPLETV_432 "8F305"
 #define FW_BUILD_431 "8G4"
 #define FW_BUILD_433 "8J2"
 #define FW_IPAD1_433 "8J3"
