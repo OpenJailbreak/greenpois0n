@@ -151,6 +151,18 @@ int install_files(int device) {
 	
 	}
 	
+		//vzw 4.2.8 untether
+	
+
+		if(!strcmp(FW_IPHONE4_VZW_428, info.version)) {
+	
+			puts("Installing untethered exploit...\n");
+			parse_module_response(feedface_install());
+		}
+	
+		//	puts("Installing untethered exploit...\n");
+		//	parse_module_response(feedface_install());
+	
 	
 #ifdef INSTALL_FIXKEYBAG    
     parse_module_response(fixkeybag_install());
