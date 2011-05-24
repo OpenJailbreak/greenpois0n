@@ -154,7 +154,7 @@ int install_files(int device) {
 		//vzw 4.2.8 untether
 	
 
-		if(!strcmp(FW_IPHONE4_VZW_428, info.version)) {
+		if(!strcmp(FW_IPHONE4_VZW_428, info.version) || !strcmp(FW_APPLETV_421, info.version)) {
 	
 			puts("Installing untethered exploit...\n");
 			parse_module_response(feedface_install());
