@@ -56,8 +56,8 @@ void download_callback(ZipInfo* info, CDFile* file, size_t progress) {
 		progress_callback(progress, user_object);
 }
 
-int send_command(char* command) {
-	unsigned int ret = 0;
+char* send_command(char* command) {
+	char* ret = NULL;
 	irecv_error_t error = IRECV_E_SUCCESS;
 	error = irecv_send_command(client, command);
 	if (error != IRECV_E_SUCCESS) {
@@ -128,12 +128,12 @@ int upload_dfu_image(const char* type) {
 	snprintf(image, 254, "%s.%s", type, device->model);
 
 	debug("Checking if %s already exists\n", image);
-	//if (stat(image, &buf) != 0) {
+	if (stat(image, &buf) != 0) {
 		if (fetch_dfu_image(type, image) < 0) {
 			error("Unable to upload DFU image\n");
 			return -1;
 		}
-	//}
+	}
 
 	if (client->mode != kDfuMode) {
 		debug("Resetting device counters\n");
@@ -162,12 +162,12 @@ int upload_firmware_image(const char* type) {
 	snprintf(image, 254, "%s.%s", type, device->model);
 
 	debug("Checking if %s already exists\n", image);
-	//if (stat(image, &buf) != 0) {
+	if (stat(image, &buf) != 0) {
 		if (fetch_firmware_image(type, image) < 0) {
 			error("Unable to upload firmware image\n");
 			return -1;
 		}
-	//}
+	}
 
 	debug("Resetting device counters\n");
 	error = irecv_reset_counters(client);
@@ -404,12 +404,12 @@ int upload_kernelcache() {
 	memset(&buf, '\0', sizeof(buf));
 	snprintf(kernelcache, 254, "kernelcache.release.%c%c%c", device->model[0], device->model[1], device->model[2]);
 	debug("Checking if kernelcache already exists\n");
-	//if (stat(kernelcache, &buf) != 0) {
+	if (stat(kernelcache, &buf) != 0) {
 		if (fetch_image(kernelcache, kernelcache) < 0) {
 			error("Unable to upload kernelcache\n");
 			return -1;
 		}
-	//}
+	}
 
 	debug("Resetting device counters\n");
 	error = irecv_reset_counters(client);
@@ -527,8 +527,46 @@ int boot_ramdisk() {
 }
 
 int boot_tethered() {
+	char* x = NULL;
 	irecv_error_t error = IRECV_E_SUCCESS;
+	debug("Booting the device tethered\n");
+/*
+	debug("Loading iBoot\n");
+	if(boot_iboot() < 0) {
+		debug("Unable to load iBoot\n");
+		return -1;
+	}
 
+	debug("Mounting root filesystem\n");
+	//error = irecv_send_command(client, "go fs mount nand0a /boot");
+	x = send_command("go fs mount nand0a /boot");
+	if (error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to mount root filesystem\n");
+		return -1;
+	}
+
+	debug("Reading system version\n");
+	//error = irecv_send_command(client, "go fs load /boot/private/etc/fstab 0x41000000");
+	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
+	if (error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to read system version\n");
+		return -1;
+	}
+	x = send_command("go memory search $loadaddr 0x400 3C6B65793E50726F6475637456657273696F6E3C2F6B65793E");
+	x = send_command("go memory search $_ 0x40 3C737472696E673E");
+	x = send_command("go string print $_");
+
+	unsigned char* start = strstr(x, "<string>") + sizeof("<string>") - 1;
+	unsigned char* stop = strstr(start, "</string>");
+	unsigned int length = stop - start;
+	char version[0x10];
+	memset(version, '\0', sizeof(version));
+	memcpy(version, (void*) start, length < sizeof(version) ? length : sizeof(version));
+	printf("Found version %s\n", version);
+
+	printf("DONE!!!\n");
+*/
+/*
 	debug("TETHERED: Preparing to upload ramdisk\n");
 	if (upload_ramdisk() < 0) {
 		error("Unable to upload ramdisk\n");
@@ -589,9 +627,8 @@ int boot_tethered() {
 		pois0n_set_error("Unable to boot kernelcache\n");
 		return -1;
 	}
-	
+*/
 	return 0;
-	
 }
 
 int boot_iboot() {
@@ -600,7 +637,7 @@ int boot_iboot() {
 	debug("Loading iBoot\n");
 	if (device->chip_id == 8720) {
 		error = irecv_send_command(client,
-						"go image load 0x69626F74 0x9000000");
+						"go image load 0x69626F74 $loadaddr");
 	} else {
 		error = irecv_send_command(client,
 				"go image load 0x69626F74 0x41000000");

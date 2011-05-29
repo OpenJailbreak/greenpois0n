@@ -29,6 +29,7 @@
 int memory_init() {
 	//printf("Initializing memory\n");
 	cmd_add("memory", &memory_cmd, "display, search, and manipulate memory");
+	cmd_add("string", &string_cmd, "display, search, and manipulate strings");
 	return 0;
 }
 
@@ -113,4 +114,36 @@ int memory_search(char* source, unsigned int size, char* bytes) {
 
 	printf("unable to find byte sequence\n");
 	return -1;
+}
+
+int string_cmd(int argc, CmdArg* argv) {
+	char* bytes = NULL;
+	char* action = NULL;
+	char* source = NULL;
+	char* destination = NULL;
+	unsigned int size = 0;
+
+	if(argc < 2) {
+		puts("usage: string <find/print> [options]\n");
+		puts("  print <address>\tprint the string at the given address\n");
+		return 0;
+	}
+
+	action = argv[1].string;
+	//if(argc == 2) {
+		if(!strcmp(action, "print")) {
+			source = (char*) argv[2].uinteger;
+			nvram_set_var("cmd-results", source);
+			return 0;
+		}
+	//}
+
+	if(argc == 4) {
+		if(!strcmp(action, "find")) {
+			printf("Not implemented yet\n");
+			return 0;
+		}
+	}
+
+	return 0;
 }

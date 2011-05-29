@@ -181,3 +181,16 @@ int nvram_set_var(const char* name, const char* value) {
 	exit_critical_section();
 	return 0;
 }
+
+
+void nvram_debug(NvramVar* var) {
+	if(var != NULL) {
+		printf("NvramVar Debug:\n");
+		printf("\tinteger = %d\n", var->integer);
+		printf("\tname = %s\n", var->name);
+		printf("\tnext = 0x%x\n", var->next);
+		printf("\tprev = 0x%x\n", var->prev);
+		printf("\tsave = %d\n", var->save);
+		printf("\tstring = %s\n", var->string);
+	}
+}

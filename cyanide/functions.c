@@ -48,6 +48,7 @@ static unsigned char* functions[][3] = {
 	{ "uart_write", "uart_write", push_r4_to_r7_lr },
 	{ "task_create", "task_create", push_r4_to_r7_lr },
 	{ "task_exit", "task_exit", push_r4_to_r7_lr },
+	{ "fs_open", "fs_open", push_r4_to_r7_lr },
 	{ NULL, NULL, NULL }
 };
 
@@ -111,7 +112,7 @@ unsigned int find_offset(unsigned char* data, unsigned int base, unsigned int si
 	unsigned int address = 0;
 	for(i = 0; i < size; i++) {
 		if(!memcmp(&data[i], signature, strlen(signature))) {
-			address = base | i;
+			address = base + i;
 			break;
 		}
 	}
@@ -121,7 +122,7 @@ unsigned int find_offset(unsigned char* data, unsigned int base, unsigned int si
 	unsigned int reference = 0;
 	for(i = 0; i < size; i++) {
 		if(!memcmp(&data[i], &address, 4)) {
-			reference = base | i;
+			reference = base + i;
 			break;
 		}
 	}
@@ -132,7 +133,7 @@ unsigned int find_offset(unsigned char* data, unsigned int base, unsigned int si
 	while(i > 0) {
 		i--;
 		if(data[i] == push) {
-			function = dbase | i;
+			function = dbase + i;
 			break;
 		}
 	}

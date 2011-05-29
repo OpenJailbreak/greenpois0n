@@ -23,48 +23,58 @@
 int loader_install() {
 	int ret;
 
+	puts("Creating Loader.app directory\n");
 	mkdir("/mnt/Applications/Loader.app", 0755);
 
+	puts("Installing Loader.app Bootstrap binary\n");
 	ret = install("/files/Loader.app/Bootstrap",
 			"/mnt/Applications/Loader.app/Bootstrap", 0, 80, 0755);
 	if (ret < 0)
 		return ret;
 
+	puts("Installing Loader.app Loader binary\n");
 	ret = install("/files/Loader.app/Loader",
 			"/mnt/Applications/Loader.app/Loader", 0, 80, 06755);
 	if (ret < 0)
 		return ret;
 
+	puts("Installing Loader.app cydia.png image\n");
 	ret = install("/files/Loader.app/cydia.png",
 			"/mnt/Applications/Loader.app/cydia.png", 0, 80, 0755);
 	if (ret < 0)
 		return ret;
 
+	puts("Installing Loader.app cydia@2x.png image\n");
 	ret = install("/files/Loader.app/cydia@2x.png",
 			"/mnt/Applications/Loader.app/cydia@2x.png", 0, 80, 0755);
 	if (ret < 0)
 		return ret;
 
+	puts("Installing Loader.app Info.plist plist\n");
 	ret = install("/files/Loader.app/Info.plist",
 			"/mnt/Applications/Loader.app/Info.plist", 0, 80, 0755);
 	if (ret < 0)
 		return ret;
 
+	puts("Installing Loader.app icon.png image\n");
 	ret = install("/files/Loader.app/icon.png",
 			"/mnt/Applications/Loader.app/icon.png", 0, 80, 0755);
 	if (ret < 0)
 		return ret;
 
+	puts("Installing Loader.app icon@2x.png image\n");
 	ret = install("/files/Loader.app/icon@2x.png",
 			"/mnt/Applications/Loader.app/icon@2x.png", 0, 80, 0755);
 	if (ret < 0)
 		return ret;
 
+	puts("Installing Loader.app icon-pad.png image\n");
 	ret = install("/files/Loader.app/icon-ipad.png",
 			"/mnt/Applications/Loader.app/icon-ipad.png", 0, 80, 0755);
 	if (ret < 0)
 		return ret;
 
+	puts("Installing Loader.app PkgInfo file\n");
 	ret = install("/files/Loader.app/PkgInfo",
 			"/mnt/Applications/Loader.app/PkgInfo", 0, 80, 0755);
 	if (ret < 0)

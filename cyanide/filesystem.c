@@ -34,7 +34,15 @@ void* find_fs_unmount() {
 }
 
 void* find_fs_load_file() {
-	return 0;
+	unsigned char* func = NULL;
+	unsigned char* fs_open = find_function("fs_open", TARGET_BASEADDR, TARGET_BASEADDR);
+	printf("Found fs_open at 0x%x\n", fs_open);
+	if(fs_open != NULL) {
+		for(func = fs_open+1; *func != 0xB5; func++) {
+			// TODO: This is horrible!!!
+		}
+	}
+	return func;
 }
 
 int fs_init() {
@@ -52,7 +60,7 @@ int fs_init() {
 		printf("Found fs_unmount at 0x%x\n", fs_unmount);
 	}
 
-	//fs_load_file = find_fs_load_file();
+	fs_load_file = find_fs_load_file();
 	if(fs_load_file == NULL) {
 		puts("Unable to find fs_load_file\n");
 	} else {
@@ -97,7 +105,9 @@ int fs_cmd(int argc, CmdArg* argv) {
 		} else if(!strcmp(action, "load")) {
 			path = argv[2].string;
 			address = (void*) argv[3].uinteger;
-			fs_load_file(path, address, size);
+			int i = fs_load_file(path, address, size);
+			printf("fs_load_file returned 0x%x\n", i);
+			return i;
 		}
 	}
 

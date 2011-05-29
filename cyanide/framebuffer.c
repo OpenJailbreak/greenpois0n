@@ -205,7 +205,7 @@ void fb_print(const char* str) {
 }
 
 void fb_print_force(const char* str) {
-	size_t len = strlen(str);
+	unsigned int len = strlen(str);
 	int i;
 	for(i = 0; i < len; i++) {
 		fb_putc(str[i]);

@@ -71,15 +71,35 @@ int main(int argc, CmdArg* argv) {
 	for(i = 1; i < argc; i++) {
 		if(!strcmp(argv[i].string, "$_")) {
 			NvramVar* retval = nvram_find_var("?");
-			argv[i].string = retval->string;
+			if(retval != NULL) {
+				nvram_debug(retval);
+			}
+
+			if(retval->string == NULL) {
+				argv[i].type = CMDARG_TYPE_INTEGER;
+				argv[i].string = (char*) malloc(10);
+				snprintf(argv[i].string, 10, "0x%08x", retval->integer);
+			} else {
+				argv[i].type = CMDARG_TYPE_STRING;
+				argv[i].string = retval->string;
+			}
+			argv[i].integer = retval->integer;
+			argv[i].uinteger = retval->integer;
 			continue;
 		}
+
 		if(argv[i].string[0] == '$') {
 			NvramVar* var = nvram_find_var(&(argv[i].string[1]));
+			if(var != NULL) {
+				nvram_debug(var);
+			}
+
 			if(var == NULL) {
 				printf("Unable to find nvram var for %s\n", &(argv[i].string[1]));
 			} else {
 				argv[i].string = var->string;
+				argv[i].integer = var->integer;
+				argv[i].uinteger = var->integer;
 			}
 		}
 	}
@@ -90,8 +110,10 @@ int main(int argc, CmdArg* argv) {
 		for(i = 0; i < gCmdCount; i++) {
 			if(!strcmp(gCmdCommands[i]->name, command)) {
 				int ret = gCmdCommands[i]->handler(argc-1, &argv[1]);
-				snprintf(result, 0xF, "0x%x", ret);
-				nvram_set_var("cmd-results", result);
+				if(ret) {
+					snprintf(result, 0xF, "0x%x", ret);
+					nvram_set_var("cmd-results", result);
+				}
 				return ret;
 			}
 		}

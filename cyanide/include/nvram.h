@@ -39,6 +39,7 @@ extern LinkedList* gNvramList;
 int nvram_init();
 int nvram_cmd(int argc, CmdArg* argv);
 void nvram_display_list();
+void nvram_debug(NvramVar* var);
 int nvram_get_var(const char* name);
 int nvram_remove_var(const char* name);
 NvramVar* nvram_find_var(const char* name);

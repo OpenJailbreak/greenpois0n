@@ -25,6 +25,7 @@
 
 int memory_init();
 int memory_cmd(int argc, CmdArg* argv);
+int string_cmd(int argc, CmdArg* argv);
 
 int memory_search(char* source, unsigned int size, char* bytes);
 

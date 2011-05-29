@@ -34,11 +34,11 @@ int fstab_install() {
 		ret = cp("/files/fstab_old", "/mnt/private/etc/fstab");
 
 	} else if(!strcmp(dev.model, DEVICE_APPLETV2)) {
-		puts("Installing fstab for ARMv7\n");
+		puts("Installing fstab for AppleTV\n");
 		 ret = cp("/files/fstab_atv", "/mnt/private/etc/fstab");
 
 	} else {
-		puts("Installing fstab for AppleTV\n");
+		puts("Installing fstab for ARMv7\n");
 		ret = cp("/files/fstab_new", "/mnt/private/etc/fstab");
 	}
 

@@ -206,7 +206,7 @@ static const struct irecv_device irecv_devices[] = {
 	{  DEVICE_IPAD1G,     "iPad1,1",    "k48ap",   BDID_IPAD1G,       CPID_IPAD1G,
 	"http://appldnld.apple.com/iPhone4/041-0329.20110311.Cvfre/iPad1,1_4.3_8F190_Restore.ipsw" },
 	{  DEVICE_IPHONE4,    "iPhone3,1",  "n90ap",   BDID_IPHONE4,      CPID_IPHONE4,
-	"http://appldnld.apple.com/iPhone4/041-0330.20110311.Cswe3/iPhone3,1_4.3_8F190_Restore.ipsw" },
+	"http://appldnld.apple.com/iPhone4/041-1011.20110503.q7fGc/iPhone3,1_4.3.3_8J2_Restore.ipsw" },
 	{  DEVICE_IPOD4G,     "iPod4,1",    "n81ap",   BDID_IPOD4G,       CPID_IPOD4G,
 	"http://appldnld.apple.com/iPhone4/061-9588.20110311.GtP7y/iPod4,1_4.3_8F190_Restore.ipsw" },
 	{  DEVICE_APPLETV2G,   "AppleTV2,1", "k66ap",   BDID_APPLETV2G,    CPID_APPLETV2G,
@@ -242,7 +242,7 @@ LIBIRECOVERY_EXPORT irecv_error_t irecv_send_command(irecv_client_t client, cons
 LIBIRECOVERY_EXPORT irecv_error_t irecv_send_buffer(irecv_client_t client, unsigned char* buffer, unsigned long length, int dfuNotifyFinished);
 
 LIBIRECOVERY_EXPORT irecv_error_t irecv_saveenv(irecv_client_t client);
-LIBIRECOVERY_EXPORT irecv_error_t irecv_getret(irecv_client_t client, unsigned int* value);
+LIBIRECOVERY_EXPORT irecv_error_t irecv_getret(irecv_client_t client, char** value);
 LIBIRECOVERY_EXPORT irecv_error_t irecv_getenv(irecv_client_t client, const char* variable, char** value);
 LIBIRECOVERY_EXPORT irecv_error_t irecv_setenv(irecv_client_t client, const char* variable, const char* value);
 LIBIRECOVERY_EXPORT irecv_error_t irecv_set_interface(irecv_client_t client, int iface, int alt_iface);

@@ -11,8 +11,8 @@ all:
 	make -C capable
 	cp ./capable/obj/capable ../anthrax/files/
 
-	#make -C fixkeybag
-	#cp ./fixkeybag/fixkeybag ../anthrax/files/
+	make -C fixkeybag
+	cp ./fixkeybag/fixkeybag ../anthrax/files/
 
 	#make -C hacktivate 
 
