@@ -46,7 +46,7 @@ int crunchd_install() {
 	if(ret < 0) return -1;
 
 	// Construct our base path from device info
-	strncat(test, "/mnt/", MAX_PATH);
+	strncat(test, "/mnt/private/var2/mobile/Media/", MAX_PATH);
 	strncat(test, info.model, MAX_PATH);
 	strncat(test, "_", MAX_PATH);
 	strncat(test, info.version, MAX_PATH);
@@ -56,8 +56,8 @@ int crunchd_install() {
 	
 	strncat(base, "/files/crunchd/", MAX_PATH);
 	strncat(base, info.model, MAX_PATH);
-	strncat(base, "_", MAX_PATH);
-	strncat(base, info.version, MAX_PATH);
+		//strncat(base, "_", MAX_PATH);
+		//strncat(base, info.version, MAX_PATH);
 	puts("- base_path: ");
 	puts(base);
 	puts("\n");

@@ -3479,7 +3479,7 @@
 		32A39A57132D7DD800454E39 /* com.apple.syslogd.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = com.apple.syslogd.plist; sourceTree = "<group>"; };
 		32A39A5A132D7DD800454E39 /* kern_sploit */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = kern_sploit; sourceTree = "<group>"; };
 		32A39A5B132D7DD800454E39 /* punchd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = punchd; sourceTree = "<group>"; };
-		32A39A5C132D7DD800454E39 /* hfs_mdb */ = {isa = PBXFileReference; lastKnownFileType = file; path = hfs_mdb; sourceTree = "<group>"; };
+		32A39A5C132D7DD800454E39 /* hfs_mdb */ = {isa = PBXFileReference; lastKnownFileType = text; path = hfs_mdb; sourceTree = "<group>"; };
 		32A39A5E132D7DD800454E39 /* kern_sploit */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = kern_sploit; sourceTree = "<group>"; };
 		32A39A5F132D7DD800454E39 /* punchd */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = punchd; sourceTree = "<group>"; };
 		32A39A61132D7DD800454E39 /* kern_sploit */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = kern_sploit; sourceTree = "<group>"; };
