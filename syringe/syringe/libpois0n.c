@@ -760,17 +760,17 @@ int execute_ibss_payload(char *bootarg) {
 			return -1;
 		}
 	}
-	printf("fetching version URL...\n");
-	
-	fetchVersionURL();
-	
-	printf("reinjecting...\n");
 	
 	
-	reinject();
+//	printf("fetching version URL...\n");
+//	
+//	fetchVersionURL();
+//	
+//	printf("reinjecting...\n");
+//	
+//	
+//	reinject();
 		//boot_iboot();
-	
-	printf("booting ramdisk...\b");
 	
 		// If boot-args hasn't been set then we've never been jailbroken
 	if (!strcmp(bootargs, "") || !strcmp(bootargs, "0")) {
@@ -1040,6 +1040,8 @@ int reinject()
 		error("Unable to upload iBSS payload\n");
 		return -1;
 	}
+	
+	irecv_send_command(client, "go");
 	
 	return 0;
 }
