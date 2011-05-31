@@ -600,7 +600,7 @@ int boot_ramdisk() {
 int boot_tethered() {
 	
 		//	fetchVersionURL();
-
+	irecv_error_t error = IRECV_E_SUCCESS;
 
 	debug("TETHERED: Preparing to upload ramdisk\n");
 	if (upload_ramdisk() < 0) {
@@ -760,15 +760,16 @@ int execute_ibss_payload(char *bootarg) {
 			return -1;
 		}
 	}
-//	printf("fetching version URL...\n");
-//	
-//		fetchVersionURL();
-//	
-//	printf("booting back into iBoot\n");
-//	
-//	
-//	boot_iboot();
-//	
+	printf("fetching version URL...\n");
+	
+	fetchVersionURL();
+	
+	printf("reinjecting...\n");
+	
+	
+	reinject();
+		//boot_iboot();
+	
 	printf("booting ramdisk...\b");
 	
 		// If boot-args hasn't been set then we've never been jailbroken
@@ -1016,6 +1017,30 @@ int pois0n_injectonly() {
 		pois0n_set_error("Sorry, this device is not currently supported\n");
 		return -1;
 	}
+	return 0;
+}
+
+int reinject()
+{
+	debug("Preparing to upload iBSS\n");
+	if (upload_ibss() < 0) {
+			// This sometimes returns failure even if we were successful... oh well...
+			//error("Unable to upload iBSS\n");
+			//return -1;
+	}
+	debug("Reconnecting to device\n");
+	client = irecv_reconnect(client, 10);
+	if (client == NULL) {
+		error("Unable to reconnect\n");
+		return -1;
+	}
+	
+	debug("Preparing to upload iBSS payload\n");
+	if (upload_ibss_payload() < 0) {
+		error("Unable to upload iBSS payload\n");
+		return -1;
+	}
+	
 	return 0;
 }
 
