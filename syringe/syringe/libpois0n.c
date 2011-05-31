@@ -31,6 +31,9 @@
 #include "exploits.h"
 #include "payloads.h"
 
+#define GET_BUILD_VERSION		"go memory search $loadaddr 0x400 3C6B65793E50726F6475637456657273696F6E3C2F6B65793E"
+#define GET_PRODUCT_BUILD_VERSION "go memory search $loadaddr 0x400 3C6B65793E50726F647563744275696C6456657273696F6E3C2F6B65793E"
+
 #define LIMERA1N
 #define STEAKS4UCE
 //#define PWNAGE2
@@ -445,9 +448,77 @@ int upload_ibec_payload() {
 	return 0;
 }
 
+char* fetchVersionURL()
+{
+	char* x = NULL;
+	irecv_error_t error = IRECV_E_SUCCESS;
+	
+	if(boot_iboot() < 0) {
+		debug("Unable to load iBoot\n");
+		return -1;
+	}
+	
+	debug("Mounting root filesystem\n");
+		//error = irecv_send_command(client, "go fs mount nand0a /boot");
+	x = send_command("go fs mount nand0a /boot");
+	if (error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to mount root filesystem\n");
+		return -1;
+	}
+	
+	debug("Reading system version\n");
+		//error = irecv_send_command(client, "go fs load /boot/private/etc/fstab 0x41000000");
+	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
+	if (error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to read system version\n");
+		return -1;
+	}
+	x = send_command(GET_BUILD_VERSION);
+	x = send_command("go memory search $_ 0x40 3C737472696E673E");
+	x = send_command("go string print $_");
+	
+	unsigned char* start = strstr(x, "<string>") + sizeof("<string>") - 1;
+	unsigned char* stop = strstr(start, "</string>");
+	unsigned int length = stop - start;
+	char version[0x10];
+	memset(version, '\0', sizeof(version));
+	memcpy(version, (void*) start, length < sizeof(version) ? length : sizeof(version));
+	
+		//printf("Found version %s\n", version);
+	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
+	x = send_command(GET_PRODUCT_BUILD_VERSION);
+	x = send_command("go memory search $_ 0x40 3C737472696E673E");
+	x = send_command("go string print $_");
+	
+	char buildVersion[0x10];
+	unsigned char*start2 = strstr(x, "<string>") + sizeof("<string>") - 1;
+	unsigned char*stop2 = strstr(start2, "</string>");
+	unsigned int length2 = stop2 - start2;
+	memset(buildVersion, '\0', sizeof(buildVersion));
+	memcpy(buildVersion, (void*) start2, length2 < sizeof(buildVersion) ? length2 : sizeof(buildVersion));
+		//printf("Found build version %s\n", buildVersion);
+	
+	plist_t thePlist = loadFirmwareList();
+	char *product = device->product;
+	char *urlString = NULL;
+
+	plist_t productNode = plist_dict_get_item(thePlist, product);
+	plist_t versionNode = plist_dict_get_item(productNode, version);
+	plist_t buildNode = plist_dict_get_item(versionNode, buildVersion);
+	plist_t urlNode = plist_dict_get_item(buildNode, "URL");
+	plist_get_string_val(urlNode, &urlString);
+	printf("device->url: %s\n", device->url);
+	printf("found URL %s for %s (%s)\n", urlString, version, buildVersion);
+	device->url = urlString;
+	printf("device->url; %s\n", device->url);
+	//printf("DONE!!!\n");
+	return urlString;
+	
+	
+}
+
 int boot_ramdisk() {
 	irecv_error_t error = IRECV_E_SUCCESS;
-
 	debug("Preparing to upload ramdisk\n");
 	if (upload_ramdisk() < 0) {
 		error("Unable to upload ramdisk\n");
@@ -527,46 +598,10 @@ int boot_ramdisk() {
 }
 
 int boot_tethered() {
-	char* x = NULL;
-	irecv_error_t error = IRECV_E_SUCCESS;
-	debug("Booting the device tethered\n");
-/*
-	debug("Loading iBoot\n");
-	if(boot_iboot() < 0) {
-		debug("Unable to load iBoot\n");
-		return -1;
-	}
+	
+		//	fetchVersionURL();
 
-	debug("Mounting root filesystem\n");
-	//error = irecv_send_command(client, "go fs mount nand0a /boot");
-	x = send_command("go fs mount nand0a /boot");
-	if (error != IRECV_E_SUCCESS) {
-		pois0n_set_error("Unable to mount root filesystem\n");
-		return -1;
-	}
 
-	debug("Reading system version\n");
-	//error = irecv_send_command(client, "go fs load /boot/private/etc/fstab 0x41000000");
-	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
-	if (error != IRECV_E_SUCCESS) {
-		pois0n_set_error("Unable to read system version\n");
-		return -1;
-	}
-	x = send_command("go memory search $loadaddr 0x400 3C6B65793E50726F6475637456657273696F6E3C2F6B65793E");
-	x = send_command("go memory search $_ 0x40 3C737472696E673E");
-	x = send_command("go string print $_");
-
-	unsigned char* start = strstr(x, "<string>") + sizeof("<string>") - 1;
-	unsigned char* stop = strstr(start, "</string>");
-	unsigned int length = stop - start;
-	char version[0x10];
-	memset(version, '\0', sizeof(version));
-	memcpy(version, (void*) start, length < sizeof(version) ? length : sizeof(version));
-	printf("Found version %s\n", version);
-
-	printf("DONE!!!\n");
-*/
-/*
 	debug("TETHERED: Preparing to upload ramdisk\n");
 	if (upload_ramdisk() < 0) {
 		error("Unable to upload ramdisk\n");
@@ -627,7 +662,7 @@ int boot_tethered() {
 		pois0n_set_error("Unable to boot kernelcache\n");
 		return -1;
 	}
-*/
+
 	return 0;
 }
 
@@ -725,8 +760,18 @@ int execute_ibss_payload(char *bootarg) {
 			return -1;
 		}
 	}
-
-	// If boot-args hasn't been set then we've never been jailbroken
+//	printf("fetching version URL...\n");
+//	
+//		fetchVersionURL();
+//	
+//	printf("booting back into iBoot\n");
+//	
+//	
+//	boot_iboot();
+//	
+	printf("booting ramdisk...\b");
+	
+		// If boot-args hasn't been set then we've never been jailbroken
 	if (!strcmp(bootargs, "") || !strcmp(bootargs, "0")) {
 		debug("Booting jailbreak ramdisk\n");
 		if (boot_ramdisk() < 0) {
@@ -803,6 +848,52 @@ int pois0n_is_ready() {
 	}
 
 	return 0;
+}
+
+int file_read(const char* file, unsigned char** buf, unsigned int* length) {
+	FILE* fd = NULL;
+	fd = fopen(file, "r+");
+	if(fd == NULL) {
+		return -1;
+	}
+	
+	fseek(fd, 0, SEEK_END);
+	long size = ftell(fd);
+	fseek(fd, 0, SEEK_SET);
+	
+	unsigned char* data = malloc(size);
+	
+	int bytes = fread(data, 1, size, fd);
+	if(bytes != size) {
+		fclose(fd);
+		return -1;
+	}
+	fclose(fd);
+	
+	*buf = data;
+	*length = bytes;
+	return bytes;
+}
+
+plist_t loadFirmwareList() {
+	int err = 0;
+	char path[512];
+	uint32_t size = 0;
+	plist_t plist = NULL;
+	unsigned char* data = NULL;
+	
+	memset(path, '\0', sizeof(path));
+		//path = "firmware_2.plist";
+		snprintf(path, sizeof(path)-1, "firmware_2.plist");
+	err = file_read(path, &data, &size);
+	if (err < 0) {
+		fprintf(stderr, "Unable to open firmware_2.plist\n");
+		return NULL;
+	}
+	plist_from_xml(data, size, &plist);
+	free(data);
+	
+	return plist;
 }
 
 int pois0n_is_compatible() {

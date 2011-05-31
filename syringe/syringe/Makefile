@@ -25,7 +25,7 @@ ifeq ($(UNAME),Darwin)
 	PLAT_CFLAGS = -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
 	PLAT_LIBRARIES =
 	LDFLAGS = -L/opt/local/lib -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
-	ADDOBJ = ../lib-static/macosx/libusb-1.0.a
+	ADDOBJ = ../lib-static/macosx/libusb-1.0.a ../lib-static/macosx/libplist.a
 else
 	ifneq (,$(findstring MINGW32_NT,$(UNAME)))
 		# Win32

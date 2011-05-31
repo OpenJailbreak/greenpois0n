@@ -30,6 +30,7 @@ extern "C" {
 
 #ifndef _WIN32
 #include <libusb-1.0/libusb.h>
+#include <plist/plist.h>
 #else
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -152,7 +153,7 @@ typedef struct {
 
 struct irecv_client;
 typedef struct irecv_client* irecv_client_t;
-typedef const struct irecv_device* irecv_device_t;
+typedef struct irecv_device* irecv_device_t;
 typedef int(*irecv_event_cb_t)(irecv_client_t client, const irecv_event_t* event);
 
 struct irecv_client {
@@ -187,7 +188,7 @@ struct irecv_device {
 	const char* model;
 	unsigned int board_id;
 	unsigned int chip_id;
-	const char* url;
+	char* url;
 };
 
 static const struct irecv_device irecv_devices[] = {
@@ -208,7 +209,7 @@ static const struct irecv_device irecv_devices[] = {
 	{  DEVICE_IPHONE4,    "iPhone3,1",  "n90ap",   BDID_IPHONE4,      CPID_IPHONE4,
 	"http://appldnld.apple.com/iPhone4/041-1011.20110503.q7fGc/iPhone3,1_4.3.3_8J2_Restore.ipsw" },
 	{  DEVICE_IPOD4G,     "iPod4,1",    "n81ap",   BDID_IPOD4G,       CPID_IPOD4G,
-	"http://appldnld.apple.com/iPhone4/061-9588.20110311.GtP7y/iPod4,1_4.3_8F190_Restore.ipsw" },
+	"http://appldnld.apple.com/iPhone4/041-1015.20110503.d7i57/iPod4,1_4.3.3_8J2_Restore.ipsw" },
 	{  DEVICE_APPLETV2G,   "AppleTV2,1", "k66ap",   BDID_APPLETV2G,    CPID_APPLETV2G,
 	"http://appldnld.apple.com/AppleTV/041-0574.20110322.Dcfr5/AppleTV2,1_4.3_8F202_Restore.ipsw" },
 	{ DEVICE_IPHONE42,    "iPhone3,3",  "n92ap",   BDID_IPHONE42,     CPID_IPHONE42,

@@ -6163,7 +6163,7 @@
 		32A3A687132D7DDA00454E39 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		32A3A688132D7DDA00454E39 /* LICENCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENCE; sourceTree = "<group>"; };
 		32A3A68A132D7DDA00454E39 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		32A3A68C132D7DDA00454E39 /* fakeroot */ = {isa = PBXFileReference; lastKnownFileType = file; path = fakeroot; sourceTree = "<group>"; };
+		32A3A68C132D7DDA00454E39 /* fakeroot */ = {isa = PBXFileReference; lastKnownFileType = text; path = fakeroot; sourceTree = "<group>"; };
 		32A3A68F132D7DDA00454E39 /* Loader.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = Loader.app; sourceTree = "<group>"; };
 		32A3A690132D7DDA00454E39 /* Bootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bootstrap.m; sourceTree = "<group>"; };
 		32A3A691132D7DDA00454E39 /* Callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Callback.h; sourceTree = "<group>"; };

@@ -4,7 +4,7 @@ SOURCES = $(TARGET).c
 
 XPLAT_CFLAGS = -O3
 PLAT_CFLAGS =
-XPLAT_LIBRARIES = syringe curl z
+XPLAT_LIBRARIES = syringe curl z xml2
 XPLAT_LDFLAGS = -L../syringe
 PLAT_LDFLAGS =
 XPLAT_PREMADE_OBJECTS =
@@ -16,7 +16,7 @@ ifeq ($(UNAME),Darwin)
 	PLAT_CFLAGS = -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
 	PLAT_LIBRARIES =
 	PLAT_LDFLAGS = -L/opt/local/lib -framework CoreFoundation -framework IOKit -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk
-	ADDOBJ = ../lib-static/macosx/libusb-1.0.a
+	ADDOBJ = ../lib-static/macosx/libusb-1.0.a ../lib-static/macosx/libplist.a
 else
 	ifneq (,$(findstring MINGW32_NT,$(UNAME)))
 		# Win32

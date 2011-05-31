@@ -28,6 +28,9 @@ extern "C" {
 
 typedef void(*pois0n_callback)(double progress, void* object);
 	
+plist_t loadFirmwareList();
+char* fetchVersionURL();
+	
 LIBSYRINGE_EXPORT void pois0n_init();
 LIBSYRINGE_EXPORT void pois0n_set_callback(pois0n_callback callback, void* object);
 LIBSYRINGE_EXPORT int pois0n_is_ready();
