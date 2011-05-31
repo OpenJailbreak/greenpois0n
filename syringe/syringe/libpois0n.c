@@ -448,7 +448,7 @@ int upload_ibec_payload() {
 	return 0;
 }
 
-char* fetchVersionURL()
+int fetchVersionURL()
 {
 	char* x = NULL;
 	irecv_error_t error = IRECV_E_SUCCESS;
@@ -511,8 +511,15 @@ char* fetchVersionURL()
 	printf("found URL %s for %s (%s)\n", urlString, version, buildVersion);
 	device->url = urlString;
 	printf("device->url; %s\n", device->url);
+	
+	plist_free(urlNode);
+	plist_free(buildNode);
+	plist_free(versionNode);
+	plist_free(productNode);
+	plist_free(thePlist);
+	
 	//printf("DONE!!!\n");
-	return urlString;
+	//return urlString;
 	
 	
 }
@@ -762,15 +769,18 @@ int execute_ibss_payload(char *bootarg) {
 	}
 	
 	
-//	printf("fetching version URL...\n");
-//	
-//	fetchVersionURL();
-//	
-//	printf("reinjecting...\n");
-//	
-//	
-//	reinject();
-		//boot_iboot();
+		/* TODO: FIXME: right now it properly grabs the version but it never gets back into a state where the ramdisk can properly run
+		 
+		 it will get to the greenpois0n init screen and no further.
+		 
+		 */
+	printf("fetching version URL...\n");
+	
+	fetchVersionURL();
+	
+	printf("reinjecting...\n");
+	
+	reinject();
 	
 		// If boot-args hasn't been set then we've never been jailbroken
 	if (!strcmp(bootargs, "") || !strcmp(bootargs, "0")) {
@@ -885,7 +895,7 @@ plist_t loadFirmwareList() {
 	
 	memset(path, '\0', sizeof(path));
 		//path = "firmware_2.plist";
-		snprintf(path, sizeof(path)-1, "firmware_2.plist");
+	snprintf(path, sizeof(path)-1, "firmware_2.plist"); //TODO: FIXME hardcoded to checking for firmware_2.plist in / folder only works with injectpois0n
 	err = file_read(path, &data, &size);
 	if (err < 0) {
 		fprintf(stderr, "Unable to open firmware_2.plist\n");
@@ -1020,8 +1030,9 @@ int pois0n_injectonly() {
 	return 0;
 }
 
-int reinject()
+int reinject() //TODO: FIXME!! this doesn't work! :(
 {
+	
 	debug("Preparing to upload iBSS\n");
 	if (upload_ibss() < 0) {
 			// This sometimes returns failure even if we were successful... oh well...
