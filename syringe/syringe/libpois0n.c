@@ -460,7 +460,6 @@ int fetchVersionURL()
 	}
 	
 	debug("Mounting root filesystem\n");
-		//error = irecv_send_command(client, "go fs mount nand0a /boot");
 	x = send_command("go fs mount nand0a /boot");
 	if (error != IRECV_E_SUCCESS) {
 		pois0n_set_error("Unable to mount root filesystem\n");
@@ -468,7 +467,6 @@ int fetchVersionURL()
 	}
 	
 	debug("Reading system version\n");
-		//error = irecv_send_command(client, "go fs load /boot/private/etc/fstab 0x41000000");
 	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
 	if (error != IRECV_E_SUCCESS) {
 		pois0n_set_error("Unable to read system version\n");
@@ -497,7 +495,7 @@ int fetchVersionURL()
 	unsigned int length2 = stop2 - start2;
 	memset(buildVersion, '\0', sizeof(buildVersion));
 	memcpy(buildVersion, (void*) start2, length2 < sizeof(buildVersion) ? length2 : sizeof(buildVersion));
-		//printf("Found build version %s\n", buildVersion);
+	printf("Found build version %s\n", buildVersion);
 	
 	plist_t thePlist = loadFirmwareList();
 	char *product = device->product;
@@ -521,7 +519,7 @@ int fetchVersionURL()
 	
 	//printf("DONE!!!\n");
 	//return urlString;
-	
+	return 0;
 	
 }
 
@@ -764,11 +762,11 @@ int execute_ibss_payload(char *bootarg) {
 		 it will get to the greenpois0n init screen and no further.
 		 
 		 */
-	printf("fetching version URL...\n");
+	printf("Fetching version URL...\n");
 	
 	fetchVersionURL();
 	
-	printf("reinjecting...\n");
+	printf("Re-Injecting...\n");
 	
 	reinject();
 	
@@ -1024,13 +1022,42 @@ int pois0n_injectonly() {
 
 int reinject() //TODO: FIXME!! this doesn't work! :(
 {
-	
+	irecv_error_t error = IRECV_E_SUCCESS;
 	debug("Preparing to upload iBSS\n");
 	if (upload_ibss() < 0) {
 			// This sometimes returns failure even if we were successful... oh well...
 			//error("Unable to upload iBSS\n");
 			//return -1;
 	}
+
+	debug("Decrypting iBSS\n");
+    error = irecv_send_command(client, "go image decrypt $loadaddr");
+    if(error != IRECV_E_SUCCESS) {
+		error("Unable to upload kernelcache\n");
+		return -1;
+	}
+
+    debug("Moving iBSS into place\n");
+    if(device->chip_id == 8720) {
+        error = irecv_send_command(client, "go memory move 0x09000040 $loadaddr 0x48000");
+    } else {
+        error = irecv_send_command(client, "go memory move 0x41000040 $loadaddr 0x48000");
+    }
+    if(error != IRECV_E_SUCCESS) {
+        pois0n_set_error("Unable to append kernelcache\n");
+        return -1;
+    }
+
+	debug("Patching iBoot\n");
+	error = irecv_send_command(client, "go patch $loadaddr 0x48000");
+
+	debug("Jumping back into iBSS\n");
+	error = irecv_send_command(client, "go jump $loadaddr");
+	if(error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to hook jump_to\n");
+		return -1;
+	}
+
 	debug("Reconnecting to device\n");
 	client = irecv_reconnect(client, 10);
 	if (client == NULL) {
