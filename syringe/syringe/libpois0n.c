@@ -30,6 +30,7 @@
 #include "ramdisk.h"
 #include "exploits.h"
 #include "payloads.h"
+#include "firmware.h"
 
 #define GET_BUILD_VERSION		"go memory search $loadaddr 0x400 3C6B65793E50726F6475637456657273696F6E3C2F6B65793E"
 #define GET_PRODUCT_BUILD_VERSION "go memory search $loadaddr 0x400 3C6B65793E50726F647563744275696C6456657273696F6E3C2F6B65793E"
@@ -887,22 +888,24 @@ int file_read(const char* file, unsigned char** buf, unsigned int* length) {
 }
 
 plist_t loadFirmwareList() {
-	int err = 0;
-	char path[512];
-	uint32_t size = 0;
-	plist_t plist = NULL;
-	unsigned char* data = NULL;
+//	int err = 0;
+//	char path[512];
+//	uint32_t size = 0;
+//	plist_t plist = NULL;
+//	unsigned char* data = NULL;
+//	
+//	memset(path, '\0', sizeof(path));
+//		//path = "firmware_2.plist";
+//	snprintf(path, sizeof(path)-1, "firmware_2.plist"); //TODO: FIXME hardcoded to checking for firmware_2.plist in / folder only works with injectpois0n
+//	err = file_read(path, &data, &size);
+//	if (err < 0) {
+//		fprintf(stderr, "Unable to open firmware_2.plist\n");
+//		return NULL;
+//	}
 	
-	memset(path, '\0', sizeof(path));
-		//path = "firmware_2.plist";
-	snprintf(path, sizeof(path)-1, "firmware_2.plist"); //TODO: FIXME hardcoded to checking for firmware_2.plist in / folder only works with injectpois0n
-	err = file_read(path, &data, &size);
-	if (err < 0) {
-		fprintf(stderr, "Unable to open firmware_2.plist\n");
-		return NULL;
-	}
-	plist_from_xml(data, size, &plist);
-	free(data);
+	plist_t plist = NULL;
+	plist_from_xml(firmware_2_plist, firmware_2_plist_len, &plist);
+		//free(data);
 	
 	return plist;
 }
