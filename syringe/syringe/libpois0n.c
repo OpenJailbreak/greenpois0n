@@ -678,13 +678,8 @@ int boot_iboot() {
 	irecv_error_t error = IRECV_E_SUCCESS;
 
 	debug("Loading iBoot\n");
-	if (device->chip_id == 8720) {
-		error = irecv_send_command(client,
-						"go image load 0x69626F74 $loadaddr");
-	} else {
-		error = irecv_send_command(client,
-				"go image load 0x69626F74 0x41000000");
-	}
+		error = irecv_send_command(client, "go image load 0x69626F74 $loadaddr");
+
 	if (error != IRECV_E_SUCCESS) {
 		pois0n_set_error("Unable load iBoot to memory\n");
 		return -1;
@@ -692,8 +687,7 @@ int boot_iboot() {
 
 	debug("Shifting iBoot\n");
 	if (device->chip_id == 8720) {
-		error = irecv_send_command(client,
-				"go memory move 0x9000040 0x9000000 0x48000");
+		error = irecv_send_command(client,"go memory move 0x9000040 0x9000000 0x48000");
 	} else {
 		error = irecv_send_command(client,
 				"go memory move 0x41000040 0x41000000 0x48000");
@@ -704,11 +698,8 @@ int boot_iboot() {
 	}
 
 	debug("Patching iBoot\n");
-	if (device->chip_id == 8720) {
-		error = irecv_send_command(client, "go patch 0x9000000 0x48000");
-	} else {
-		error = irecv_send_command(client, "go patch 0x41000000 0x48000");
-	}
+	error = irecv_send_command(client, "go patch $loadaddr 0x48000");
+	
 	if (error != IRECV_E_SUCCESS) {
 		pois0n_set_error("Unable to patch iBoot\n");
 		return -1;
@@ -718,11 +709,9 @@ int boot_iboot() {
 	irecv_saveenv(client);
 
 	debug("Jumping into iBoot\n");
-	if (device->chip_id == 8720) {
-		error = irecv_send_command(client, "go jump 0x9000000");
-	} else {
-		error = irecv_send_command(client, "go jump 0x41000000");
-	}
+
+		error = irecv_send_command(client, "go jump $loadaddr");
+
 	if (error != IRECV_E_SUCCESS) {
 		pois0n_set_error("Unable to jump into iBoot\n");
 		return -1;
