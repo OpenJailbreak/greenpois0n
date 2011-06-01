@@ -87,7 +87,7 @@ int kernel_cmd(int argc, CmdArg* argv) {
 	size = argv[3].uinteger;
 	address = (unsigned char*) argv[2].uinteger;
 	if(!strcmp(action, "load")) {
-		if(strstr((char*) (IBOOT_BASEADDR + 0x200), "k66ap")) {
+		if(strstr((char*) (TARGET_BASEADDR + 0x200), "k66ap")) {
 			printf("Loading AppleTV kernelcache from %s\n", KERNEL_PATH);
 			kernel_atv_load(KERNEL_PATH, &gKernelAddr);
 		} else {

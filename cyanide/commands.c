@@ -339,11 +339,11 @@ int cmd_fsboot(int argc, CmdArg* argv) {
 	}
 
 	// search for jump_to function
-	if(strstr((char*) (IBOOT_BASEADDR + 0x200), "n72ap")) {
-		jump_to = patch_find(IBOOT_BASEADDR, 0x30000, "\xf0\xb5\x03\xaf\x04\x1c\x15\x1c", 8);
+	if(strstr((char*) (TARGET_BASEADDR + 0x200), "n72ap")) {
+		jump_to = patch_find(TARGET_BASEADDR, 0x30000, "\xf0\xb5\x03\xaf\x04\x1c\x15\x1c", 8);
 	} else {
 		// 80  B5  00  AF  04  46  15  46
-		jump_to = patch_find(IBOOT_BASEADDR, 0x30000, "\x80\xb5\x00\xaf\x04\x46\x15\x46", 8);
+		jump_to = patch_find(TARGET_BASEADDR, 0x30000, "\x80\xb5\x00\xaf\x04\x46\x15\x46", 8);
 	}
 	printf("Found jump_to function at %p\n", jump_to);
 
@@ -352,12 +352,12 @@ int cmd_fsboot(int argc, CmdArg* argv) {
 
 	printf("Hooked jump_to function to call 0x%08x\n", hooker);
 	if(fsboot == NULL) {
-		if(strstr((char*) (IBOOT_BASEADDR + 0x200), "n72ap")) {
-			fsboot = patch_find(IBOOT_BASEADDR, 0x30000, "\xf0\xb5\x03\xaf\x11\x48", 6);
-		} else if(strstr((char*) (IBOOT_BASEADDR + 0x200), "k66ap")) {
-			fsboot = patch_find(IBOOT_BASEADDR, 0x30000, "\xf0\xb5\x03\xaf\x81\xb0", 6);
+		if(strstr((char*) (TARGET_BASEADDR + 0x200), "n72ap")) {
+			fsboot = patch_find(TARGET_BASEADDR, 0x30000, "\xf0\xb5\x03\xaf\x11\x48", 6);
+		} else if(strstr((char*) (TARGET_BASEADDR + 0x200), "k66ap")) {
+			fsboot = patch_find(TARGET_BASEADDR, 0x30000, "\xf0\xb5\x03\xaf\x81\xb0", 6);
 		} else {
-			fsboot = patch_find(IBOOT_BASEADDR, 0x30000, "\xb0\xb5\x02\xaf\x11\x48", 6);
+			fsboot = patch_find(TARGET_BASEADDR, 0x30000, "\xb0\xb5\x02\xaf\x11\x48", 6);
 		}
 		printf("Found fsboot function at %p\n", fsboot);
 	}
@@ -428,7 +428,7 @@ void hooked(int flags, void* addr, int phymem) {
 	patch_kernel((void*)(LOADADDR - 0x1000000), 0xA00000);
 
 	printf("Replace hooking code with original\n");
-	if(strstr((char*) (IBOOT_BASEADDR + 0x200), "n72ap")) {
+	if(strstr((char*) (TARGET_BASEADDR + 0x200), "n72ap")) {
 		memcpy(jump_to, "\xf0\xb5\x03\xaf\x04\x1c\x15\x1c", 8);
 	} else {
 		memcpy(jump_to, "\x80\xb5\x00\xaf\x04\x46\x15\x46", 8);

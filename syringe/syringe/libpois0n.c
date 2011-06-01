@@ -132,12 +132,12 @@ int upload_dfu_image(const char* type) {
 	snprintf(image, 254, "%s.%s", type, device->model);
 
 	debug("Checking if %s already exists\n", image);
-	if (stat(image, &buf) != 0) {
+	//if (stat(image, &buf) != 0) {
 		if (fetch_dfu_image(type, image) < 0) {
 			error("Unable to upload DFU image\n");
 			return -1;
 		}
-	}
+	//}
 
 	if (client->mode != kDfuMode) {
 		debug("Resetting device counters\n");
@@ -166,12 +166,12 @@ int upload_firmware_image(const char* type) {
 	snprintf(image, 254, "%s.%s", type, device->model);
 
 	debug("Checking if %s already exists\n", image);
-	if (stat(image, &buf) != 0) {
+	//if ((image, &buf) != 0) {
 		if (fetch_firmware_image(type, image) < 0) {
 			error("Unable to upload firmware image\n");
 			return -1;
 		}
-	}
+	//}
 
 	debug("Resetting device counters\n");
 	error = irecv_reset_counters(client);
@@ -408,12 +408,12 @@ int upload_kernelcache() {
 	memset(&buf, '\0', sizeof(buf));
 	snprintf(kernelcache, 254, "kernelcache.release.%c%c%c", device->model[0], device->model[1], device->model[2]);
 	debug("Checking if kernelcache already exists\n");
-	if (stat(kernelcache, &buf) != 0) {
+	//if (stat(kernelcache, &buf) != 0) {
 		if (fetch_image(kernelcache, kernelcache) < 0) {
 			error("Unable to upload kernelcache\n");
 			return -1;
 		}
-	}
+	//}
 
 	debug("Resetting device counters\n");
 	error = irecv_reset_counters(client);
