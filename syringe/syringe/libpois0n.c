@@ -375,6 +375,15 @@ int upload_ibss() {
 	return 0;
 }
 
+int upload_ibec() {
+	if (upload_dfu_image("iBEC") < 0) {
+		error("Unable upload iBEC\n");
+		return -1;
+	}
+	return 0;
+}
+
+
 int upload_iboot() {
 	if (upload_firmware_image("iBoot") < 0) {
 		error("Unable upload iBoot\n");
@@ -672,6 +681,71 @@ int boot_tethered() {
 	return 0;
 }
 
+
+int boot_ibec() {
+	irecv_error_t error = IRECV_E_SUCCESS;
+	
+	debug("Loading iBEC\n");
+	error = irecv_send_command(client, "go image load 0x69626F74 $loadaddr"); //FIXME: don't know how to find these addresses
+	
+	if (error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable load iBEC to memory\n");
+		return -1;
+	}
+	
+	debug("Shifting iBEC\n");
+	if (device->chip_id == 8720) {
+		error = irecv_send_command(client,"go memory move 0x9000040 0x9000000 0x48000"); //FIXME: don't know how to find these addresses
+	} else {
+		error = irecv_send_command(client,
+								   "go memory move 0x41000040 0x41000000 0x48000"); //FIXME: don't know how to find these addresses
+	}
+	if (error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to move iBEC into memory\n");
+		return -1;
+	}
+	
+	debug("Patching iBoot\n");
+	error = irecv_send_command(client, "go patch $loadaddr 0x48000"); //FIXME: don't know how to find these addresses
+	
+	if (error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to patch iBEC\n");
+		return -1;
+	}
+	
+	irecv_setenv(client, "auto-boot", "false");
+	irecv_saveenv(client);
+	
+	debug("Jumping into iBEC\n");
+	
+	error = irecv_send_command(client, "go jump $loadaddr"); //FIXME: don't know how to find these addresses
+	
+	if (error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to jump into iBEC\n");
+		return -1;
+	}
+	
+	debug("Reconnecting to device\n");
+	client = irecv_reconnect(client, 10);
+	if (client == NULL) {
+		pois0n_set_error("Unable to boot the device tethered\n");
+		return -1;
+	}
+	
+	irecv_setenv(client, "auto-boot", "true");
+	irecv_saveenv(client);
+	
+	if (upload_firmware_payload("iBEC") < 0) {
+		error("Unable to boot the device tethered\n");
+		return -1;
+	}
+	
+	debug("Initializing greenpois0n in iBEC\n");
+	irecv_send_command(client, "go");
+	
+	return 0;
+}
+
 int boot_iboot() {
 	irecv_error_t error = IRECV_E_SUCCESS;
 
@@ -762,13 +836,13 @@ int execute_ibss_payload(char *bootarg) {
 		 it will get to the greenpois0n init screen and no further.
 		 
 		 */
-	printf("Fetching version URL...\n");
-	
-	fetchVersionURL();
-	
-	printf("Re-Injecting...\n");
-	
-	reinject();
+	//printf("Fetching version URL...\n");
+//	
+//	fetchVersionURL();
+//	
+//	printf("Re-Injecting...\n");
+//	
+//	reinject();
 	
 		// If boot-args hasn't been set then we've never been jailbroken
 	if (!strcmp(bootargs, "") || !strcmp(bootargs, "0")) {
