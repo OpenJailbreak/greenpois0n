@@ -46,6 +46,17 @@ extern "C" {
 #include "payloads/iBoot.k93ap.h"
 #include "payloads/iBoot.k94ap.h"
 #include "payloads/iBoot.k95ap.h"
+#include "payloads/iBEC.k66ap.h"
+#include "payloads/iBEC.k48ap.h"
+#include "payloads/iBEC.n88ap.h"
+#include "payloads/iBEC.n90ap.h"
+#include "payloads/iBEC.n92ap.h"
+#include "payloads/iBEC.n72ap.h"
+#include "payloads/iBEC.n18ap.h"
+#include "payloads/iBEC.n81ap.h"
+#include "payloads/iBEC.k93ap.h"
+#include "payloads/iBEC.k94ap.h"
+#include "payloads/iBEC.k95ap.h"
 
 #ifdef __cplusplus
 }

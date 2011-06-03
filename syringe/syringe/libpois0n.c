@@ -197,151 +197,212 @@ int upload_firmware_payload(const char* type) {
 	irecv_error_t error = IRECV_E_SUCCESS;
 
 	switch (device->index) {
-	case DEVICE_APPLETV2G:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_k66ap;
-			size = sizeof(iBSS_k66ap);
-			debug("Loaded payload for iBSS on k66ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_k66ap;
-			size = sizeof(iBoot_k66ap);
-			debug("Loaded payload for iBoot on k66ap\n");
-		}
-		break;
-
-	case DEVICE_IPAD1G:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_k48ap;
-			size = sizeof(iBSS_k48ap);
-			debug("Loaded payload for iBSS on k48ap\n0");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_k48ap;
-			size = sizeof(iBoot_k48ap);
-			debug("Loaded payload for iBoot on k48ap\n");
-		}
-		break;
-
-	case DEVICE_IPHONE3GS:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_n88ap;
-			size = sizeof(iBSS_n88ap);
-			debug("Loaded payload for iBSS on n88ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_n88ap;
-			size = sizeof(iBoot_n88ap);
-			debug("Loaded payload for iBoot on n88ap\n");
-		}
-		break;
-
-	case DEVICE_IPHONE4:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_n90ap;
-			size = sizeof(iBSS_n90ap);
-			debug("Loaded payload for iBSS on n90ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_n90ap;
-			size = sizeof(iBoot_n90ap);
-			debug("Loaded payload for iBoot on n90ap\n");
-		}
-		break;
-
-	case DEVICE_IPHONE42:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_n92ap;
-			size = sizeof(iBSS_n92ap);
-			debug("Loaded payload for iBSS on n92ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_n92ap;
-			size = sizeof(iBoot_n92ap);
-			debug("Loaded payload for iBoot on n92ap\n");
-		}
-		break;
-
-	case DEVICE_IPOD2G:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_n72ap;
-			size = sizeof(iBSS_n72ap);
-			debug("Loaded payload for iBSS on n72ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_n72ap;
-			size = sizeof(iBoot_n72ap);
-			debug("Loaded payload for iBoot on n72ap\n");
-		}
-		break;
-
-	case DEVICE_IPOD3G:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_n18ap;
-			size = sizeof(iBSS_n18ap);
-			debug("Loaded payload for iBSS on n18ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_n18ap;
-			size = sizeof(iBoot_n18ap);
-			debug("Loaded payload for iBoot on n18ap\n");
-		}
-		break;
-
-	case DEVICE_IPOD4G:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_n81ap;
-			size = sizeof(iBSS_n81ap);
-			debug("Loaded payload for iBSS on n81ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_n81ap;
-			size = sizeof(iBoot_n81ap);
-			debug("Loaded payload for iBoot on n81ap\n");
-		}
-		break;
-
-	case DEVICE_IPAD2G_WIFI:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_k93ap;
-			size = sizeof(iBSS_k93ap);
-			debug("Loaded payload for iBSS on k93ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_k93ap;
-			size = sizeof(iBoot_k93ap);
-			debug("Loaded payload for iBoot on k93ap\n");
-		}
-		break;
-
-	case DEVICE_IPAD2G_GSM:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_k94ap;
-			size = sizeof(iBSS_k94ap);
-			debug("Loaded payload for iBSS on k94ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_k94ap;
-			size = sizeof(iBoot_k94ap);
-			debug("Loaded payload for iBoot on k94ap\n");
-		}
-		break;
-
-	case DEVICE_IPAD2G_CDMA:
-		if (!strcmp(type, "iBSS")) {
-			payload = iBSS_k95ap;
-			size = sizeof(iBSS_k95ap);
-			debug("Loaded payload for iBSS on k95ap\n");
-		}
-		if (!strcmp(type, "iBoot")) {
-			payload = iBoot_k95ap;
-			size = sizeof(iBoot_k95ap);
-			debug("Loaded payload for iBoot on k95ap\n");
-		}
-		break;
-
-	default:
-		break;
+		case DEVICE_APPLETV2G:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_k66ap;
+				size = sizeof(iBSS_k66ap);
+				debug("Loaded payload for iBSS on k66ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_k66ap;
+				size = sizeof(iBoot_k66ap);
+				debug("Loaded payload for iBoot on k66ap\n");
+			}
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_k66ap;
+				size = sizeof(iBEC_k66ap);
+				debug("Loaded payload for iBEC on k66ap\n");
+			}
+			
+			break;
+			
+		case DEVICE_IPAD1G:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_k48ap;
+				size = sizeof(iBSS_k48ap);
+				debug("Loaded payload for iBSS on k48ap\n0");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_k48ap;
+				size = sizeof(iBoot_k48ap);
+				debug("Loaded payload for iBoot on k48ap\n");
+			}
+			
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_k48ap;
+				size = sizeof(iBEC_k48ap);
+				debug("Loaded payload for iBEC on k48ap\n");
+			}
+			break;
+			
+		case DEVICE_IPHONE3GS:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_n88ap;
+				size = sizeof(iBSS_n88ap);
+				debug("Loaded payload for iBSS on n88ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_n88ap;
+				size = sizeof(iBoot_n88ap);
+				debug("Loaded payload for iBoot on n88ap\n");
+			}
+			
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_n88ap;
+				size = sizeof(iBEC_n88ap);
+				debug("Loaded payload for iBEC on n88ap\n");
+			}
+			break;
+			
+		case DEVICE_IPHONE4:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_n90ap;
+				size = sizeof(iBSS_n90ap);
+				debug("Loaded payload for iBSS on n90ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_n90ap;
+				size = sizeof(iBoot_n90ap);
+				debug("Loaded payload for iBoot on n90ap\n");
+			}
+			
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_n90ap;
+				size = sizeof(iBEC_n90ap);
+				debug("Loaded payload for iBEC on n90ap\n");
+			}
+			break;
+			
+		case DEVICE_IPHONE42:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_n92ap;
+				size = sizeof(iBSS_n92ap);
+				debug("Loaded payload for iBSS on n92ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_n92ap;
+				size = sizeof(iBoot_n92ap);
+				debug("Loaded payload for iBoot on n92ap\n");
+			}
+			
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_n92ap;
+				size = sizeof(iBEC_n92ap);
+				debug("Loaded payload for iBEC on n92ap\n");
+			}
+			break;
+			
+		case DEVICE_IPOD2G:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_n72ap;
+				size = sizeof(iBSS_n72ap);
+				debug("Loaded payload for iBSS on n72ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_n72ap;
+				size = sizeof(iBoot_n72ap);
+				debug("Loaded payload for iBoot on n72ap\n");
+			}
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_n72ap;
+				size = sizeof(iBEC_n72ap);
+				debug("Loaded payload for iBEC on n72ap\n");
+			}
+			break;
+			
+		case DEVICE_IPOD3G:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_n18ap;
+				size = sizeof(iBSS_n18ap);
+				debug("Loaded payload for iBSS on n18ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_n18ap;
+				size = sizeof(iBoot_n18ap);
+				debug("Loaded payload for iBoot on n18ap\n");
+			}
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_n18ap;
+				size = sizeof(iBEC_n18ap);
+				debug("Loaded payload for iBEC on n18ap\n");
+			}
+			
+			break;
+			
+		case DEVICE_IPOD4G:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_n81ap;
+				size = sizeof(iBSS_n81ap);
+				debug("Loaded payload for iBSS on n81ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_n81ap;
+				size = sizeof(iBoot_n81ap);
+				debug("Loaded payload for iBoot on n81ap\n");
+			}
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_n81ap;
+				size = sizeof(iBEC_n81ap);
+				debug("Loaded payload for iBEC on n81ap\n");
+			}
+			break;
+			
+		case DEVICE_IPAD2G_WIFI:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_k93ap;
+				size = sizeof(iBSS_k93ap);
+				debug("Loaded payload for iBSS on k93ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_k93ap;
+				size = sizeof(iBoot_k93ap);
+				debug("Loaded payload for iBoot on k93ap\n");
+			}
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_k93ap;
+				size = sizeof(iBEC_k93ap);
+				debug("Loaded payload for iBEC on k93ap\n");
+			}
+			break;
+			
+		case DEVICE_IPAD2G_GSM:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_k94ap;
+				size = sizeof(iBSS_k94ap);
+				debug("Loaded payload for iBSS on k94ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_k94ap;
+				size = sizeof(iBoot_k94ap);
+				debug("Loaded payload for iBoot on k94ap\n");
+			}
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_k94ap;
+				size = sizeof(iBEC_k94ap);
+				debug("Loaded payload for iBEC on k94ap\n");
+			}
+			break;
+			
+		case DEVICE_IPAD2G_CDMA:
+			if (!strcmp(type, "iBSS")) {
+				payload = iBSS_k95ap;
+				size = sizeof(iBSS_k95ap);
+				debug("Loaded payload for iBSS on k95ap\n");
+			}
+			if (!strcmp(type, "iBoot")) {
+				payload = iBoot_k95ap;
+				size = sizeof(iBoot_k95ap);
+				debug("Loaded payload for iBoot on k95ap\n");
+			}
+			if (!strcmp(type, "iBEC")) {
+				payload = iBEC_k95ap;
+				size = sizeof(iBEC_k95ap);
+				debug("Loaded payload for iBEC on k95ap\n");
+			}
+			break;
+			
+		default:
+			break;
 	}
 
 	if (payload == NULL) {
@@ -518,7 +579,7 @@ int fetchVersionURL()
 	printf("device->url: %s\n", device->url);
 	printf("found URL %s for %s (%s)\n", urlString, version, buildVersion);
 	device->url = urlString;
-	printf("device->url; %s\n", device->url);
+	printf("device->url: %s\n", device->url);
 	
 	plist_free(urlNode);
 	plist_free(buildNode);
@@ -837,12 +898,12 @@ int execute_ibss_payload(char *bootarg) {
 		 
 		 */
 	//printf("Fetching version URL...\n");
-//	
-//	fetchVersionURL();
+	
+	//fetchVersionURL();
 //	
 //	printf("Re-Injecting...\n");
 //	
-//	reinject();
+//	reinject_take_deux(); //still doesnt work, nor does putting in boot_ibec();
 	
 		// If boot-args hasn't been set then we've never been jailbroken
 	if (!strcmp(bootargs, "") || !strcmp(bootargs, "0")) {
@@ -1091,6 +1152,62 @@ int pois0n_injectonly() {
 		pois0n_set_error("Sorry, this device is not currently supported\n");
 		return -1;
 	}
+	return 0;
+}
+
+int reinject_take_deux()
+{
+	irecv_error_t error = IRECV_E_SUCCESS;
+	debug("Preparing to upload iBEC\n");
+	if (upload_ibec() < 0) {
+			// This sometimes returns failure even if we were successful... oh well...
+			//error("Unable to upload iBSS\n");
+			//return -1;
+	}
+	
+	debug("Decrypting iBEC\n");
+    error = irecv_send_command(client, "go image decrypt $loadaddr");
+    if(error != IRECV_E_SUCCESS) {
+		error("Unable to upload iBEC\n");
+		return -1;
+	}
+	
+    debug("Moving iBEC into place\n");
+    if(device->chip_id == 8720) {
+        error = irecv_send_command(client, "go memory move 0x09000040 $loadaddr 0x48000");
+    } else {
+        error = irecv_send_command(client, "go memory move 0x41000040 $loadaddr 0x48000");
+    }
+    if(error != IRECV_E_SUCCESS) {
+        pois0n_set_error("Unable to append iBEC\n");
+        return -1;
+    }
+	
+	debug("Patching iBoot\n");
+	error = irecv_send_command(client, "go patch $loadaddr 0x48000");
+	
+	debug("Jumping back into iBEC\n");
+	error = irecv_send_command(client, "go jump $loadaddr");
+	if(error != IRECV_E_SUCCESS) {
+		pois0n_set_error("Unable to hook jump_to\n");
+		return -1;
+	}
+	
+	debug("Reconnecting to device\n");
+	client = irecv_reconnect(client, 10);
+	if (client == NULL) {
+		error("Unable to reconnect\n");
+		return -1;
+	}
+	
+	debug("Preparing to upload iBEC payload\n");
+	if (upload_ibec_payload() < 0) {
+		error("Unable to upload iBEC payload\n");
+		return -1;
+	}
+	
+	irecv_send_command(client, "go");
+	
 	return 0;
 }
 
