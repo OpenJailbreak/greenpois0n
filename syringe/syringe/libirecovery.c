@@ -343,6 +343,112 @@ int irecv_get_string_descriptor_ascii(irecv_client_t client, uint8_t desc_index,
 #endif
 }
 
+irecv_error_t irecv_open_with_ECID(uint64_t ecid, irecv_client_t* pclient) {
+#ifndef _WIN32
+	
+
+	int i = 0;
+	struct libusb_device* usb_device = NULL;
+	struct libusb_device** usb_device_list = NULL;
+	struct libusb_device_handle* usb_handle = NULL;
+	struct libusb_device_descriptor usb_descriptor;
+	
+	*pclient = NULL;
+	if(libirecovery_debug) {
+		irecv_set_debug_level(libirecovery_debug);
+	}
+	
+	irecv_error_t error = IRECV_E_SUCCESS;
+	int usb_device_count = libusb_get_device_list(libirecovery_context, &usb_device_list);
+	for (i = 0; i < usb_device_count; i++) {
+		usb_device = usb_device_list[i];
+		libusb_get_device_descriptor(usb_device, &usb_descriptor);
+		if (usb_descriptor.idVendor == APPLE_VENDOR_ID) {
+			/* verify this device is in a mode we understand */
+			if (usb_descriptor.idProduct == kRecoveryMode1 ||
+				usb_descriptor.idProduct == kRecoveryMode2 ||
+				usb_descriptor.idProduct == kRecoveryMode3 ||
+				usb_descriptor.idProduct == kRecoveryMode4 ||
+				usb_descriptor.idProduct == kDfuMode) {
+				
+				debug("opening device %04x:%04x...\n", usb_descriptor.idVendor, usb_descriptor.idProduct);
+				
+				libusb_open(usb_device, &usb_handle);
+				if (usb_handle == NULL) {
+					libusb_free_device_list(usb_device_list, 1);
+					libusb_close(usb_handle);
+					libusb_exit(libirecovery_context);
+					return IRECV_E_UNABLE_TO_CONNECT;
+				}
+				libusb_free_device_list(usb_device_list, 1);
+				
+				irecv_client_t client = (irecv_client_t) malloc(sizeof(struct irecv_client));
+				if (client == NULL) {
+					libusb_close(usb_handle);
+					libusb_exit(libirecovery_context);
+					return IRECV_E_OUT_OF_MEMORY;
+				}
+				
+				memset(client, '\0', sizeof(struct irecv_client));
+				client->iface = 0;
+				client->handle = usb_handle;
+				client->mode = usb_descriptor.idProduct;
+				if (client->mode != kDfuMode) {
+					error = irecv_set_configuration(client, 1);
+					if (error != IRECV_E_SUCCESS) {
+						return error;
+					}
+					
+					error = irecv_set_interface(client, 0, 0);
+					if (error != IRECV_E_SUCCESS) {
+						return error;
+					}
+				}
+				
+				/* cache usb serial */
+				irecv_get_string_descriptor_ascii(client, usb_descriptor.iSerialNumber, (unsigned char*) client->serial, 255);
+				
+				*pclient = client;
+				debug("client serial: %s\n", client->serial);
+				unsigned long long *ecids = NULL;
+				char *ecid_copy = malloc(sizeof(client->serial));
+				
+				strcpy(ecid_copy, client->serial);
+				debug("ecid_copy: %s\n",ecid_copy);
+				char* ecid_string = strstr(ecid_copy, "ECID:");
+				if (ecid_string == NULL) {
+					debug("null ecid_string!\n");
+					return IRECV_E_UNABLE_TO_CONNECT;
+				}
+				sscanf(ecid_string, "ECID:%qX", ecids);
+					//if (irecv_get_ecid(client, &ecids) < 0) {
+					
+					debug("after get ecid??\n");
+					debug("comparing %llu to %llu\n", ecid, *ecids);
+					
+					if (ecid == *ecids)
+					{
+						return IRECV_E_SUCCESS;
+					}
+					
+					//}
+				
+				
+			}
+		}
+	}
+	
+	return IRECV_E_UNABLE_TO_CONNECT;
+#else
+	irecv_error_t ret = mobiledevice_connect(pclient);
+	if (ret == IRECV_E_SUCCESS) {
+		irecv_get_string_descriptor_ascii(*pclient, 3, (unsigned char*) (*pclient)->serial, 255);
+	}
+	return ret;
+#endif
+}
+
+
 irecv_error_t irecv_open(irecv_client_t* pclient) {
 #ifndef _WIN32
 	int i = 0;

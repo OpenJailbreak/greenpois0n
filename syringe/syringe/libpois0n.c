@@ -22,6 +22,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
+#include "libdioxin.h"
 #include "libpois0n.h"
 #include "libpartial.h"
 #include "libirecovery.h"
@@ -30,7 +31,7 @@
 #include "ramdisk.h"
 #include "exploits.h"
 #include "payloads.h"
-#include "firmware.h"
+	//#include "firmware.h"
 
 #define GET_BUILD_VERSION		"go memory search $loadaddr 0x400 3C6B65793E50726F6475637456657273696F6E3C2F6B65793E"
 #define GET_PRODUCT_BUILD_VERSION "go memory search $loadaddr 0x400 3C6B65793E50726F647563744275696C6456657273696F6E3C2F6B65793E"
@@ -521,74 +522,75 @@ int upload_ibec_payload() {
 
 int fetchVersionURL()
 {
-	char* x = NULL;
-	irecv_error_t error = IRECV_E_SUCCESS;
-	
-	if(boot_iboot() < 0) {
-		debug("Unable to load iBoot\n");
-		return -1;
-	}
-	
-	debug("Mounting root filesystem\n");
-	x = send_command("go fs mount nand0a /boot");
-	if (error != IRECV_E_SUCCESS) {
-		pois0n_set_error("Unable to mount root filesystem\n");
-		return -1;
-	}
-	
-	debug("Reading system version\n");
-	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
-	if (error != IRECV_E_SUCCESS) {
-		pois0n_set_error("Unable to read system version\n");
-		return -1;
-	}
-	x = send_command(GET_BUILD_VERSION);
-	x = send_command("go memory search $_ 0x40 3C737472696E673E");
-	x = send_command("go string print $_");
-	
-	unsigned char* start = strstr(x, "<string>") + sizeof("<string>") - 1;
-	unsigned char* stop = strstr(start, "</string>");
-	unsigned int length = stop - start;
-	char version[0x10];
-	memset(version, '\0', sizeof(version));
-	memcpy(version, (void*) start, length < sizeof(version) ? length : sizeof(version));
-	
-		//printf("Found version %s\n", version);
-	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
-	x = send_command(GET_PRODUCT_BUILD_VERSION);
-	x = send_command("go memory search $_ 0x40 3C737472696E673E");
-	x = send_command("go string print $_");
-	
-	char buildVersion[0x10];
-	unsigned char*start2 = strstr(x, "<string>") + sizeof("<string>") - 1;
-	unsigned char*stop2 = strstr(start2, "</string>");
-	unsigned int length2 = stop2 - start2;
-	memset(buildVersion, '\0', sizeof(buildVersion));
-	memcpy(buildVersion, (void*) start2, length2 < sizeof(buildVersion) ? length2 : sizeof(buildVersion));
-	printf("Found build version %s\n", buildVersion);
-	
-	plist_t thePlist = loadFirmwareList();
-	char *product = device->product;
-	char *urlString = NULL;
-
-	plist_t productNode = plist_dict_get_item(thePlist, product);
-	plist_t versionNode = plist_dict_get_item(productNode, version);
-	plist_t buildNode = plist_dict_get_item(versionNode, buildVersion);
-	plist_t urlNode = plist_dict_get_item(buildNode, "URL");
-	plist_get_string_val(urlNode, &urlString);
-	printf("device->url: %s\n", device->url);
-	printf("found URL %s for %s (%s)\n", urlString, version, buildVersion);
-	device->url = urlString;
-	printf("device->url: %s\n", device->url);
-	
-	plist_free(urlNode);
-	plist_free(buildNode);
-	plist_free(versionNode);
-	plist_free(productNode);
-	plist_free(thePlist);
-	
-	//printf("DONE!!!\n");
-	//return urlString;
+//	
+//	char* x = NULL;
+//	irecv_error_t error = IRECV_E_SUCCESS;
+//	
+//	if(boot_iboot() < 0) {
+//		debug("Unable to load iBoot\n");
+//		return -1;
+//	}
+//	
+//	debug("Mounting root filesystem\n");
+//	x = send_command("go fs mount nand0a /boot");
+//	if (error != IRECV_E_SUCCESS) {
+//		pois0n_set_error("Unable to mount root filesystem\n");
+//		return -1;
+//	}
+//	
+//	debug("Reading system version\n");
+//	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
+//	if (error != IRECV_E_SUCCESS) {
+//		pois0n_set_error("Unable to read system version\n");
+//		return -1;
+//	}
+//	x = send_command(GET_BUILD_VERSION);
+//	x = send_command("go memory search $_ 0x40 3C737472696E673E");
+//	x = send_command("go string print $_");
+//	
+//	unsigned char* start = strstr(x, "<string>") + sizeof("<string>") - 1;
+//	unsigned char* stop = strstr(start, "</string>");
+//	unsigned int length = stop - start;
+//	char version[0x10];
+//	memset(version, '\0', sizeof(version));
+//	memcpy(version, (void*) start, length < sizeof(version) ? length : sizeof(version));
+//	
+//		//printf("Found version %s\n", version);
+//	x = send_command("go fs load /boot/System/Library/CoreServices/SystemVersion.plist $loadaddr");
+//	x = send_command(GET_PRODUCT_BUILD_VERSION);
+//	x = send_command("go memory search $_ 0x40 3C737472696E673E");
+//	x = send_command("go string print $_");
+//	
+//	char buildVersion[0x10];
+//	unsigned char*start2 = strstr(x, "<string>") + sizeof("<string>") - 1;
+//	unsigned char*stop2 = strstr(start2, "</string>");
+//	unsigned int length2 = stop2 - start2;
+//	memset(buildVersion, '\0', sizeof(buildVersion));
+//	memcpy(buildVersion, (void*) start2, length2 < sizeof(buildVersion) ? length2 : sizeof(buildVersion));
+//	printf("Found build version %s\n", buildVersion);
+//	
+//	plist_t thePlist = loadFirmwareList();
+//	char *product = device->product;
+//	char *urlString = NULL;
+//
+//	plist_t productNode = plist_dict_get_item(thePlist, product);
+//	plist_t versionNode = plist_dict_get_item(productNode, version);
+//	plist_t buildNode = plist_dict_get_item(versionNode, buildVersion);
+//	plist_t urlNode = plist_dict_get_item(buildNode, "URL");
+//	plist_get_string_val(urlNode, &urlString);
+//	printf("device->url: %s\n", device->url);
+//	printf("found URL %s for %s (%s)\n", urlString, version, buildVersion);
+//	device->url = urlString;
+//	printf("device->url: %s\n", device->url);
+//	
+//	plist_free(urlNode);
+//	plist_free(buildNode);
+//	plist_free(versionNode);
+//	plist_free(productNode);
+//	plist_free(thePlist);
+//	
+//	//printf("DONE!!!\n");
+//	//return urlString;
 	return 0;
 	
 }
@@ -897,13 +899,13 @@ int execute_ibss_payload(char *bootarg) {
 		 it will get to the greenpois0n init screen and no further.
 		 
 		 */
-	//printf("Fetching version URL...\n");
+		//printf("Fetching version URL...\n");
 	
-	//fetchVersionURL();
-//	
-//	printf("Re-Injecting...\n");
-//	
-//	reinject_take_deux(); //still doesnt work, nor does putting in boot_ibec();
+		//fetchVersionURL();
+	
+		//printf("Re-Injecting...\n");
+	
+		//	boot_ibec(); //still doesnt work, nor does putting in boot_ibec();
 	
 		// If boot-args hasn't been set then we've never been jailbroken
 	if (!strcmp(bootargs, "") || !strcmp(bootargs, "0")) {
@@ -936,6 +938,7 @@ int execute_ibss_payload(char *bootarg) {
 	}
 
 	return 0;
+	
 }
 
 void pois0n_init() {
@@ -957,6 +960,31 @@ void pois0n_init() {
 void pois0n_set_callback(pois0n_callback callback, void* object) {
 	progress_callback = callback;
 	user_object = object;
+}
+
+int pois0n_is_ready_with_ecid(uint64_t ecid) {
+	irecv_error_t error = IRECV_E_SUCCESS;
+	
+		//////////////////////////////////////
+		// Begin
+		// debug("Connecting to device\n");
+	error = irecv_open_with_ECID(ecid,&client);
+	if (error != IRECV_E_SUCCESS) {
+		debug("Device must be in DFU mode to continue\n");
+		return -1;
+	}
+	irecv_event_subscribe(client, IRECV_PROGRESS, &recovery_callback, NULL);
+	
+		//////////////////////////////////////
+		// Check device
+		// debug("Checking the device mode\n");
+	if (client->mode != kDfuMode) {
+		pois0n_set_error("Device must be in DFU mode to continue\n");
+		irecv_close(client);
+		return -1;
+	}
+	
+	return 0;
 }
 
 int pois0n_is_ready() {
@@ -1024,12 +1052,48 @@ plist_t loadFirmwareList() {
 //		fprintf(stderr, "Unable to open firmware_2.plist\n");
 //		return NULL;
 //	}
+	return NULL;
+	//plist_t plist = NULL;
+//	plist_from_xml(firmware_2_plist, firmware_2_plist_len, &plist);
+//		//free(data);
+//	
+//	return plist;
+}
+
+
+int pois0n_is_compatible_using_url(char *url) {
+	irecv_error_t error = IRECV_E_SUCCESS;
+	info("Checking if device is compatible with this jailbreak\n");
 	
-	plist_t plist = NULL;
-	plist_from_xml(firmware_2_plist, firmware_2_plist_len, &plist);
-		//free(data);
+	debug("Checking the device type\n");
+	error = irecv_get_device(client, &device);
+	if (device == NULL || device->index == DEVICE_UNKNOWN) {
+		pois0n_set_error("Sorry device is not compatible with this jailbreak\n");
+		return -1;
+	}
+	info("Identified device as %s\n", device->product);
+
+	if (url != NULL)
+	{
+		device->url = url;
+	}
 	
-	return plist;
+	
+	
+	
+	if (device->chip_id != 8930
+#ifdef LIMERA1N
+		&& device->chip_id != 8922 && device->chip_id != 8920
+#endif
+#ifdef STEAKS4UCE
+		&& device->chip_id != 8720
+#endif
+		) {
+		pois0n_set_error("Sorry device is not compatible with this jailbreak\n");
+		return -1;
+	}
+	
+	return 0;
 }
 
 int pois0n_is_compatible() {

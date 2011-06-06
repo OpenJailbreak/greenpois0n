@@ -338,6 +338,8 @@
 		3236920B13321C0C00D67351 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		3236920C13321C0C00D67351 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		3236920D13321C0C00D67351 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
+		327786AD139B1E1C0010902C /* libdioxin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libdioxin.h; sourceTree = "<group>"; };
+		327786AE139B1E1C0010902C /* libdioxin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libdioxin.c; sourceTree = "<group>"; };
 		32A34A10132D7E1200454E39 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		32A34A2C132D7E1200454E39 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		32A34A30132D7E1200454E39 /* libsyringe.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsyringe.a; sourceTree = "<group>"; };
@@ -9676,6 +9678,8 @@
 				32A351E2132D7E1400454E39 /* libpartial.c */,
 				32A351E3132D7E1400454E39 /* libpois0n.c */,
 				32A351E4132D7E1400454E39 /* Makefile */,
+				327786AD139B1E1C0010902C /* libdioxin.h */,
+				327786AE139B1E1C0010902C /* libdioxin.c */,
 			);
 			path = syringe;
 			sourceTree = "<group>";
@@ -20051,6 +20055,9 @@
 /* Begin PBXProject section */
 		32A39418132D7DB100454E39 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Chronic-Dev Team.";
+			};
 			buildConfigurationList = 32A3941B132D7DB100454E39 /* Build configuration list for PBXProject "gprc5" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;

@@ -8,6 +8,7 @@
 //
 
 #include <libpois0n.h>
+#include <libdioxin.h>
 #import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>
 
@@ -49,9 +50,29 @@ void update_progress(double progress) {
 	}
 }
 
-@interface Callback : NSObject {}
+@interface Callback : NSObject {
+
+	NSWindow *window;
+	NSDictionary *chosenOne;
+}
+
+- (NSWindow *)window;
+- (void)setWindow:(NSWindow *)value;
+
+	
 @end
 @implementation Callback
+
+- (NSWindow *)window {
+    return [[window retain] autorelease];
+}
+
+- (void)setWindow:(NSWindow *)value {
+	window = value;
+}
+
+
+
 - (void)reset {
 	reset = true;
 	
@@ -79,7 +100,7 @@ void update_progress(double progress) {
 		[secondsLabel setStringValue:@"7"];
 	[firstLabel setFont:[NSFont fontWithName:@"Lucida Grande Bold" size:12.0]];
 	[self performSelector:@selector(stage2) withObject:nil afterDelay:1.0];
-	[NSThread detachNewThreadSelector:@selector(check) toTarget:self withObject:nil];
+	[NSThread detachNewThreadSelector:@selector(check:) toTarget:self withObject:chosenOne];
 }
 - (void)stage2 {
 	if (reset) {
@@ -97,7 +118,7 @@ void update_progress(double progress) {
 	} else {
 		[secondsLabel setStringValue:@"3"];
 		if (appletv == true)
-			[secondsLabel setStringValue:@"5"];
+			[secondsLabel setStringValue:@"2"]; //used to be 5
 		[firstLabel setFont:[NSFont fontWithName:@"Lucida Grande" size:12.0]];
 		[secondLabel setFont:[NSFont fontWithName:@"Lucida Grande Bold" size:12.0]];
 		[self performSelector:@selector(stage3) withObject:nil afterDelay:1.0];
@@ -141,7 +162,7 @@ void update_progress(double progress) {
 	} else {
 		[secondsLabel setStringValue:@"10"];
 		if (appletv == true)
-			[secondsLabel setStringValue:@"2"];
+			[secondsLabel setStringValue:@"5"];
 		[thirdLabel setFont:[NSFont fontWithName:@"Lucida Grande" size:12.0]];
 		[fourthLabel setFont:[NSFont fontWithName:@"Lucida Grande Bold" size:12.0]];
 		[self performSelector:@selector(stage5) withObject:nil afterDelay:1.0];
@@ -171,16 +192,28 @@ void update_progress(double progress) {
 	}
 }
 
-- (void)check {
+- (void)check:(NSDictionary *)deviceDict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
+	char *url = NULL;
+	if (chosenOne != nil)
+	{
+		NSLog(@"chosen one is not null: %@", chosenOne);
+		NSNumber *ecidNumber = [chosenOne valueForKey:@"UniqueChipID"];
+		NSString *urlString = [chosenOne valueForKey:@"URL"];
+		uint64_t ecidNum = [ecidNumber unsignedLongLongValue];
+		url = [urlString UTF8String];
+		fprintf(stderr, "ecidNum: %llu\n", ecidNum);
+	}
+	
+	
     if (stop) return;
     
     pois0n_init();
 	pois0n_set_callback(&update_progress, NULL);
 	
     while (stop == false) {
-        if (pois0n_is_ready() != -1 && pois0n_is_compatible() != -1) {
+        if (pois0n_is_ready() != -1 && pois0n_is_compatible_using_url(url) != -1) {
             jailbreaking = true;
             stop = true;
             
@@ -289,17 +322,49 @@ void update_progress(double progress) {
 			
 		case 0: //okay
 			appletv = true;
-			[self appletvafy];
+			[self new_appletvafy];
 			break;
 			
 			
 	}
+	
+}
+
+- (NSDictionary *)fetchAttachedDevices
+{
+		//NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	const char *xml = get_attached_devices_xml();
+	NSString *string = [NSString stringWithUTF8String:xml];
+	NSData * data = [string dataUsingEncoding:NSUTF8StringEncoding];
+	
+	NSString *errorDesc = nil;
+	NSPropertyListFormat format;
+	NSDictionary * dict = (NSDictionary*)[NSPropertyListSerialization
+										  propertyListFromData:data
+										  mutabilityOption:NSPropertyListMutableContainersAndLeaves
+										  format:&format
+										  errorDescription:&errorDesc];
+	
+		//[pool release];
+	return dict;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	
-
 	[self appleTVCheck];
+	id attachedDevices = [self fetchAttachedDevices];
+	NSLog(@"attachedDevices: %@", attachedDevices);
+	[window makeKeyAndOrderFront:nil];
+	[window center];
+	
+	if ([attachedDevices count] > 0)
+	{
+		chosenOne = [attachedDevices objectAtIndex:0];
+		
+		[chosenOne retain];
+	}
+
+	
 	
 }
 
@@ -307,6 +372,16 @@ void update_progress(double progress) {
 {
 	[firstLabel setStringValue:@"Plug AppleTV in to USB"];
 	[secondLabel setStringValue:@"Plug in power adapter"];
+	[thirdLabel setStringValue:@"Press and hold MENU and PLAY/PAUSE"];
+	[fourthLabel setStringValue:@"Release both buttons"];
+	
+	
+}
+
+- (void)new_appletvafy
+{
+	[firstLabel setStringValue:@"Press and hold MENU and DOWN"];
+	[secondLabel setStringValue:@"Release both buttons"];
 	[thirdLabel setStringValue:@"Press and hold MENU and PLAY/PAUSE"];
 	[fourthLabel setStringValue:@"Release both buttons"];
 	
@@ -328,6 +403,7 @@ int main(int argc, char *argv[]) {
 	
 	Callback *callback = [[Callback alloc] init];
     [[NSApplication sharedApplication] setDelegate:callback];
+
 	NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(250, 312, 480, 270) styleMask:NSClosableWindowMask|NSTitledWindowMask|NSMiniaturizableWindowMask backing:NSBackingStoreBuffered defer:NO];
 	NSView *greenView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 420, 270)];
 	NSTextField *poisonJBLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(111, 217, 257, 44)];
@@ -414,10 +490,10 @@ int main(int argc, char *argv[]) {
 	[greenView addSubview:copyrightLabel];
 	[greenView addSubview:instructionLabel];
 	[greenView addSubview:poisonJBLabel];
+		[callback setWindow:window];
 	
-	
-	[window makeKeyAndOrderFront:nil];
-	[window center];
+		//[window makeKeyAndOrderFront:nil];
+		//[window center];
     return NSApplicationMain(argc, (const char **)argv);
 	[pool release];
 }

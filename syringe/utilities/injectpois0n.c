@@ -17,9 +17,32 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
+/*
+ 
+ 
+ fucking around with static shit
+ 
+ #include <string.h>
+ #include <errno.h>
+ #include <stdlib.h>
+ 
+ #include <libimobiledevice/libimobiledevice.h>
+ #include <libimobiledevice/lockdown.h>
+ 
+ 
+ */
+
+
+
+	//end
+
+
+
 #include <stdio.h>
 #include <unistd.h>
 #include "libpois0n.h"
+#include "libdioxin.h"
+
 
 void print_progress(double progress, void* data) {
 	int i = 0;
@@ -46,7 +69,17 @@ void print_progress(double progress, void* data) {
 	}
 }
 
+	
 int main(int argc, char* argv[]) {
+	
+	if(!strcmp(argv[1], "-p"))
+	{
+		printf("im a big fat dynamo!, now wheres that cake??\ntheres no cake...\nkill all humans\nalpha and omegas\n");
+		int retz = print_device_xml();
+		return retz;
+	}
+
+	
 	pois0n_init();
 	pois0n_set_callback(&print_progress, NULL);
 
