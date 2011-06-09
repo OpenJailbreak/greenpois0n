@@ -338,7 +338,6 @@
 		3236920B13321C0C00D67351 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		3236920C13321C0C00D67351 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		3236920D13321C0C00D67351 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		327786AD139B1E1C0010902C /* libdioxin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libdioxin.h; sourceTree = "<group>"; };
 		327786AE139B1E1C0010902C /* libdioxin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libdioxin.c; sourceTree = "<group>"; };
 		32A34A10132D7E1200454E39 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		32A34A2C132D7E1200454E39 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -2193,6 +2192,8 @@
 		32A351EC132D7E1400454E39 /* tetheredboot.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tetheredboot.c; sourceTree = "<group>"; };
 		32A351ED132D7E1400454E39 /* tetheredboot.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tetheredboot.mk; sourceTree = "<group>"; };
 		32A351EE132D7E1400454E39 /* utilities.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = utilities.mk; sourceTree = "<group>"; };
+		32A36E1913A0704B0027BDC7 /* GPUSLDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUSLDeviceManager.m; sourceTree = "<group>"; };
+		32A36E1A13A0705A0027BDC7 /* GPUSLDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUSLDeviceManager.h; sourceTree = "<group>"; };
 		32A3942F132D7DD700454E39 /* .cproject */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = .cproject; sourceTree = "<group>"; };
 		32A39432132D7DD700454E39 /* COMMIT_EDITMSG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COMMIT_EDITMSG; sourceTree = "<group>"; };
 		32A39433132D7DD700454E39 /* config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config; sourceTree = "<group>"; };
@@ -9576,6 +9577,7 @@
 		32A3519A132D7E1400454E39 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				32A36E1A13A0705A0027BDC7 /* GPUSLDeviceManager.h */,
 				32A3519B132D7E1400454E39 /* common.h */,
 				32A3519C132D7E1400454E39 /* exploits.h */,
 				32A3519D132D7E1400454E39 /* libirecovery.h */,
@@ -9678,7 +9680,6 @@
 				32A351E2132D7E1400454E39 /* libpartial.c */,
 				32A351E3132D7E1400454E39 /* libpois0n.c */,
 				32A351E4132D7E1400454E39 /* Makefile */,
-				327786AD139B1E1C0010902C /* libdioxin.h */,
 				327786AE139B1E1C0010902C /* libdioxin.c */,
 			);
 			path = syringe;
@@ -13894,6 +13895,7 @@
 		32A39B6C132D7DD800454E39 /* macosx */ = {
 			isa = PBXGroup;
 			children = (
+				32A36E1913A0704B0027BDC7 /* GPUSLDeviceManager.m */,
 				32A39B6D132D7DD800454E39 /* appFunctions.m */,
 				32A39B6E132D7DD800454E39 /* greenpois0n.app */,
 				32A39B6F132D7DD800454E39 /* main.m */,

@@ -9,6 +9,7 @@
 
 #include <libpois0n.h>
 #include <libdioxin.h>
+#include <GPUSLDeviceManager.h>
 #import <Cocoa/Cocoa.h>
 #import <Foundation/Foundation.h>
 
@@ -28,6 +29,9 @@ NSTextField *thirdLabel;
 NSTextField *fourthLabel;
 NSImageView *greenpois0nLogo;
 NSBox *mainBox;
+GPUSLDeviceManager *deviceManager;
+NSArray* attachedDevices;
+
 void buildMenus(NSString *appName);
 void labelIfy(NSTextField *textField);
 BOOL reset = false;
@@ -192,6 +196,24 @@ void update_progress(double progress) {
 	}
 }
 
+- (void)setChosen:(int)chosenIndex
+{
+		//NSLog(@"SETTING CHOSEN ONE!!");
+		chosenOne = [attachedDevices objectAtIndex:chosenIndex];
+	
+		//NSLog(@"chosenOne: %@", chosenOne);
+	
+	[chosenOne retain];
+	[self newAppleTVCheck];
+		//NSLog(@"[deviceManager window]: %@", [deviceManager window]);
+	
+	[deviceManager closeWindow];
+
+	[window makeKeyAndOrderFront:nil];
+	[window center];
+		//	[[window animator] setAlphaValue:1.0];
+}
+
 - (void)check:(NSDictionary *)deviceDict {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
@@ -309,6 +331,20 @@ void update_progress(double progress) {
     }
 }
 
+- (void)newAppleTVCheck
+{
+	NSString *productType = [chosenOne valueForKey:@"ProductType"];
+	
+	if ([productType isEqualToString:@"AppleTV2,1"])
+	{
+		NSLog(@"productType is AppleTV2,1");
+		appletv = true;
+		[self new_appletvafy];
+	} else {
+		appletv = false;
+	}
+}
+
 - (void)appleTVCheck
 {
 	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"Are you jailbreaking an AppleTV?" defaultButton:@"No" alternateButton:@"Yes" otherButton:nil informativeTextWithFormat:@"If you are jailbreaking an AppleTV, please choose yes before continuing.\n\nNOTE: it takes approximately 40 seconds after 'Complete!' for the ramdisk to finish on an AppleTV jailbreak. \n\nPlease don't unplug the USB cable until then."];
@@ -351,17 +387,22 @@ void update_progress(double progress) {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	
-	[self appleTVCheck];
-	id attachedDevices = [self fetchAttachedDevices];
+		//[self appleTVCheck];
+	attachedDevices = [self fetchAttachedDevices];
 	NSLog(@"attachedDevices: %@", attachedDevices);
-	[window makeKeyAndOrderFront:nil];
-	[window center];
+	NSString *attachedDevicesPlist = [NSHomeDirectory() stringByAppendingPathComponent:@"attached.plist"];
+	[attachedDevices writeToFile:attachedDevicesPlist atomically:YES];
+	//[window makeKeyAndOrderFront:nil];
+//	[window center];
 	
+	
+
 	if ([attachedDevices count] > 0)
 	{
-		chosenOne = [attachedDevices objectAtIndex:0];
 		
-		[chosenOne retain];
+			
+			deviceManager = [[GPUSLDeviceManager alloc] initWithDevices:attachedDevices];
+		[deviceManager setDelegate:self];
 	}
 
 	
