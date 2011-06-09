@@ -79,7 +79,7 @@ void mylabelIfy(NSTextField *textField) { // renamed
 		deviceArray = devices;
 		window = [[NSWindow alloc] initWithContentRect:NSMakeRect(250, 312, 480, 270) styleMask:NSClosableWindowMask|NSTitledWindowMask|NSMiniaturizableWindowMask backing:NSBackingStoreBuffered defer:NO];
 		NSView *deviceView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 420, 270)];
-		buttonView = [[NSView alloc] initWithFrame:NSMakeRect(0, 41, 480, 193)];
+		buttonView = [[NSView alloc] initWithFrame:NSMakeRect(0, 48, 480, 193)];
 		
 	
 		
@@ -122,6 +122,14 @@ void mylabelIfy(NSTextField *textField) { // renamed
 	NSString *deviceName = [deviceDict valueForKey:@"DeviceName"];
 	NSString *productType = [deviceDict valueForKey:@"ProductType"];
 	NSString *productVersion = [deviceDict valueForKey:@"ProductVersion"];
+
+	NSString *hardwareModel = [deviceDict valueForKey:@"HardwareModel"];
+	NSString *buildVersion = [deviceDict valueForKey:@"BuildVersion"];
+	NSString *hardwarePlatform = [[deviceDict valueForKey:@"HardwarePlatform"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		//s5l8930x
+	NSString *tooltip = [NSString stringWithFormat:@"Version: %@ Model: %@ Platform: %@",  buildVersion, hardwareModel, hardwarePlatform];
+	
+	[deviceButton setToolTip:tooltip];
 	[deviceButton setImage:[GPUSLDeviceManager imageForDevice:productType]];
 	[deviceButton setTitle:[NSString stringWithFormat:@"%@ (%@)", deviceName, productVersion]];
 	
