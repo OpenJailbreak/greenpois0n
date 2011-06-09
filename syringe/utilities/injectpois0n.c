@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
 	
 	if(!strcmp(argv[1], "-p"))
 	{
-		printf("im a big fat dynamo!, now wheres that cake??\ntheres no cake...\nkill all humans\nalpha and omegas\n");
+			
 		int retz = print_device_xml();
 		return retz;
 	}

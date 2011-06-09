@@ -39,6 +39,7 @@ static libusb_context* libdioxin_context = NULL;
 
 char * devices_to_xml(idevice_info_t **devices, int itemCount) {
 	
+
 	char *xmlData = NULL;
 	uint32_t length = 0;
 	int i;
@@ -56,13 +57,15 @@ char * devices_to_xml(idevice_info_t **devices, int itemCount) {
 		plist_dict_insert_item(currentDevicePlist, "HardwarePlatform", plist_new_string(currentDevice->hardwarePlatform));
 		plist_dict_insert_item(currentDevicePlist, "UniqueDeviceID", plist_new_string(currentDevice->uniqueDeviceID));
 		plist_dict_insert_item(currentDevicePlist, "UniqueChipID", plist_new_uint(currentDevice->uniqueChipID));
-		plist_dict_insert_item(currentDevicePlist, "URL", plist_new_string(currentDevice->URL));
-			free(currentDevice);
+		if (currentDevice->URL != NULL)
+			plist_dict_insert_item(currentDevicePlist, "URL", plist_new_string(currentDevice->URL));
+		
+		free(currentDevice);
 		plist_array_append_item(deviceList, currentDevicePlist);
 			//free(currentDevicePlist);
 		
 	}
-	
+
 	plist_to_xml(deviceList, &xmlData, &length);
 	return xmlData;
 	
@@ -78,6 +81,11 @@ char *urlForDevice(idevice_info_t *mobileDevice)
 	
 	plist_t productNode = plist_dict_get_item(thePlist, mobileDevice->productType);
 	plist_t versionNode = plist_dict_get_item(productNode, mobileDevice->productVersion);
+	if (versionNode == NULL)
+	{
+		printf("version not found!!!\n");
+		return NULL;
+	}
 	plist_t buildNode = plist_dict_get_item(versionNode, mobileDevice->buildVersion);
 	plist_t urlNode = plist_dict_get_item(buildNode, "URL");
 	plist_get_string_val(urlNode, &urlString);
@@ -126,7 +134,13 @@ idevice_info_t * device_get_info(char *uuids) {
 	/* run query and output information */
 	if(lockdownd_get_value(client, domain, key, &node) == LOCKDOWN_E_SUCCESS) {
 		if (node) {
+			
+			char *xmlData = NULL;
+			uint32_t length = 0;
+			plist_to_xml(node, &xmlData, &length);
 	
+			
+				//debug("plist: %s\n", xmlData);
 			
 			char *bv = NULL;
 			char *pt = NULL;
@@ -169,10 +183,13 @@ idevice_info_t * device_get_info(char *uuids) {
 			device_info->hardwarePlatform = hp;
 			device_info->uniqueDeviceID = ud;
 			device_info->uniqueChipID = uc;
-	
+
 			
 			char *url = urlForDevice(device_info);
-			device_info->URL = url;
+			if (url != NULL)
+				device_info->URL = url;
+			else
+				device_info->URL = "http://fix.firmware2.plist.n0w";
 			
 				//uint8_t* deviceAddress = getAddressFromUUID(ud);
 			
@@ -283,7 +300,7 @@ uint8_t* getAddressFromUUID(char *uuid) {
 					libusb_exit(libdioxin_context);
 					return NULL;
 				}
-			debug("this far?\n");
+
 				
 				memset(client, '\0', sizeof(struct irecv_client));
 				client->iface = 0;
@@ -296,7 +313,6 @@ uint8_t* getAddressFromUUID(char *uuid) {
 					return NULL;
 				}
 		
-			debug("this far?2\n");
 				error = irecv_set_interface(client, 0, 0);
 				
 					if (error != IRECV_E_SUCCESS) {
@@ -317,14 +333,14 @@ uint8_t* getAddressFromUUID(char *uuid) {
 				
 				/* cache usb serial */
 				irecv_get_string_descriptor_ascii(client, usb_descriptor.iSerialNumber, (unsigned char*) client->serial, 255);
-				debug("this far 3 %s?\n", client->serial);
+					//debug("this far 3 %s?\n", client->serial);
 				
 				*address = libusb_get_device_address(usb_device);
 				
 					//debug("address: %s", address);
 			//	if (!strcmp(client->serial, uuid))
 //				{
-//					printf("in here!!\n");
+//		
 //					*address = libusb_get_device_address(usb_device);
 //					
 //					debug("address: %s", address);
