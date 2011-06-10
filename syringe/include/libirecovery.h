@@ -209,7 +209,7 @@ static const struct irecv_device irecv_devices[] = {
 	{  DEVICE_IPHONE4,    "iPhone3,1",  "n90ap",   BDID_IPHONE4,      CPID_IPHONE4,
 	"http://appldnld.apple.com/iPhone4/041-1011.20110503.q7fGc/iPhone3,1_4.3.3_8J2_Restore.ipsw" },
 	{  DEVICE_IPOD4G,     "iPod4,1",    "n81ap",   BDID_IPOD4G,       CPID_IPOD4G,
-	"http://appldnld.apple.com/iPhone4/061-9859.20101122.$erft/iPod4,1_4.2.1_8C148_Restore.ipsw" },
+	"http://appldnld.apple.com/iPhone4/041-1015.20110503.d7i57/iPod4,1_4.3.3_8J2_Restore.ipsw" },
 	{  DEVICE_APPLETV2G,   "AppleTV2,1", "k66ap",   BDID_APPLETV2G,    CPID_APPLETV2G,
 	"http://appldnld.apple.com/AppleTV/061-9978.20101214.gmabr/AppleTV2,1_4.2.1_8C154_Restore.ipsw" },
 	{ DEVICE_IPHONE42,    "iPhone3,3",  "n92ap",   BDID_IPHONE42,     CPID_IPHONE42,

@@ -59,7 +59,7 @@ typedef struct {
 } device_info_t;
 
 int device_model(char** model);
-int device_version(char** version);
+int device_version(char** versions);
 int device_cpusubtype(int* subtype);
 int device_info(device_info_t* info);
 

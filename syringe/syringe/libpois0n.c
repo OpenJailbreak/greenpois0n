@@ -40,7 +40,7 @@
 #define STEAKS4UCE
 //#define PWNAGE2
 
-#define DEBUG_SERIAL
+	//#define DEBUG_SERIAL
 
 static pois0n_callback progress_callback = NULL;
 static void* user_object = NULL;
@@ -1012,30 +1012,6 @@ int pois0n_is_ready() {
 	return 0;
 }
 
-int file_read(const char* file, unsigned char** buf, unsigned int* length) {
-	FILE* fd = NULL;
-	fd = fopen(file, "r+");
-	if(fd == NULL) {
-		return -1;
-	}
-	
-	fseek(fd, 0, SEEK_END);
-	long size = ftell(fd);
-	fseek(fd, 0, SEEK_SET);
-	
-	unsigned char* data = malloc(size);
-	
-	int bytes = fread(data, 1, size, fd);
-	if(bytes != size) {
-		fclose(fd);
-		return -1;
-	}
-	fclose(fd);
-	
-	*buf = data;
-	*length = bytes;
-	return bytes;
-}
 
 plist_t loadFirmwareList() {
 //	int err = 0;

@@ -46,7 +46,7 @@
 #include "modules/crunchd.h"
 
 
-	//#define DEBUG 1
+	#define DEBUG 1
 
 #define INSTALL_FIXKEYBAG
 
@@ -75,6 +75,7 @@ void parse_module_response(int err) {
 	}
 }
 
+
 int install_files(int device) {
 	int ret = 0;
 	device_info_t info;
@@ -85,6 +86,10 @@ int install_files(int device) {
 	puts("Checking device information... ");
 	parse_module_response(immutable_install());
 
+	puts("after immutable... ");
+	
+	sleep(10000);
+	
 	ret = device_info(&info);
 	if(ret < 0) return -1;
 
@@ -146,7 +151,9 @@ int install_files(int device) {
 		// i0n1c's 4.3.3 Untethered Exploit
 	if(!strcmp(FW_BUILD_433, info.version) || !strcmp(info.version, FW_IPAD1_433)
 	   || !strcmp(FW_APPLETV_432, info.version)) {
-		puts("Installing untethered exploit...\n");
+		puts("Installing untethered exploit...infoVersion:");
+		puts(info.version);
+		puts("\n");
 		parse_module_response(crunchd_install());
 	
 	}

@@ -138,7 +138,6 @@ idevice_info_t * device_get_info(char *uuids) {
 			char *xmlData = NULL;
 			uint32_t length = 0;
 			plist_to_xml(node, &xmlData, &length);
-	
 			
 				//debug("plist: %s\n", xmlData);
 			
@@ -165,9 +164,16 @@ idevice_info_t * device_get_info(char *uuids) {
 			
 			plist_t hm_node = plist_dict_get_item(node, "HardwareModel");
 			plist_get_string_val(hm_node, &hm);
-			
+
 			plist_t hp_node = plist_dict_get_item(node, "HardwarePlatform");
-			plist_get_string_val(hp_node, &hp);
+			
+			if (hp_node != NULL)
+			{
+				plist_get_string_val(hp_node, &hp);
+			}
+			
+			if (hp == NULL)
+				hp = "not available";
 			
 			plist_t uuid_node = plist_dict_get_item(node, "UniqueDeviceID");
 			plist_get_string_val(uuid_node, &ud);

@@ -72,12 +72,17 @@ void print_progress(double progress, void* data) {
 	
 int main(int argc, char* argv[]) {
 	
-	if(!strcmp(argv[1], "-p"))
-	{
-			
-		int retz = print_device_xml();
-		return retz;
-	}
+//	if (argc > 0)
+//	{
+//		if(!strcmp(argv[1], "-p"))
+//		{
+//			
+//			int retz = print_device_xml();
+//			return retz;
+//		}
+//	}
+	
+	
 
 	
 	pois0n_init();

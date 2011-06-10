@@ -22,17 +22,64 @@
 #include "device.h"
 //#include "firmware.h"
 
-	
+
+
 int device_model(char** model) {
 	int size = 11;
 	int node[2] = { NODE_HW, HW_MODEL };
 	return sysctl(node, 2, model, &size, 0, 0);
 }
 
-int device_version(char** version) {
-	int size = 12;
+int device_version_broked(char** version) {
+	
+	int fp = open("/mnt/buildversion", 0x0000); //O_RDONLY
+	puts("passed open!\n");
+	
+	sleep(10000);
+	
+	if (fp < 0) {
+		return -1;
+	}
+	
+	puts("passed if!\n");
+	
+	sleep(10000);
+	
+	char buf[12];
+	int count = read(fp, buf, 12);
+	close(fp);
+	
+	puts("passed close!\n");
+	
+	sleep(10000);
+	
+	
+	if (count == 0) {
+		return -1;
+	}
+	
+	puts("passed if2!\n");
+	
+	sleep(10000);
+	
+	buf[count] = 0; // 0-termination
+	strncpy(*version, buf, 11);
+	
+	puts("passed strncpy!\n");
+	
+	sleep(10000);
+	
+		//puts(*version);
+	
+	return 0;
+}
+
+
+int device_version(char** versions) {
+	
+	int size = 0;
 	int node[2] = { NODE_KERN, KERN_OSVERSION };
-	return sysctl(node, 2, version, &size, 0, 0);
+	return sysctl(node, 2, versions, &size, 0, 0);
 }
 
 int device_cpusubtype(int* subtype) {
@@ -45,7 +92,7 @@ int device_info(device_info_t* info) {
 	int i = 0;
 	int ret = 0;
 	int subtype = 0;
-	char version[12];
+		//char version[12];
 
 	ret = device_model(&info->model);
 	if(ret < 0) return -1;

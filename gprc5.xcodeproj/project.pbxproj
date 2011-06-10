@@ -2194,6 +2194,7 @@
 		32A351EE132D7E1400454E39 /* utilities.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = utilities.mk; sourceTree = "<group>"; };
 		32A36E1913A0704B0027BDC7 /* GPUSLDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPUSLDeviceManager.m; sourceTree = "<group>"; };
 		32A36E1A13A0705A0027BDC7 /* GPUSLDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUSLDeviceManager.h; sourceTree = "<group>"; };
+		32A371C813A17B630027BDC7 /* libdioxin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libdioxin.h; sourceTree = "<group>"; };
 		32A3942F132D7DD700454E39 /* .cproject */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = .cproject; sourceTree = "<group>"; };
 		32A39432132D7DD700454E39 /* COMMIT_EDITMSG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COMMIT_EDITMSG; sourceTree = "<group>"; };
 		32A39433132D7DD700454E39 /* config */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config; sourceTree = "<group>"; };
@@ -9577,6 +9578,7 @@
 		32A3519A132D7E1400454E39 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				32A371C813A17B630027BDC7 /* libdioxin.h */,
 				32A36E1A13A0705A0027BDC7 /* GPUSLDeviceManager.h */,
 				32A3519B132D7E1400454E39 /* common.h */,
 				32A3519C132D7E1400454E39 /* exploits.h */,

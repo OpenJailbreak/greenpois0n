@@ -21,20 +21,50 @@
 #include <sys/sysctl.h>
 #include <stdio.h>
 
+int file_write(const char* file, const char* buf, unsigned int length) {
+	FILE* fd = NULL;
+	fd = fopen(file, "w+");
+	if(fd == NULL) {
+		return -1;
+	}
+	
+	unsigned int bytes = fwrite((const void*)buf, 1, (unsigned int)length, fd);
+	if(bytes != length) {
+		fclose(fd);
+		return -1;
+	}
+	fclose(fd);
+	return bytes;
+}
+
 int main(int argc, char **argv, char **envp) {
     NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
 
     NSDictionary *sysDict = [[NSDictionary alloc] initWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
     NSString *buildVersion = [sysDict objectForKey:@"ProductBuildVersion"];
-    const char *bld = [buildVersion UTF8String];
-    size_t size = strlen(bld);
-    int v[2];
+	const char *bld = [buildVersion UTF8String];
+	size_t size = strlen(bld);
+
+	//hacky workaround for 4.3 + for now
+
+
+	
+	[buildVersion writeToFile:@"/private/var2/mobile/Media/buildversion" atomically:YES encoding:NSASCIIStringEncoding error:nil];
+	file_write("/private/var2/mobile/Media/buildversion", bld, size);
+
+	
+	 
+	// deprecated, doesnt work in 4.3+ because sysctl is read only
+	 
+	int v[2];
 
     v[0] = 1;
     v[1] = 65;
 
-    sysctl(v, 2, NULL, NULL, (void *)bld, size);
-
+    
+	 sysctl(v, 2, NULL, NULL, (void *)bld, size);
+	 
+	 
 
     [sysDict release];
 
