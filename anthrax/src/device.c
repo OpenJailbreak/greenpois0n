@@ -30,52 +30,36 @@ int device_model(char** model) {
 	return sysctl(node, 2, model, &size, 0, 0);
 }
 
-int device_version_broked(char** version) {
+int device_version(char** version) {
 	
-	int fp = open("/mnt/buildversion", 0x0000); //O_RDONLY
-	puts("passed open!\n");
-	
-	sleep(10000);
+	int fp = open("/mnt/private/var2/mobile/Media/buildversion", 0x0000); //O_RDONLY
 	
 	if (fp < 0) {
 		return -1;
 	}
-	
-	puts("passed if!\n");
-	
-	sleep(10000);
-	
 	char buf[12];
-	int count = read(fp, buf, 12);
+	int count = read(fp, version, 11);
+	
+		//putc(version[0]); putc(version[1]); putc(version[2]);
 	close(fp);
-	
-	puts("passed close!\n");
-	
-	sleep(10000);
-	
-	
+//	_puts("count: ");
+//	puti(count);
+//	_puts("\n");
 	if (count == 0) {
 		return -1;
 	}
 	
-	puts("passed if2!\n");
-	
-	sleep(10000);
-	
-	buf[count] = 0; // 0-termination
-	strncpy(*version, buf, 11);
-	
-	puts("passed strncpy!\n");
-	
-	sleep(10000);
-	
-		//puts(*version);
+		//*version[count] = 0; // 0-termination
+//
+//	puts("version: ");
+//	puts(version);
+//	puts("\n");
 	
 	return 0;
 }
 
 
-int device_version(char** versions) {
+int device_version_og(char** versions) {
 	
 	int size = 0;
 	int node[2] = { NODE_KERN, KERN_OSVERSION };
