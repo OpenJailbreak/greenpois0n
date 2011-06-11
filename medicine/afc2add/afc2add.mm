@@ -21,7 +21,10 @@
 
 int main(int argc, char **argv, char **envp) {
 	NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
-
+	
+	setuid(0);
+	setgid(0);
+	
 	NSString *plPath = @"/System/Library/Lockdown/Services.plist";
 	NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:plPath];
 	if(!plist) {

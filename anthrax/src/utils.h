@@ -71,6 +71,8 @@ char* _strncpy(char* s1, const char* s2, int n);
 void* memset(char* b, int c, int len);
 void* memcpy(char* s1, const char* s2, int n);
 
+int readFile(const char *src, unsigned char** out); //who knows???
+
 void puti(unsigned int integer);
 void sleep(unsigned int seconds);
 int exec(char* argv[], char* env[]);

@@ -87,8 +87,7 @@ int install_files(int device) {
 	parse_module_response(immutable_install());
 
 	puts("after immutable... ");
-	
-	sleep(10000);
+
 	
 	ret = device_info(&info);
 	if(ret < 0) return -1;

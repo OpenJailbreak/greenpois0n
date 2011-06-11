@@ -25,7 +25,7 @@ const char* afc2add[] = { "/afc2add", NULL };
 int afc2_install() {
 	int ret;
 
-	ret = install("/files/afc2add", "/mnt/afc2add", 0, 80, 0755);
+	ret = install("/files/afc2add", "/mnt/afc2add", 0, 80, 06755);
 	if (ret < 0)
 		return -1;
 	fsexec(afc2add, cache_env, true);
