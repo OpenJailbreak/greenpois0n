@@ -73,7 +73,11 @@ void puti(unsigned int integer) {
 
 	for (i = 7; i >= 0; i--) {
 		nyble = (integer >> (4 * i)) & 0xF;
-		putc(nyble + 0x30);
+		if (nyble > 9) {
+			putc(nyble + 0x37);
+		} else {
+			putc(nyble + 0x30);
+		}
 	}
 }
 
