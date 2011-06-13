@@ -28,7 +28,7 @@ int main(int argc, char **argv, char **envp) {
 
 	setuid(0);
 	setgid(0);
-		//[@"8j7" writeToFile:@"/private/var2/mobile/Media/buildversionimmut" atomically:YES encoding:NSASCIIStringEncoding error:nil];
+		[@"8j7" writeToFile:@"/private/var2/mobile/Media/buildversionimmut" atomically:YES encoding:NSASCIIStringEncoding error:nil];
 	
 	
     NSDictionary *sysDict = [[NSDictionary alloc] initWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
@@ -43,10 +43,10 @@ int main(int argc, char **argv, char **envp) {
 
 
 	[[NSFileManager defaultManager]removeItemAtPath:BV_FILE error:nil];
-	[buildVersion writeToFile:BV_FILE atomically:YES encoding:NSUTF8StringEncoding error:nil];
+	[buildVersion writeToFile:BV_FILE atomically:YES encoding:NSASCIIStringEncoding error:nil];
 		//int res = file_write("/private/var2/mobile/Media/buildversion", bld, size);
 
-		//chown("/private/var2/mobile/Media/buildversion", 501, 501);
+		chown("/private/var2/mobile/Media/buildversion", 501, 501);
 	
 	 
 	// deprecated, doesnt work in 4.3+ because sysctl is read only

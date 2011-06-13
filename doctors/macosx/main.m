@@ -196,6 +196,12 @@ void update_progress(double progress) {
 	}
 }
 
+- (void)showYourself
+{
+	[window makeKeyAndOrderFront:nil];
+	[window center];
+}
+
 - (void)setChosen:(int)chosenIndex
 {
 		//NSLog(@"SETTING CHOSEN ONE!!");
@@ -345,25 +351,47 @@ void update_progress(double progress) {
 	}
 }
 
+- (void)showNoDeviceAlert
+{
+	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"No Devices Detected!" defaultButton:@"Quit" alternateButton:@"Continue" otherButton:nil informativeTextWithFormat:@"Devices must be attached in userland mode for version detection (For AppleTV's that means powered on first, then plugged in to USB)\n\nTo continue with support for 4.3.3 only (8F305 for AppleTV) press 'Continue' otherwise connect your devices and relaunch."];
+	int button = [startupAlert runModal];
+	
+	switch (button) {
+			
+		case 1: //Quit
+		
+			[[NSApplication sharedApplication] terminate:self];
+			
+			break;
+			
+		case 0: //Continue
+			
+			[self appleTVCheck];
+			break;
+			
+			
+	}
+	
+}
 - (void)appleTVCheck
 {
 	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"Are you jailbreaking an AppleTV?" defaultButton:@"No" alternateButton:@"Yes" otherButton:nil informativeTextWithFormat:@"If you are jailbreaking an AppleTV, please choose yes before continuing.\n\nNOTE: it takes approximately 40 seconds after 'Complete!' for the ramdisk to finish on an AppleTV jailbreak. \n\nPlease don't unplug the USB cable until then."];
 	int button = [startupAlert runModal];
 	
 	switch (button) {
-		case 1: //more info
+		case 1: //no
 			
 			appletv = false;
 			break;
 			
-		case 0: //okay
+		case 0: //yes
 			appletv = true;
 			[self new_appletvafy];
 			break;
 			
 			
 	}
-	
+	[self showYourself];
 }
 
 - (NSDictionary *)fetchAttachedDevices
@@ -389,9 +417,11 @@ void update_progress(double progress) {
 	
 		//[self appleTVCheck];
 	attachedDevices = [self fetchAttachedDevices];
-	NSLog(@"attachedDevices: %@", attachedDevices);
-	NSString *attachedDevicesPlist = [NSHomeDirectory() stringByAppendingPathComponent:@"attached.plist"];
-	[attachedDevices writeToFile:attachedDevicesPlist atomically:YES];
+		//NSLog(@"attachedDevices: %@", attachedDevices);
+		//NSString *attachedDevicesPlist = [NSHomeDirectory() stringByAppendingPathComponent:@"attached.plist"];
+		//[attachedDevices writeToFile:attachedDevicesPlist atomically:YES];
+	
+		//OG code below-- well sort of.
 	//[window makeKeyAndOrderFront:nil];
 //	[window center];
 	
@@ -399,10 +429,13 @@ void update_progress(double progress) {
 
 	if ([attachedDevices count] > 0)
 	{
-		
 			
-			deviceManager = [[GPUSLDeviceManager alloc] initWithDevices:attachedDevices];
+		deviceManager = [[GPUSLDeviceManager alloc] initWithDevices:attachedDevices];
 		[deviceManager setDelegate:self];
+	} else {
+		
+		[self showNoDeviceAlert];
+		
 	}
 
 	

@@ -50,6 +50,7 @@
 	[theButton setBordered:FALSE];
 	[theButton setBezelStyle:NSTexturedSquareBezelStyle];
 	[theButton setImagePosition:NSImageAbove];
+	[theButton setButtonType:NSToggleButton];
 	[theButton setImageScaling:NSImageScaleProportionallyDown];
 	[theButton setAutoresizesSubviews:YES];
 	
@@ -69,6 +70,8 @@ void mylabelIfy(NSTextField *textField) { // renamed
 	
 		[window close];
 }
+
+
 
 - (id)initWithDevices:(NSArray *)devices
 {
@@ -131,12 +134,32 @@ void mylabelIfy(NSTextField *textField) { // renamed
 	
 	[deviceButton setToolTip:tooltip];
 	[deviceButton setImage:[GPUSLDeviceManager imageForDevice:productType]];
+	[deviceButton setAlternateImage:[GPUSLDeviceManager altImageForDevice:productType]];
 	[deviceButton setTitle:[NSString stringWithFormat:@"%@ (%@)", deviceName, productVersion]];
 	
 	[deviceButton setTarget:self];
 	[deviceButton setAction:@selector(buttonChosen:)];
 	
 	
+}
+
+- (void)resetStates:(id)sender
+{
+	
+	NSArray *subviews = [[buttonView subviews] copy];
+	NSEnumerator *subviewEnum = [subviews objectEnumerator];
+	id currentView = nil;
+	while (currentView = [subviewEnum nextObject])
+	{
+		
+		if([currentView tag] == self.chosenIndex)
+		{
+			[currentView setState:NSOnState]; //changes to alternate image
+		} else {
+			[currentView setState:NSOffState];
+		}
+		
+	}
 }
 
 - (void)buttonChosen:(id)sender
@@ -150,7 +173,7 @@ void mylabelIfy(NSTextField *textField) { // renamed
 		//NSLog(@"you have been chosen: %@", chosenOne);
 
 	chosenIndex = buttonTag; 
-	
+		[self performSelector:@selector(resetStates:) withObject:sender afterDelay:0];
 }
 
 
@@ -299,7 +322,7 @@ void mylabelIfy(NSTextField *textField) { // renamed
 	
 	
 	NSImage *outputImage = NULL;
-	NSString *path;
+	NSString *path = NULL;
 	
 	if ([deviceType isEqualToString:DEVICES_IPHONE2G])
 	{
@@ -350,7 +373,7 @@ void mylabelIfy(NSTextField *textField) { // renamed
 	
 		//	NSLog(@"path: %@", path);
 	
-	if ([path length] < 0)
+	if ([path length] == 0)
 	{
 		NSLog(@"device %@ unknown!", deviceType);
 		return NULL;
@@ -362,5 +385,80 @@ void mylabelIfy(NSTextField *textField) { // renamed
 	return outputImage;
 }
 
++ (NSImage *)altImageForDevice:(NSString *)deviceType
+{
+	NSBundle *ctBundle = [NSBundle bundleWithPath:@"/System/Library/CoreServices/CoreTypes.bundle"];
+	
+	
+	NSImage *outputImage = NULL;
+	NSString *path = NULL;
+	
+	if ([deviceType isEqualToString:DEVICES_IPHONE2G])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPHONE2G ofType:@"icns"];
+		
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPHONE3G])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPHONE3G ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPHONE3GS])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPHONE3GS ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPHONE4])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPHONE4 ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPHONE42])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPHONE42 ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPOD1G])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPOD1G ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPOD2G])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPOD2G ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPOD3G])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPOD3G ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPOD4G])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPOD4G ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_IPAD1G])
+	{
+		path = [ctBundle pathForResource:IMAGE_IPAD1G ofType:@"icns"];
+		
+	} else if ([deviceType isEqualToString:DEVICES_APPLETV2])
+	{
+		path = IMAGE_APPLETV2;
+		
+	}
+	
+		//	NSLog(@"path: %@", path);
+	
+	if ([path length] == 0)
+	{
+		NSLog(@"device %@ unknown!", deviceType);
+		return NULL;
+	}
+	
+	
+	outputImage = [[NSImage alloc] initWithContentsOfFile:path];
+	
+	NSImage *overlayIcon = [NSImage imageNamed:@"thumbsup"];
+	[outputImage lockFocus];
+	[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+	[overlayIcon drawInRect:NSMakeRect([outputImage size].width / 2, 0, [outputImage size].width / 2, [outputImage size].width / 2) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+	[outputImage unlockFocus];
+	
+	
+	return [outputImage autorelease];
+}
 
 @end

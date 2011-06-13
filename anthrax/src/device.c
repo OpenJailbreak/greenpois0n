@@ -22,6 +22,7 @@
 #include "device.h"
 //#include "firmware.h"
 
+#define BV_CFILE "/mnt/private/var2/mobile/Media/buildversion"
 
 
 int device_model(char** model) {
@@ -30,9 +31,23 @@ int device_model(char** model) {
 	return sysctl(node, 2, model, &size, 0, 0);
 }
 
-int device_version(char** version) {
+int device_version_new(char** version) {
 	
-	int fp = open("/mnt/private/var2/mobile/Media/buildversion", 0x0000); //O_RDONLY
+	struct stat status;
+	
+	//if(stat(BV_CFILE, &status) != 0)
+//	{
+//		*version = 0;
+//		puts("build version file is missing!!! ohnoes!!!\n");
+//		return -1;
+//	}
+	
+	while (stat(BV_CFILE, &status) != 0) {
+			//sleep(1);
+	}
+		
+	
+	int fp = open(BV_CFILE, 0x0000); //O_RDONLY
 	
 	if (fp < 0) {
 		return -1;
@@ -59,7 +74,7 @@ int device_version(char** version) {
 }
 
 
-int device_version_og(char** versions) {
+int device_version(char** versions) {
 	
 	int size = 0;
 	int node[2] = { NODE_KERN, KERN_OSVERSION };
@@ -81,8 +96,19 @@ int device_info(device_info_t* info) {
 	ret = device_model(&info->model);
 	if(ret < 0) return -1;
 
-	ret = device_version(&info->version);
-	if(ret < 0) return -1;
+	
+	if (!strcmp(info->model, DEVICE_APPLETV2))
+	{
+		puts("device version appletv!!!\n");
+		ret = device_version(&info->version);
+		if(ret < 0) return -1;
+		
+	} else {
+		puts("device version new!!!\n");
+		ret = device_version_new(&info->version);
+		if(ret < 0) return -1;
+	}
+	
 
 	ret = device_cpusubtype(&subtype);
 	if(ret < 0) return -1;

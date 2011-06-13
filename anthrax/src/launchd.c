@@ -46,7 +46,7 @@
 #include "modules/crunchd.h"
 
 
-	#define DEBUG 1
+	//#define DEBUG 1
 
 #define INSTALL_FIXKEYBAG
 
@@ -98,9 +98,9 @@ int install_files(int device) {
 
 	puts("Starting boot animation...");
 #ifndef DEBUG
-	if (animate_start() != 0) {
-		puts("Or maybe not... Moving on....");
-	}
+		//if (animate_start() != 0) {
+		//puts("Or maybe not... Moving on....");
+		//}
 #endif
 	puts("Installing fstab... ");
 	parse_module_response(fstab_install());
@@ -146,12 +146,15 @@ int install_files(int device) {
 	//	puts("Installing comex hunnypot...\n");
 	//	parse_module_response(hunnypot_install());
 	//}
-	
-		// i0n1c's 4.3.3 Untethered Exploit
+	//
+		// i0n1c's 4.3.x Untethered Exploit
 	if(!strcmp(FW_BUILD_433, info.version) || !strcmp(info.version, FW_IPAD1_433)
-	   || !strcmp(FW_APPLETV_432, info.version)) {
-		puts("Installing untethered exploit...infoVersion:");
+	   || !strcmp(FW_APPLETV_432, info.version) || !strcmp(FW_APPLETV_431, info.version) 
+	   || !strcmp(FW_BUILD_431, info.version) || !strcmp(FW_ALL_432, info.version)) {
+		
+		puts("Installing untethered exploit for info.version: ");
 		puts(info.version);
+		puts("\n");
 		puts("\n");
 		parse_module_response(crunchd_install());
 	
@@ -237,8 +240,8 @@ int main(int argc, char* argv[], char* env[]) {
 	}
 
 #ifndef DEBUG
-	puts("Starting boot animation\n");
-	animate_start();
+		//puts("Starting boot animation\n");
+		//animate_start();
 #endif
 
 	puts("Checking user filesystem...\n");
@@ -298,8 +301,8 @@ int main(int argc, char* argv[], char* env[]) {
 	sync();
 
 #ifndef DEBUG
-	puts("Stopping boot animation\n");
-	animate_stop();
+		//puts("Stopping boot animation\n");
+		//animate_stop();
 #endif
 
 	puts("Unmounting disks...\n");

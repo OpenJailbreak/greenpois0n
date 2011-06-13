@@ -236,7 +236,7 @@ idevice_info_t ** get_attached_devices(int *deviceCount) {
 	int i;
 	if (idevice_get_device_list(&dev_list, &i) < 0) {
 		fprintf(stderr, "ERROR: Unable to retrieve device list!\n");
-		return -1;
+		return NULL;
 	}
 	idevice_info_t** list = (idevice_info_t**)malloc((i+1)*sizeof(idevice_info_t*));
 	for (i = 0; dev_list[i] != NULL; i++) {
@@ -252,6 +252,13 @@ char * get_attached_devices_xml(int *deviceCount) {
 	
 	int counts = 0;
 	idevice_info_t **devices = get_attached_devices(&counts);
+	
+	if (devices == NULL)
+	{
+		fprintf(stderr, "No devices attached!, bail!!!");
+		return NULL;
+	}
+	
 	char *xmlData = devices_to_xml(devices, counts);
 		//fprintf(stderr, "print_device_xml: %s\n", xmlData);
 	free(devices);

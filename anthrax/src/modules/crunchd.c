@@ -48,16 +48,24 @@ int crunchd_install() {
 	// Construct our base path from device info
 	strncat(test, "/mnt/private/var2/mobile/Media/", MAX_PATH);
 	strncat(test, info.model, MAX_PATH);
-	strncat(test, "_", MAX_PATH);
-	strncat(test, info.version, MAX_PATH);
+	if (strlen(info.version) > 1)
+	{
+		puts("info version exists!! not an appletv passed 4.2\n ");
+		strncat(test, "/", MAX_PATH);
+		strncat(test, info.version, MAX_PATH);
+	}
+	
 	
 	mkdir(test, 0755);
 		//return -1;
 	
 	strncat(base, "/files/crunchd/", MAX_PATH);
 	strncat(base, info.model, MAX_PATH);
-		//strncat(base, "_", MAX_PATH);
-		//strncat(base, info.version, MAX_PATH);
+	if (strlen(info.version) > 1)
+	{
+		strncat(base, "/", MAX_PATH);
+		strncat(base, info.version, MAX_PATH);
+	}
 	puts("- base_path: ");
 	puts(base);
 	puts("\n");
