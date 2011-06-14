@@ -29,6 +29,8 @@
 #define FW_IPAD1_433 "8J3"
 #define FW_ALL_432 "8H7"
 #define FW_IPHONE4_VZW_428 "8E401"
+#define FW_IPHONE4_VZW_427 "8E303"
+#define FW_IPHONE4_VZW_426 "8E200"
 
 #define FW_APPLETV_421 "8C154"
 #define FW_BUILD_421 "8C148"
