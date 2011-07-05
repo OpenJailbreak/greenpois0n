@@ -60,7 +60,7 @@ void print_progress(double progress, void* data) {
 
 void usage()
 {
-	printf("Usage: tetheredboot -i <ibss> -k <kernelcache> [-r <ramdisk>] [-b <bgcolor>] [-l <bootlogo.img3>]\n");
+	printf("Usage: tetheredboot -e <ibec> -i <ibss> -k <kernelcache> [-r <ramdisk>] [-b <bgcolor>] [-l <bootlogo.img3>]\n");
 	exit(0);
 }
 
@@ -76,12 +76,13 @@ int main(int argc, char* argv[]) {
 		*kernelcacheFile = NULL,
 		*ramdiskFile = NULL,
 		*bgcolor = NULL,
-		*bootlogo = NULL;
+		*bootlogo = NULL,
+		*ibecFile = NULL;
 	int c;
 
 	opterr = 0;
 
-	while ((c = getopt (argc, argv, "vhi:k:r:l:b:")) != -1)
+	while ((c = getopt (argc, argv, "vhi:k:r:l:b:e:")) != -1)
 		switch (c)
 	{
 		case 'v':
@@ -96,6 +97,13 @@ int main(int argc, char* argv[]) {
 				return -1;
 			}
 			ibssFile = optarg;
+			break;
+		case 'e':
+			if (!file_exists(optarg)) {
+				error("Cannot open iBEC file '%s'\n", optarg);
+				return -1;
+			}
+			ibecFile = optarg;
 			break;
 		case 'k':
 			if (!file_exists(optarg)) {
@@ -127,6 +135,7 @@ int main(int argc, char* argv[]) {
 
 	pois0n_init();
 	pois0n_set_callback(&print_progress, NULL);
+	irecv_set_debug_level(255);
 
 	info("Waiting for device to enter DFU mode\n");
 	while(pois0n_is_ready()) {
@@ -160,6 +169,20 @@ int main(int argc, char* argv[]) {
 
 	client = irecv_reconnect(client, 10);
 
+	if (ibecFile != NULL) {
+		debug("Uploading %s to device\n", ibecFile);
+		ir_error = irecv_send_file(client, ibecFile, 1);
+		if(ir_error != IRECV_E_SUCCESS) {
+			error("Unable to upload iBEC\n");
+			debug("%s\n", irecv_strerror(ir_error));
+			return -1;
+		}
+	} else {
+		return 0;
+	}
+	
+		client = irecv_reconnect(client, 20);
+	
 	if (ramdiskFile != NULL) {
 		debug("Uploading %s to device\n", ramdiskFile);
 		ir_error = irecv_send_file(client, ramdiskFile, 1);

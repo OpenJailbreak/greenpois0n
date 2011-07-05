@@ -202,6 +202,18 @@ void update_progress(double progress) {
 	[window center];
 }
 
+- (BOOL)isCompat:(NSDictionary *)theChosenOne
+{
+	NSString *urlString = [chosenOne valueForKey:@"URL"];
+	if ([urlString isEqualToString:@"NOT_SUPPORTED" ])
+	{
+		NSLog(@"survey says.... NOPE");
+		return FALSE;
+	}
+	
+	return TRUE;
+}
+
 - (void)setChosen:(int)chosenIndex
 {
 		//NSLog(@"SETTING CHOSEN ONE!!");
@@ -212,6 +224,12 @@ void update_progress(double progress) {
 	[chosenOne retain];
 	[self newAppleTVCheck];
 		//NSLog(@"[deviceManager window]: %@", [deviceManager window]);
+	
+	if (![self isCompat:chosenOne])
+	{
+		[self showIncompatibleAlert:chosenOne];
+		return;
+	}
 	
 	[deviceManager closeWindow];
 
@@ -226,12 +244,13 @@ void update_progress(double progress) {
 	char *url = NULL;
 	if (chosenOne != nil)
 	{
-		NSLog(@"chosen one is not null: %@", chosenOne);
-		NSNumber *ecidNumber = [chosenOne valueForKey:@"UniqueChipID"];
+			//NSLog(@"chosen one is not null: %@", chosenOne);
+			//NSNumber *ecidNumber = [chosenOne valueForKey:@"UniqueChipID"];
 		NSString *urlString = [chosenOne valueForKey:@"URL"];
-		uint64_t ecidNum = [ecidNumber unsignedLongLongValue];
+		
+			//uint64_t ecidNum = [ecidNumber unsignedLongLongValue];
 		url = [urlString UTF8String];
-		fprintf(stderr, "ecidNum: %llu\n", ecidNum);
+			//fprintf(stderr, "ecidNum: %llu\n", ecidNum);
 	}
 	
 	
@@ -351,6 +370,32 @@ void update_progress(double progress) {
 	}
 }
 
+- (void)showIncompatibleAlert:(NSDictionary *)chosen 
+{
+	NSString *productType = [chosen valueForKey:@"ProductType"];
+	NSString *productVersion = [chosen valueForKey:@"BuildVersion"];
+	NSAlert *incompatAlert = [NSAlert alertWithMessageText:@"Incompatible Setup" defaultButton:@"Quit" alternateButton:@"Different device" otherButton:nil informativeTextWithFormat:@"The '%@' running '%@' is not compatible with this version of greenpois0n. Either Quit or choose a different device.", productType, productVersion];
+	int button = [incompatAlert runModal];
+	
+	switch (button) {
+			
+		case 1: //Quit
+			
+			[[NSApplication sharedApplication] terminate:self];
+			
+			break;
+			
+		case 0: //Different Device
+			
+				//nada
+
+			break;
+			
+			
+	}
+	
+}
+
 - (void)showNoDeviceAlert
 {
 	NSAlert *startupAlert = [NSAlert alertWithMessageText:@"No Devices Detected!" defaultButton:@"Quit" alternateButton:@"Continue" otherButton:nil informativeTextWithFormat:@"Devices must be attached in userland mode for version detection (For AppleTV's that means powered on first, then plugged in to USB)\n\nTo continue with support for 4.3.3 only (8F305 for AppleTV) press 'Continue' otherwise connect your devices and relaunch."];
@@ -392,6 +437,12 @@ void update_progress(double progress) {
 			
 	}
 	[self showYourself];
+}
+
+- (void)dealloc
+{
+	[deviceManager release];
+	
 }
 
 - (NSDictionary *)fetchAttachedDevices

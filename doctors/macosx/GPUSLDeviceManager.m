@@ -375,8 +375,9 @@ void mylabelIfy(NSTextField *textField) { // renamed
 	
 	if ([path length] == 0)
 	{
-		NSLog(@"device %@ unknown!", deviceType);
-		return NULL;
+		NSLog(@"device '%@' unknown!", deviceType);
+		path = [ctBundle pathForResource:IMAGE_IPHONE2G ofType:@"icns"];
+			//return NULL;
 	}
 	
 	
@@ -444,8 +445,8 @@ void mylabelIfy(NSTextField *textField) { // renamed
 	
 	if ([path length] == 0)
 	{
-		NSLog(@"device %@ unknown!", deviceType);
-		return NULL;
+		NSLog(@"device '%@' unknown!", deviceType);
+		path = [ctBundle pathForResource:IMAGE_IPHONE2G ofType:@"icns"];
 	}
 	
 	

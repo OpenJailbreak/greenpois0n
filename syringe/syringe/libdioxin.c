@@ -154,7 +154,17 @@ idevice_info_t * device_get_info(char *uuids) {
 			plist_get_string_val(bv_node, &bv);
 			
 			plist_t pt_node = plist_dict_get_item(node, "ProductType");
-			plist_get_string_val(pt_node, &pt);
+			
+			if (pt_node != NULL)
+			{
+				plist_get_string_val(pt_node, &pt);
+			}
+			
+			if (pt == NULL)
+			{
+				pt = "not available";
+			}
+			
 			
 			plist_t pv_node = plist_dict_get_item(node, "ProductVersion");
 			plist_get_string_val(pv_node, &pv);
@@ -195,7 +205,7 @@ idevice_info_t * device_get_info(char *uuids) {
 			if (url != NULL)
 				device_info->URL = url;
 			else
-				device_info->URL = "http://fix.firmware2.plist.n0w";
+				device_info->URL = "NOT_SUPPORTED";
 			
 				//uint8_t* deviceAddress = getAddressFromUUID(ud);
 			
