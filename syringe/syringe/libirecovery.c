@@ -399,7 +399,7 @@ irecv_error_t irecv_open_with_ECID(uint64_t ecid, irecv_client_t* pclient) {
 						return error;
 					}
 					
-					error = irecv_set_interface(client, 0, 1);
+					error = irecv_set_interface(client, 0, 0);
 					if (error != IRECV_E_SUCCESS) {
 						return error;
 					}
@@ -498,21 +498,16 @@ irecv_error_t irecv_open(irecv_client_t* pclient) {
 				client->handle = usb_handle;
 				client->mode = usb_descriptor.idProduct;
 				
-				error = irecv_set_configuration(client, 1);
-				if (error != IRECV_E_SUCCESS) {
-					return error;
-				}
-				
-				
 				if (client->mode != kDfuMode) {
+					error = irecv_set_configuration(client, 1);
+					if (error != IRECV_E_SUCCESS) {
+						return error;
+					}
+					
 					error = irecv_set_interface(client, 0, 0);
-					error = irecv_set_interface(client, 1, 1);
-				} else {
-					error = irecv_set_interface(client, 0, 0);
-				}
-				
-				if (error != IRECV_E_SUCCESS) {
-					return error;
+					if (error != IRECV_E_SUCCESS) {
+						return error;
+					}
 				}
 				
 				/* cache usb serial */

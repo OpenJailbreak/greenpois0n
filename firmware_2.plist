@@ -25,14 +25,6 @@
 		<string>2</string>
 		<key>CPID</key>
 		<string>8930</string>
-		<key>4.2.1</key>
-		<dict>
-			<key>8C148</key>
-			<dict>
-				<key>URL</key>
-				<string>http://appldnld.apple.com/iPad/061-9857.20101122.VGthy/iPad1,1_4.2.1_8C148_Restore.ipsw</string>
-			</dict>
-		</dict>
 		<key>4.3.1</key>
 		<dict>
 			<key>8G4</key>
@@ -64,14 +56,6 @@
 		<string>2</string>
 		<key>CPID</key>
 		<string>8920</string>
-		<key>4.2.1</key>
-		<dict>
-			<key>8C148a</key>
-			<dict>
-				<key>URL</key>
-				<string>http://appldnld.apple.com/iPhone4/061-9895.20101122.Cdew2/iPhone2,1_4.2.1_8C148a_Restore.ipsw</string>
-			</dict>
-		</dict>
 		<key>4.3.1</key>
 		<dict>
 			<key>8G4</key>
@@ -103,14 +87,6 @@
 		<string>0</string>
 		<key>CPID</key>
 		<string>8930</string>
-		<key>4.2.1</key>
-		<dict>
-			<key>8C148</key>
-			<dict>
-				<key>URL</key>
-				<string>http://appldnld.apple.com/iPhone4/061-9858.20101122.Er456/iPhone3,1_4.2.1_8C148_Restore.ipsw</string>
-			</dict>
-		</dict>
 		<key>4.3.1</key>
 		<dict>
 			<key>8G4</key>
@@ -188,14 +164,6 @@
 		<string>2</string>
 		<key>CPID</key>
 		<string>8922</string>
-		<key>4.2.1</key>
-		<dict>
-			<key>8C148</key>
-			<dict>
-				<key>URL</key>
-				<string>http://appldnld.apple.com/iPhone4/061-9860.20101122.Xsde3/iPod3,1_4.2.1_8C148_Restore.ipsw</string>
-			</dict>
-		</dict>
 		<key>4.3.1</key>
 		<dict>
 			<key>8G4</key>
@@ -227,14 +195,6 @@
 		<string>8</string>
 		<key>CPID</key>
 		<string>8930</string>
-		<key>4.2.1</key>
-		<dict>
-			<key>8C148</key>
-			<dict>
-				<key>URL</key>
-				<string>http://appldnld.apple.com/iPhone4/061-9859.20101122.$erft/iPod4,1_4.2.1_8C148_Restore.ipsw</string>
-			</dict>
-		</dict>
 		<key>4.3.1</key>
 		<dict>
 			<key>8G4</key>

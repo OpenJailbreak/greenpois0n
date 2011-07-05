@@ -1,4 +1,8 @@
 all:
+
+	#make and convert latest firmware_2.plist to header and copy to syringe
+	xxd -i firmware_2.plist syringe/include/firmware.h
+
 	make -C medicine
 
 	make -C cyanide
