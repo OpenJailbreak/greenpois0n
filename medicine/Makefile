@@ -5,7 +5,7 @@ all:
 
 	#make -C animate
 
-	make stage -C ashyLarry
+	make stage -C AshyLarry
 	
 	# capable
 	make -C capable
