@@ -61,5 +61,3 @@ void ibss_free(ibss_t* ibss) {
 		free(ibss);
 	}
 }
-
-#include "ibss.h"
