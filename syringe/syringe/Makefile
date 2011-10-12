@@ -4,7 +4,7 @@ SUBDIRS = exploits
 
 MKSTATICLIB = 1
 
-INCLUDES = ../include ../include/resources
+INCLUDES = ../include ../include/resources ../external/curl/include
 
 SOURCES = \
 	common.c		\
