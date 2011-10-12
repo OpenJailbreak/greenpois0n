@@ -1,5 +1,5 @@
 # /syringe/Makefile
 
-SUBPROJS = injectpois0n tetheredboot loadibec
+SUBPROJS = syringe
 	
 include ../common.mk

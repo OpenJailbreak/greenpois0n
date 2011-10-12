@@ -28,7 +28,7 @@
 #include "libirecovery.h"
 
 #include "common.h"
-#include "ramdisk.h"
+//#include "ramdisk.h"
 #include "exploits.h"
 #include "payloads.h"
 	//#include "firmware.h"
@@ -463,10 +463,10 @@ int upload_devicetree() {
 }
 
 int upload_ramdisk() {
-	if (irecv_send_buffer(client, (unsigned char*) ramdisk_dmg, ramdisk_dmg_len, 0) < 0) {
-		pois0n_set_error("Unable upload ramdisk\n");
-		return -1;
-	}
+	//if (irecv_send_buffer(client, (unsigned char*) ramdisk_dmg, ramdisk_dmg_len, 0) < 0) {
+		//pois0n_set_error("Unable upload ramdisk\n");
+		//return -1;
+	//}
 	return 0;
 }
 
