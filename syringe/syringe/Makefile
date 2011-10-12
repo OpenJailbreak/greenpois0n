@@ -21,10 +21,11 @@ SOURCES = \
 	kernelcache.c \
 	tss.c \
 	dfu.c \
+	device.c \
 
 XPLAT_CFLAGS = -O3 -DCURL_STATICLIB=1
 PLAT_CFLAGS = 
-XPLAT_LIBRARIES = zip curl z
+XPLAT_LIBRARIES = zip curl z imobiledevice plist
 PLAT_LIBRARIES =
 XPLAT_PREMADE_OBJECTS = exploits/limera1n.o exploits/steaks4uce.o
 PLAT_PREMADE_OBJECTS =

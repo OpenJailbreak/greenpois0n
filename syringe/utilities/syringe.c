@@ -26,6 +26,8 @@
 #define _DEBUG
 #include "debug.h"
 
+#include "device.h"
+
 static struct option longopts[] = {
 	{ "help",         no_argument,         NULL,   'h' },
 	{ "verbose",      no_argument,         NULL,   'v' },
@@ -78,14 +80,18 @@ void usage(int argc, char* argv[]) {
 	printf("    -b, --bootargs ARGS\t\tspecify boot-args to be passed to kernel\n");
 	printf("\n");
 }
+
+// TODO: This information needs to be extracted and make more "dynamic"
 typedef enum {
-	kExploitLimeRa1n,
+	kExploitUnknown = 0,
 	kExploitShatter,
-	kExploitSteakS4uce,
-	kExploitUnknown = -1
+	kExploitLimeRa1n,
+	kExploitSteakS4uce
 } exploit_t;
 
 int main(int argc, char* argv[]) {
+	int i = 0;
+	int err = 0;
 	int opt = 0;
 	int optindex = 0;
 
@@ -95,7 +101,7 @@ int main(int argc, char* argv[]) {
 	char* ipsw_url = NULL;
 
 	// Exploiting
-	exploit_t* exploit = kExploitUnknown;
+	exploit_t* exploit = 0;
 
 	// Loading
 	char* ibss_path = NULL;
@@ -147,14 +153,32 @@ int main(int argc, char* argv[]) {
 		/// Exploiting Options
 		/// --shatter
 		case 'x':
+			if(exploit != 0) {
+				error("Only one exploit may be specified on the command line\n");
+				usage(argc, argv);
+				return -1;
+			}
+			exploit = kExploitShatter;
 			break;
 
 		/// --limera1n
 		case 'l':
+			if(exploit != 0) {
+				error("Only one exploit may be specified on the command line\n");
+				usage(argc, argv);
+				return -1;
+			}
+			exploit = kExploitLimeRa1n;
 			break;
 
 		/// --steaks4uce
 		case 't':
+			if(exploit != 0) {
+				error("Only one exploit may be specified on the command line\n");
+				usage(argc, argv);
+				return -1;
+			}
+			exploit = kExploitSteakS4uce;
 			break;
 
 		/////////////////////////////////////////
@@ -218,16 +242,63 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
-	// TODO: Detect which device is attached
+	// Create our device object
+	device_t* device = device_create(uuid);
+	if(device == NULL) {
+		error("ERROR!\n");
+		return -1;
+	}
+
+	// Detect which device mode we're in
+	device_mode_t mode = device_get_mode(device);
+	switch(mode) {
+	case kDeviceOff:
+		// Our device is either not plugged in, or turned off
+		handle_device_off();
+		break;
+
+	case kDeviceDfuMode:
+		// Our device is already in DFU mode
+		handle_dfu_mode();
+		break;
+
+	case kDeviceRecoveryMode:
+		// Our device is currently in recovery mode
+		handle_recovery_mode();
+		break;
+
+	case kDeviceRamdiskMode:
+		// Our device is currently running a ramdisk
+		handle_ramdisk_mode();
+		break;
+
+	case kDeviceNormalMode:
+		// Our device is booted normally
+		handle_normal_mode();
+		break;
+
+	default:
+		break;
+	}
+
+	// TODO: Create device mode object
+	// TODO: Detect which device model is attached
+	// TODO: Select which injection exploit to use
 	// TODO: Detect which firmware version device is running
-	// TODO: Choose which exploits to use for this device
+	// TODO: Select which kernel exploit to use
+	// TODO: Select which codesign exploit to use
+	// TODO: Generate jailbreak model from specified firmware and exploits
+
 	// TODO: Make sure device is in correct mode for exploit
 	// TODO: Get iBSS from chosen source
 	// TODO: Execute exploit module and wait for iBSS
 	// TODO: Get iBEC from chosen source
 	// TODO: Send iBEC and wait for reconnection
 	// TODO: Download DeviceTree from chose source
-	// TODO: Send DeviceTree
+	// TODO: Send DeviceTree and execute command
+
+	// Members Clean-up
+	if(device) device_free(device);
 
 	// General Clean-up
 	if(ipsw_url) free(ipsw_url);
