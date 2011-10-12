@@ -167,9 +167,26 @@ device_type_t device_get_type(device_t* device) {
 	return device;
 }
 
+#define ord_from_hex(c) ('0' <= c && c <= '9') ? c - '0' : (('a' <= c && c <= 'f') ? 10 + (c - 'a') : (('A' <= c && c <= 'F') ? 10 + (c - 'A') : -1 ))
+
 int device_get_udid(device_t* device, uint8_t** udid) {
-	// TODO: Implement device_get_udid function
-	return -1;
+	if (!device || !device->uuid) {
+		return -1;
+	}
+	int len = strlen(device->uuid);
+	if ((len == 0) || (len%2 != 0)) {
+		return -1;
+	}
+
+	char *s = device->uuid;
+	int lo, hi;
+	uint8_t *d = *udid;
+	do {
+		if (((hi = ord_from_hex(s[0])) == -1) || ((lo = ord_from_hex(s[1])) == -1)) return -1;
+		*d++ = hi<<4 | lo;
+	} while (*(s+=2));
+
+	return 0;
 }
 
 int device_get_bdid(struct idevicerestore_client_t* client, uint32_t* bdid) {
