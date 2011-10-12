@@ -13,9 +13,9 @@ PLAT_PREMADE_OBJECTS =
 include ../platform.mk
 ifeq ($(UNAME),Darwin)
 	# OS X
-	PLAT_CFLAGS = -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk -framework IOKit
+	PLAT_CFLAGS = -I../syringe -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk -framework IOKit
 	PLAT_LIBRARIES =
-	PLAT_LDFLAGS = -L/opt/local/lib -framework CoreFoundation -framework IOKit -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk -fnested-functions
+	PLAT_LDFLAGS = -I../syringe -L/opt/local/lib -framework CoreFoundation -framework IOKit -mmacosx-version-min=10.6 -arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk -fnested-functions
 	ADDOBJ = ../lib-static/macosx/libusb-1.0.a ../lib-static/macosx/libplist.a ../lib-static/macosx/libimobiledevice.a ../lib-static/macosx/libgnutls.a ../lib-static/macosx/libgnutlsxx.a ../lib-static/macosx/libgpg-error.a ../lib-static/macosx/libusbmuxd.a ../lib-static/macosx/libgcrypt.a
 else
 	ifneq (,$(findstring MINGW32_NT,$(UNAME)))

@@ -1,7 +1,9 @@
 /**
- * GreenPois0n Syringe - ibss.h
+ * GreenPois0n Syringe - tss.h
  * Copyright (C) 2010 Chronic-Dev Team
  * Copyright (C) 2010 Joshua Hill
+ *
+ * Functions for communicating with Apple's TSS server
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,27 +19,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef IBSS_H_
-#define IBSS_H_
+#ifndef TSS_H
+#define TSS_H
 
-#include <stdint.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include "img3.h"
+#include <plist/plist.h>
 
-typedef struct ibss_t {
-	char* url;
-	char* path;
-	img3_t* image;
-} ibss_t;
+plist_t tss_send_request(plist_t request);
+plist_t tss_create_request(plist_t build_identity, uint64_t ecid);
+int tss_get_entry_path(plist_t tss, const char* entry, char** path);
+int tss_get_blob_by_path(plist_t tss, const char* path, char** blob);
+int tss_get_blob_by_name(plist_t tss, const char* entry, char** blob);
 
-ibss_t* ibss_create();
-ibss_t* ibss_open(char* path);
-ibss_t* ibss_download(char* url);
-ibss_t* ibss_load(unsigned char* data, unsigned int size);
-void ibss_free(ibss_t* ibss);
 
-//void ibss_boot(ibss_t* ibss); // TODO: extract to parent class?
-//void ibss_send(ibss_t* ibss); // TODO: extract to parent class?
-//void ibss_patch(ibss_t* ibss); // TODO: extract to parent class?
+#ifdef __cplusplus
+}
+#endif
 
-#endif /* IBSS_H_ */
+#endif

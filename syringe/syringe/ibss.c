@@ -22,3 +22,31 @@
 #include <string.h>
 
 #include "ibss.h"
+
+ibss_t* ibss_create() {
+	// TODO: Implement ibss_t create function
+	return NULL;
+}
+
+ibss_t* ibss_open(char* path) {
+	// TODO: Implement ibss_t open function
+	return NULL;
+}
+
+ibss_t* ibss_download(char* url) {
+	// TODO: Implement ibss_t download function
+	return NULL;
+}
+
+ibss_t* ibss_load(unsigned char* data, unsigned int size) {
+	// TODO: Implement ibss_t load function
+	return NULL;
+}
+
+void ibss_free(ibss_t* ibss) {
+	if(ibss) {
+		free(ibss);
+	}
+}
+
+#include "ibss.h"

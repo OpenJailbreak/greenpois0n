@@ -1,7 +1,9 @@
 /**
- * GreenPois0n Syringe - ibss.h
+ * GreenPois0n Syringe - dfu.h
  * Copyright (C) 2010 Chronic-Dev Team
  * Copyright (C) 2010 Joshua Hill
+ *
+ * Functions for handling idevices in normal mode
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,27 +19,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef IBSS_H_
-#define IBSS_H_
+#ifndef DFU_H
+#define DFU_H
 
-#include <stdint.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include "img3.h"
+#include <libirecovery.h>
+#include "common.h"
 
-typedef struct ibss_t {
-	char* url;
-	char* path;
-	img3_t* image;
-} ibss_t;
+typedef struct dfu_mode_t {
+	irecv_client_t client;
+	const char* ipsw;
+	plist_t tss;
+} dfu_mode_t;
 
-ibss_t* ibss_create();
-ibss_t* ibss_open(char* path);
-ibss_t* ibss_download(char* url);
-ibss_t* ibss_load(unsigned char* data, unsigned int size);
-void ibss_free(ibss_t* ibss);
+dfu_mode_t* dfu_create();
+dfu_mode_t* dfu_open();
+dfu_mode_t* dfu_open_with_timeout(uint32_t timeout);
+void dfu_free(dfu_mode_t* dfu);
+int dfu_close(dfu_mode_t* dfu);
 
-//void ibss_boot(ibss_t* ibss); // TODO: extract to parent class?
-//void ibss_send(ibss_t* ibss); // TODO: extract to parent class?
-//void ibss_patch(ibss_t* ibss); // TODO: extract to parent class?
+// TODO: Extract to parent class
+//int dfu_enter_recovery(struct idevicerestore_client_t* client, plist_t build_identity);
 
-#endif /* IBSS_H_ */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

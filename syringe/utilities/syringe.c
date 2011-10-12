@@ -23,6 +23,9 @@
 #include <unistd.h>
 #include <getopt.h>
 
+#define _DEBUG
+#include "debug.h"
+
 static struct option longopts[] = {
 	{ "help",         no_argument,         NULL,   'h' },
 	{ "verbose",      no_argument,         NULL,   'v' },
@@ -52,7 +55,7 @@ void usage(int argc, char* argv[]) {
 	printf("    -h, --help\t\t\tprints usage information\n");
 	printf("    -v, --verbose\t\tprint debuging info while running\n");
 	printf("    -i, --ipsw FILE\t\t\tuse firmware files from this FILE\n");
-	printf("    -u, --url URL\\t\t\tuse firmware files from this URL\n");
+	printf("    -u, --url URL\t\t\tuse firmware files from this URL\n");
 	printf("\n");
 
 	printf("  Exploiting\n");
@@ -62,11 +65,11 @@ void usage(int argc, char* argv[]) {
 	printf("\n");
 
 	printf("  Loading\n");
-	printf("    -s, --ibss FILE\t\specify iBSS to use\n");
-	printf("    -c, --ibec FILE\t\specify iBEC to use\n");
-	printf("    -o, --iboot FILE\t\specify iBoot to use\n");
-	printf("    -a, --applelogo FILE\t\specify AppleLogo to use\n");
-	printf("    -d, --devicetree FILE\t\specify DeviceTree to use\n");
+	printf("    -s, --ibss FILE\t\tspecify iBSS to use\n");
+	printf("    -c, --ibec FILE\t\tspecify iBEC to use\n");
+	printf("    -o, --iboot FILE\t\tspecify iBoot to use\n");
+	printf("    -a, --applelogo FILE\t\tspecify AppleLogo to use\n");
+	printf("    -d, --devicetree FILE\t\tspecify DeviceTree to use\n");
 	printf("\n");
 
 	printf("  Booting\n");
@@ -97,6 +100,7 @@ int main(int argc, char* argv[]) {
 	// Loading
 	char* ibss_path = NULL;
 	char* ibec_path = NULL;
+	char* iboot_path = NULL;
 	char* applelogo_path = NULL;
 	char* devicetree_path = NULL;
 
