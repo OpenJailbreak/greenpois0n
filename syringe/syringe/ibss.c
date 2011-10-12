@@ -24,8 +24,12 @@
 #include "ibss.h"
 
 ibss_t* ibss_create() {
-	// TODO: Implement ibss_t create function
-	return NULL;
+	ibss_t* ibss = (ibss_t*)malloc(sizeof(ibss_t));
+	if (!ibss) {
+		return NULL;
+	}
+	memset(ibss, '\0', sizeof(ibss_t));
+	return ibss;
 }
 
 ibss_t* ibss_open(char* path) {
