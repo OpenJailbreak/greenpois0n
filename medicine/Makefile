@@ -22,8 +22,8 @@ all:
 	make -C immutable
 	cp ./immutable/obj/immutable ../anthrax/files/
 
-	make stage -C Loader
-	cp -r Loader/_/Applications/Loader.app ../anthrax/files/
+	make stage -C loader
+	cp -r loader/_/Applications/Loader.app ../anthrax/files/
 
 	make -C sachet
 	cp ./sachet/obj/sachet ../anthrax/files/	
@@ -38,7 +38,7 @@ clean:
 	make clean -C afc2add
 	rm -rf ../anthrax/files/afc2add
 
-	make clean -C ashyLarry
+	make clean -C AshyLarry
 	rm -rf ../anthrax/files/0.frappliance
 	rm -rf ../anthrax/files/ashyLarry.frappliance
 	rm -rf ../anthrax/files/wuntar
