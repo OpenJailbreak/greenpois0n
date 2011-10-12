@@ -49,6 +49,15 @@ ibss_t* ibss_load(unsigned char* data, unsigned int size) {
 
 void ibss_free(ibss_t* ibss) {
 	if(ibss) {
+		if (ibss->url) {
+			free(ibss->url);
+		}
+		if (ibss->path) {
+			free(ibss->path);
+		}
+		if (ibss->image) {
+			img3_free(ibss->image);
+		}
 		free(ibss);
 	}
 }
